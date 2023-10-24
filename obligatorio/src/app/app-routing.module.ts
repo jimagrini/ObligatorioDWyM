@@ -8,9 +8,9 @@ import { CreateProposalComponent } from './create-proposal/create-proposal.compo
 import { CreateActivityComponent } from './create-activity/create-activity.component';
 
 const routes: Routes = [
-  {path: '', pathMatch: 'full', redirectTo: 'home'},
-  {path: 'home', component: HomeComponent},
-  {path: 'login', component: LoginComponent},
+  { path: '', pathMatch: 'full', redirectTo: 'home' },
+  { path: 'home', component: HomeComponent },
+  { path: 'login', component: LoginComponent },
   { path: 'select-proposal', component: SelectProposalComponent },
   { path: 'select-activity', component: SelectActivityComponent },
   { path: 'create-proposal', component: CreateProposalComponent },
@@ -19,6 +19,6 @@ const routes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

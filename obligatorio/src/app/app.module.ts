@@ -14,7 +14,7 @@ import { SelectActivityComponent } from './select-activity/select-activity.compo
   declarations: [
     AppComponent,
     LoginComponent,
-    HomeComponent
+    HomeComponent,
     CreateActivityComponent,
     CreateProposalComponent,
     SelectProposalComponent,
