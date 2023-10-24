@@ -1,0 +1,14 @@
+<h1>Home</h1>
+
+<section>
+  <h2>Crear</h2>
+  <p>Inicia Sesión como Administrador</p>
+  <button (click)="loginAsAdmin()">Iniciar Sesión</button>
+</section>
+
+<section>
+  <h2>Unirse</h2>
+  <p>Ingresa el URL del Juego:</p>
+  <input type="text" (ngModel)="gameUrl" placeholder="URL">
+  <button (click)="joinGame()">Join Game</button>
+</section>
