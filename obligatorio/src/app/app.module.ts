@@ -5,12 +5,20 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { HomeComponent } from './home/home.component';
+import { CreateActivityComponent } from './create-activity/create-activity.component';
+import { CreateProposalComponent } from './create-proposal/create-proposal.component';
+import { SelectProposalComponent } from './select-proposal/select-proposal.component';
+import { SelectActivityComponent } from './select-activity/select-activity.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     HomeComponent
+    CreateActivityComponent,
+    CreateProposalComponent,
+    SelectProposalComponent,
+    SelectActivityComponent
   ],
   imports: [
     BrowserModule,
