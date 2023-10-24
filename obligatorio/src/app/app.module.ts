@@ -9,6 +9,8 @@ import { CreateActivityComponent } from './create-activity/create-activity.compo
 import { CreateProposalComponent } from './create-proposal/create-proposal.component';
 import { SelectProposalComponent } from './select-proposal/select-proposal.component';
 import { SelectActivityComponent } from './select-activity/select-activity.component';
+import { GameComponent } from './game/game.component';
+
 
 @NgModule({
   declarations: [
@@ -18,7 +20,8 @@ import { SelectActivityComponent } from './select-activity/select-activity.compo
     CreateActivityComponent,
     CreateProposalComponent,
     SelectProposalComponent,
-    SelectActivityComponent
+    SelectActivityComponent,
+    GameComponent
   ],
   imports: [
     BrowserModule,
