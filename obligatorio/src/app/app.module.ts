@@ -16,7 +16,7 @@ import { GameComponent } from './game/game.component';
   declarations: [
     AppComponent,
     LoginComponent,
-    HomeComponent
+    HomeComponent,
     CreateActivityComponent,
     CreateProposalComponent,
     SelectProposalComponent,
