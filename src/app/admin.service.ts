@@ -1,4 +1,6 @@
 import { Injectable } from '@angular/core';
+import { IActivity } from './IActivity';
+import { ACTIVITIES } from './mock-activities';
 
 @Injectable({
   providedIn: 'root'
@@ -6,4 +8,6 @@ import { Injectable } from '@angular/core';
 export class AdminService {
 
   constructor() { }
+
+  
 }
