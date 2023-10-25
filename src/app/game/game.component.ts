@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Activity, Vote } from '../activity.module';
+import { IActivity } from '../IActivity';
+import { IVote } from '../IVote';
 
 @Component({
   selector: 'app-game',
@@ -8,9 +9,9 @@ import { Activity, Vote } from '../activity.module';
   styleUrls: ['./game.component.css']
 })
 export class GameComponent implements OnInit {
-  activities: Activity[] = []; 
-  currentActivity: Activity | null = null;
-  votes: Vote[] = [];
+  activities: IActivity[] = []; 
+  currentActivity: IActivity | null = null;
+  votes: IVote[] = [];
   shownResult = false;
 
   constructor(private route: ActivatedRoute) { }
@@ -29,7 +30,7 @@ export class GameComponent implements OnInit {
   showNextActivity(): void {
     if (this.currentActivity) {
       setTimeout(() => {
-        const vote: Vote = { activityId: this.currentActivity!.id, value: 0 };
+        const vote: IVote = { activityId: this.currentActivity!.id, value: 0 };
         this.votes.push(vote);
         const nextIndex = this.activities.indexOf(this.currentActivity!) + 1;
         if (nextIndex < this.activities.length) {
@@ -44,7 +45,7 @@ export class GameComponent implements OnInit {
 
   vote(vote: number): void {
     if (this.currentActivity) {
-      const voteObj: Vote = { activityId: this.currentActivity.id, value: vote };
+      const voteObj: IVote = { activityId: this.currentActivity.id, value: vote };
       this.votes.push(voteObj);
       const next = this.activities.indexOf(this.currentActivity) + 1;
       if (next < this.activities.length) {

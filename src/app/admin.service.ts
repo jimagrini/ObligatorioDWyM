@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Activity } from './activity.module';
+import { IActivity } from './IActivity';
 import { ACTIVITIES } from './mock-activities';
 
 @Injectable({
@@ -9,7 +9,7 @@ export class AdminService {
 
   constructor() { }
 
-  addActivity(activity: Activity): void {
+  addActivity(activity: IActivity): void {
     if (activity) {
       ACTIVITIES.push(activity);
     }

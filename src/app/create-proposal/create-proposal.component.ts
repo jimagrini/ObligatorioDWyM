@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Activity } from '../activity.module';
+import { IActivity } from '../IActivity';
 import { AdminService } from '../admin.service';
 
 @Component({
@@ -11,7 +11,7 @@ export class CreateProposalComponent {
 
   constructor(private adminService: AdminService) {}
 
-  addActivity(activity: Activity): void {
+  addActivity(activity: IActivity): void {
     this.adminService.addActivity(activity);
   }
 
