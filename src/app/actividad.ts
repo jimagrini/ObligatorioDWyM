@@ -1,5 +1,5 @@
-import {Activity} from './activity.module';
+import {Actividad} from './activity.module';
 
-export const activities: Activity[] = [
+export const activividades: Actividad[] = [
   {id:1, titulo: 'titulo', descripcion: 'primera actividad', imagenUrl: '' }
 ];
