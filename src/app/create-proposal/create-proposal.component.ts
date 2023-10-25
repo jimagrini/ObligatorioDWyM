@@ -1,4 +1,8 @@
 import { Component } from '@angular/core';
+import { Actividad } from '../activity.module';
+import { ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
+import { ProposalService } from '../proposal.service';
 
 @Component({
   selector: 'app-create-proposal',
@@ -6,5 +10,53 @@ import { Component } from '@angular/core';
   styleUrls: ['./create-proposal.component.css']
 })
 export class CreateProposalComponent {
+  constructor(private route: ActivatedRoute, private proposalService : ProposalService) { }
 
+  proposal: Actividad[] = []; 
+
+  minimal = false;
+  
+  name!: string;
+  
+
+  createProposal(name : string){
+    this.name = name;
+  }
+
+  changeStatus(){
+    this.minimal = true;
+  }
+
+  getProposal(){
+    return this.proposal;
+  }
+
+  getActivities(): Actividad[] {
+    return this.proposalService.getActivities()
+  }
+
+  addActivity(id : number){
+    const act = this.selectedActivity;
+    if(this.getActivities().length>=2){
+      this.changeStatus();
+    }
+    if(act){
+      this.proposal.push(act);
+    }else{
+      console.log("Actividad inexistente")
+    }
+  }
+  
+  closeProposal(){
+    if(this.minimal){
+      console.log("propuesta cerrada");
+    }else{
+      console.log("Debes añadir al menos dos o más activdades para cerrar la propuesta")
+    }
+  }
+
+  selectedActivity?: Actividad;
+    onSelect(activity: Actividad) : void {
+      this.selectedActivity = activity;
+    }
 }
