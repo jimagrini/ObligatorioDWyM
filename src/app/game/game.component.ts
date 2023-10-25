@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Actividad, Voto } from '../activity.module';
+import { Activity, Vote } from '../activity.module';
 
 @Component({
   selector: 'app-game',
@@ -8,9 +8,9 @@ import { Actividad, Voto } from '../activity.module';
   styleUrls: ['./game.component.css']
 })
 export class GameComponent implements OnInit {
-  actividades: Actividad[] = []; 
-  actividadActual: Actividad | null = null;
-  votos: Voto[] = [];
+  actividades: Activity[] = []; 
+  actividadActual: Activity | null = null;
+  votos: Vote[] = [];
   resultadoMostrado = false;
 
   constructor(private route: ActivatedRoute) { }

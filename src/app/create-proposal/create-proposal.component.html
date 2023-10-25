@@ -1,1 +1,5 @@
-<p>create-proposal works!</p>
+<div class="row">
+    <button type="button" id="form-button" title="Agregar una nueva actividad" (click)="toggleActivityForm()">Agregar Actividad</button>
+</div>
+
+<app-create-activity (activityAdded)="addActivity($event); toggleActivityForm()" *ngIf="showActivityForm"></app-create-activity>
