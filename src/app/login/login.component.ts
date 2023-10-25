@@ -14,9 +14,18 @@ export class LoginComponent {
   constructor(private router: Router) {}
 
   login(): void {
-    if (this.username === 'admin' && this.password === 'password') {
-      this.router.navigate(['/admin']);
+    // Perform authentication logic, e.g., check username and password
+   /* if (this.username === 'admin' && this.password === 'password') {
+      // Generate JWT token
+      const token = jwt.sign({ username: this.username }, 'secret-key');
+
+      // Store the token in local storage or session storage
+      localStorage.setItem('token', token);
+
+      // Redirect to the desired route
+      this.router.navigate(['/dashboard']);
     } else {
-    }
+      // Show error message or handle invalid login
+    }*/
   }
 }
