@@ -1,13 +1,13 @@
-import { Actividad } from "./activity.module";
-export const ACTIVITIES: Actividad[] = [
-    { id: 1, titulo: 'Chevrolet', descripcion: 'Onix Premiere', imagenUrl: "https://www.megautos.com/wp-content/uploads/2019/10/chevrolet-onix-premier-2020-dinamica.jpg"},
-    { id: 2, titulo: 'Chevrolet', descripcion: 'Onix Premiere', imagenUrl: "https://www.megautos.com/wp-content/uploads/2019/10/chevrolet-onix-premier-2020-dinamica.jpg"},
-    { id: 3, titulo: 'Chevrolet', descripcion: 'Onix Premiere', imagenUrl: "https://www.megautos.com/wp-content/uploads/2019/10/chevrolet-onix-premier-2020-dinamica.jpg"},
-    { id: 4, titulo: 'Chevrolet', descripcion: 'Onix Premiere', imagenUrl: "https://www.megautos.com/wp-content/uploads/2019/10/chevrolet-onix-premier-2020-dinamica.jpg"},
-    { id: 5, titulo: 'Chevrolet', descripcion: 'Onix Premiere', imagenUrl: "https://www.megautos.com/wp-content/uploads/2019/10/chevrolet-onix-premier-2020-dinamica.jpg"},
-    { id: 6, titulo: 'Chevrolet', descripcion: 'Onix Premiere', imagenUrl: "https://www.megautos.com/wp-content/uploads/2019/10/chevrolet-onix-premier-2020-dinamica.jpg"},
-    { id: 7, titulo: 'Chevrolet', descripcion: 'Onix Premiere', imagenUrl: "https://www.megautos.com/wp-content/uploads/2019/10/chevrolet-onix-premier-2020-dinamica.jpg"},
-    { id: 8, titulo: 'Chevrolet', descripcion: 'Onix Premiere', imagenUrl: "https://www.megautos.com/wp-content/uploads/2019/10/chevrolet-onix-premier-2020-dinamica.jpg"},
-    { id: 9, titulo: 'Chevrolet', descripcion: 'Onix Premiere', imagenUrl: "https://www.megautos.com/wp-content/uploads/2019/10/chevrolet-onix-premier-2020-dinamica.jpg"},
-    { id: 10, titulo: 'Chevrolet', descripcion: 'Onix Premiere', imagenUrl: "https://www.megautos.com/wp-content/uploads/2019/10/chevrolet-onix-premier-2020-dinamica.jpg"},
+import { IActivity } from "./IActivity";
+export const ACTIVITIES: IActivity[] = [
+    { id: 1, name: 'Chevrolet', category: 'Onix Premiere', description: 'Onix Premiere', image: new URL("https://www.megautos.com/wp-content/uploads/2019/10/chevrolet-onix-premier-2020-dinamica.jpg")},
+    { id: 2, name: 'Chevrolet', category: 'Onix Premiere',  description: 'Onix Premiere', image: new URL("https://www.megautos.com/wp-content/uploads/2019/10/chevrolet-onix-premier-2020-dinamica.jpg")},
+    { id: 3, name: 'Chevrolet', category: 'Onix Premiere',  description: 'Onix Premiere', image: new URL("https://www.megautos.com/wp-content/uploads/2019/10/chevrolet-onix-premier-2020-dinamica.jpg")},
+    { id: 4, name: 'Chevrolet', category: 'Onix Premiere',  description: 'Onix Premiere', image: new URL("https://www.megautos.com/wp-content/uploads/2019/10/chevrolet-onix-premier-2020-dinamica.jpg")},
+    { id: 5, name: 'Chevrolet', category: 'Onix Premiere',  description: 'Onix Premiere', image: new URL("https://www.megautos.com/wp-content/uploads/2019/10/chevrolet-onix-premier-2020-dinamica.jpg")},
+    { id: 6, name: 'Chevrolet', category: 'Onix Premiere',  description: 'Onix Premiere', image: new URL("https://www.megautos.com/wp-content/uploads/2019/10/chevrolet-onix-premier-2020-dinamica.jpg")},
+    { id: 7, name: 'Chevrolet', category: 'Onix Premiere',  description: 'Onix Premiere', image: new URL("https://www.megautos.com/wp-content/uploads/2019/10/chevrolet-onix-premier-2020-dinamica.jpg")},
+    { id: 8, name: 'Chevrolet', category: 'Onix Premiere',  description: 'Onix Premiere', image: new URL("https://www.megautos.com/wp-content/uploads/2019/10/chevrolet-onix-premier-2020-dinamica.jpg")},
+    { id: 9, name: 'Chevrolet', category: 'Onix Premiere',  description: 'Onix Premiere', image: new URL("https://www.megautos.com/wp-content/uploads/2019/10/chevrolet-onix-premier-2020-dinamica.jpg")},
+    { id: 10, name: 'Chevrolet', category: 'Onix Premiere',  description: 'Onix Premiere', image: new URL("https://www.megautos.com/wp-content/uploads/2019/10/chevrolet-onix-premier-2020-dinamica.jpg")},
 ];

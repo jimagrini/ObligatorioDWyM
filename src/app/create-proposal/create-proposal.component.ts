@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { Actividad } from '../activity.module';
+import { IActivity } from '../IActivity';
+import { AdminService } from '../admin.service';
 import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
 import { ProposalService } from '../proposal.service';
@@ -12,7 +13,7 @@ import { ProposalService } from '../proposal.service';
 export class CreateProposalComponent {
   constructor(private route: ActivatedRoute, private proposalService : ProposalService) { }
 
-  proposal: Actividad[] = []; 
+  proposal: IActivity[] = []; 
 
   minimal = false;
   
@@ -31,7 +32,7 @@ export class CreateProposalComponent {
     return this.proposal;
   }
 
-  getActivities(): Actividad[] {
+  getActivities(): IActivity[] {
     return this.proposalService.getActivities()
   }
 
@@ -55,8 +56,23 @@ export class CreateProposalComponent {
     }
   }
 
-  selectedActivity?: Actividad;
-    onSelect(activity: Actividad) : void {
+  selectedActivity?: IActivity;
+    onSelect(activity: IActivity) : void {
       this.selectedActivity = activity;
     }
+
+  createActivity(activity: IActivity): void {
+    this.proposalService.createActivity(activity);
+  }
+
+  showActivityForm = false;
+  toggleActivityForm(): void {
+    this.showActivityForm = !this.showActivityForm;
+    const button = document.getElementById('form-button');
+    if (this.showActivityForm) {
+      button!.textContent = 'Ocultar Formulario';
+    } else {
+      button!.textContent = 'Agregar Actividad';
+    }
+  }
 }
