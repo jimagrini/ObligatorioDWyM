@@ -8,10 +8,10 @@ import { Activity, Vote } from '../activity.module';
   styleUrls: ['./game.component.css']
 })
 export class GameComponent implements OnInit {
-  actividades: Activity[] = []; 
-  actividadActual: Activity | null = null;
-  votos: Vote[] = [];
-  resultadoMostrado = false;
+  activities: Activity[] = []; 
+  currentActivity: Activity | null = null;
+  votes: Vote[] = [];
+  shownResult = false;
 
   constructor(private route: ActivatedRoute) { }
 
@@ -19,46 +19,44 @@ export class GameComponent implements OnInit {
 
   }
 
-  empezarGame(): void {
-    this.actividadActual = this.actividades[0]; 
-    this.resultadoMostrado = false;
-    this.votos = [];
-    this.mostrarSiguienteActividad();
+  startGame(): void {
+    this.currentActivity = this.activities[0]; 
+    this.shownResult = false;
+    this.votes = [];
+    this.showNextActivity();
   }
 
-  mostrarSiguienteActividad(): void {
-    if (this.actividadActual) {
-
+  showNextActivity(): void {
+    if (this.currentActivity) {
       setTimeout(() => {
-        const voto: Voto = { actividadId: this.actividadActual!.id, voto: 0 };
-        this.votos.push(voto);
-        const siguienteIndex = this.actividades.indexOf(this.actividadActual!) + 1;
-        if (siguienteIndex < this.actividades.length) {
-          this.actividadActual = this.actividades[siguienteIndex];
-          this.mostrarSiguienteActividad();
+        const vote: Vote = { activityId: this.currentActivity!.id, value: 0 };
+        this.votes.push(vote);
+        const nextIndex = this.activities.indexOf(this.currentActivity!) + 1;
+        if (nextIndex < this.activities.length) {
+          this.currentActivity = this.activities[nextIndex];
+          this.showNextActivity();
         } else {
-          this.mostrarResultados();
+          this.showResults();
         }
       }, 10000); 
     }
   }
 
-  votar(voto: number): void {
-    if (this.actividadActual) {
-      const votoObj: Voto = { actividadId: this.actividadActual.id, voto };
-      this.votos.push(votoObj);
-      const siguiente = this.actividades.indexOf(this.actividadActual) + 1;
-      if (siguiente < this.actividades.length) {
-        this.actividadActual = this.actividades[siguiente];
-        this.mostrarSiguienteActividad();
+  vote(vote: number): void {
+    if (this.currentActivity) {
+      const voteObj: Vote = { activityId: this.currentActivity.id, value: vote };
+      this.votes.push(voteObj);
+      const next = this.activities.indexOf(this.currentActivity) + 1;
+      if (next < this.activities.length) {
+        this.currentActivity = this.activities[next];
+        this.showNextActivity();
       } else {
-        this.mostrarResultados();
+        this.showResults();
       }
     }
   }
 
-  mostrarResultados(): void {
-
-    this.resultadoMostrado = true;
+  showResults(): void {
+    this.shownResult = true;
   }
 }

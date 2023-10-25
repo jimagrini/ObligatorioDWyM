@@ -6,7 +6,7 @@ export interface Activity {
   image: URL;
 }
 
-export const CATEGORIES = ['Deportiva', 'Al aire libre', 'Cultural', 'Lúdica', 'Relajación', 'Audio-visual'];
+export const CATEGORIES = ['Deportiva', 'Visita', 'Al aire libre', 'Cultural', 'Lúdica', 'Relajación', 'Audio-visual'];
 
 export interface Vote {
   activityId: number;

@@ -1,17 +1,18 @@
-<div *ngIf="!resultadoMostrado">
-    <h1>{{ actividadActual?.titulo }}</h1>
-    <p>{{ actividadActual?.descripcion }}</p>
-    <img [src]="actividadActual?.imagenUrl" alt="Actividad" width="300">
-    <button (click)="votar(1)">Me gusta</button>
-    <button (click)="votar(-1)">No me gusta</button>
-    <button (click)="votar(0)">Me da igual</button>
+<div *ngIf="!shownResult">
+    <h1>{{ currentActivity?.name }}</h1>
+    <p>{{ currentActivity?.category }}</p>
+    <p>{{ currentActivity?.description }}</p>
+    <img [src]="currentActivity?.image" alt="Actividad" width="300">
+    <button (click)="vote(1)">Me gusta</button>
+    <button (click)="vote(-1)">No me gusta</button>
+    <button (click)="vote(0)">Me da igual</button>
   </div>
   
-  <div *ngIf="resultadoMostrado">
+  <div *ngIf="shownResult">
     <h1>Resultados</h1>
     <ul>
-      <li *ngFor="let voto of votos">
-        Actividad {{ voto.actividadId }}: {{ voto.voto === 1 ? 'Me gusta' : voto.voto === -1 ? 'No me gusta' : 'Me da igual' }}
+      <li *ngFor="let vote of votes">
+        Actividad {{ vote.activityId }}: {{ vote.value === 1 ? 'Me gusta' : vote.value === -1 ? 'No me gusta' : 'Me da igual' }}
       </li>
     </ul>
   </div>
