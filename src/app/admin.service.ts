@@ -9,9 +9,5 @@ export class AdminService {
 
   constructor() { }
 
-  addActivity(activity: IActivity): void {
-    if (activity) {
-      ACTIVITIES.push(activity);
-    }
-  }
+  
 }

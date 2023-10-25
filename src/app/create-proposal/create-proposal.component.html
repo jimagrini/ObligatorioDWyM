@@ -1,5 +1,31 @@
-<div class="row">
-    <button type="button" id="form-button" title="Agregar una nueva actividad" (click)="toggleActivityForm()">Agregar Actividad</button>
-</div>
+<h2>Create a proposal!</h2>
+<label>Nombre: </label>
+<input #proposalName />
+<button type="button" (click)="createProposal(proposalName.value);">
 
-<app-create-activity (activityAdded)="addActivity($event); toggleActivityForm()" *ngIf="showActivityForm"></app-create-activity>
+    <ul *ngFor="let act of getActivities()">>
+        <img alt="art" src="{{act.image}}" width="220" height="160" style="cursor:pointer; border-radius: 10px;">
+        <li>
+            <a routerLink="/detail/{{act.id}}">
+                <span style="font-size: 15px;">{{act.name}} {{act.description}}</span>
+                <button type="button" (click)="onSelect(act)">Add</button>
+            </a>
+        </li>
+    </ul>
+
+    <h2>Propuesta </h2>
+    <ul *ngFor="let act of getProposal()">>
+        <img alt="art" src="{{act.image}}" width="220" height="160" style="cursor:pointer; border-radius: 10px;">
+        <li>
+            <a routerLink="/detail/{{act.id}}">
+                <span style="font-size: 15px;">{{act.name}} {{act.description}}</span>
+            </a>
+        </li>
+    </ul>
+    <div class="row">
+        <button type="button" id="form-button" title="Agregar una nueva actividad"
+            (click)="toggleActivityForm()">Agregar Actividad</button>
+    </div>
+
+    <app-create-activity (activityAdded)="createActivity($event); toggleActivityForm()"
+        *ngIf="showActivityForm"></app-create-activity>
