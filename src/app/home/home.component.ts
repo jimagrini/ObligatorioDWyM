@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+/*import { GameService } from '../game.service'; */
 
 @Component({
   selector: 'app-home',
@@ -7,16 +8,26 @@ import { Router } from '@angular/router';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent {
-
   gameUrl?: string;
 
-  constructor(private router: Router) {}
+  constructor(private router: Router/*, private gameService: GameService*/) {}
 
   loginAsAdmin(): void {
     this.router.navigate(['/login']);
   }
 
   joinGame(): void {
-    this.router.navigate(['/game', this.gameUrl]);
-  }
+  /*
+    if (this.gameUrl) {
+      const game = this.gameService.getGameByUrl(this.gameUrl);
+      if (game) {
+        this.router.navigate(['/game', this.gameUrl]);
+      } else {
+      alert('Por favor, ingresa un código de juego');
+      }
+  }*/
 }
+}
+
+
+ 

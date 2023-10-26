@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { IActivity } from '../IActivity';
 import { IVote } from '../IVote';
+/*import { GameService } from '../game.service'; */
 
 @Component({
   selector: 'app-game',
@@ -9,19 +10,27 @@ import { IVote } from '../IVote';
   styleUrls: ['./game.component.css']
 })
 export class GameComponent implements OnInit {
-  activities: IActivity[] = []; 
+  activities: IActivity[] = [];
   currentActivity: IActivity | null = null;
   votes: IVote[] = [];
   shownResult = false;
 
-  constructor(private route: ActivatedRoute) { }
+  constructor(private route: ActivatedRoute/*, private gameService: GameService*/) {
+  }
 
   ngOnInit(): void {
-
+    /*this.route.params.subscribe(params => {
+      const gameUrl = params['gameUrl'];
+      const game = this.gameService.getGameByUrl(gameUrl);
+      if (game) {
+        this.currentActivity = game;
+      } else {
+        console.error('Juego no encontrado');
+      }
+    });*/
   }
 
   startGame(): void {
-    this.currentActivity = this.activities[0]; 
     this.shownResult = false;
     this.votes = [];
     this.showNextActivity();
