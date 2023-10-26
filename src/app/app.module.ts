@@ -8,10 +8,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { HomeComponent } from './home/home.component';
-import { CreateActivityComponent } from './create-activity/create-activity.component';
-import { CreateProposalComponent } from './create-proposal/create-proposal.component';
-import { SelectProposalComponent } from './select-proposal/select-proposal.component';
-import { SelectActivityComponent } from './select-activity/select-activity.component';
+import { ActivityComponent } from './activity/activity.component';
+import { ProposalComponent } from './proposal/proposal.component';
 import { GameComponent } from './game/game.component';
 
 
@@ -20,10 +18,8 @@ import { GameComponent } from './game/game.component';
     AppComponent,
     LoginComponent,
     HomeComponent,
-    CreateActivityComponent,
-    CreateProposalComponent,
-    SelectProposalComponent,
-    SelectActivityComponent,
+    ActivityComponent,
+    ProposalComponent,
     GameComponent
   ],
   imports: [

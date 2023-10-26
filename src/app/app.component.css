@@ -1,3 +1,7 @@
 h1 {
     cursor: pointer;
 }
+
+h1:hover{
+    color: #42b6e5;    
+}
