@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { IActivity } from '../IActivity';
+import { IActivity } from '../activity/IActivity';
 import { IVote } from '../IVote';
 
 @Component({
