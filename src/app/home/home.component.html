@@ -1,33 +1,41 @@
-<div class="container" id="container" [ngClass]="{'right-panel-active': overlayRight}">
-	<div class="form-container sign-up-container">
-		<form action="#">
-			<h1>Unirse</h1>
-			<div class="social-container">
-				<a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
-				<a href="#" class="social"><i class="fab fa-google-plus-g"></i></a>
-				<a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
-			</div>
-			<span>Con que tienes un código, ¿no?</span>
+<div
+  class="container"
+  id="container"
+  [ngClass]="{ 'right-panel-active': overlayRight }"
+>
+  <div class="form-container sign-up-container">
+    <form action="#">
+      <h1>Unirse</h1>
+      <div class="social-container">
+        <a href="#" class="social"><i class="gg-smile-mouth-open"></i></a>
+        <a href="#" class="social"><i class="gg-smile-neutral"></i></a>
+        <a href="#" class="social"><i class="gg-smile-sad"></i></a>
+      </div>
+      <span>Con que tienes un código, ¿no?</span>
       <span>Ingresa el código aquí</span>
-			<input type="text" placeholder="Código" (ngModel)="(gameUrl)"/>
-			<button (click)="joinGame()">Unirse</button>
-		</form>
-	</div>
-<div class="form-container sign-in-container">
-	<app-login></app-login>
-</div>
-	<div class="overlay-container">
-		<div class="overlay">
-			<div class="overlay-panel overlay-left">
-				<h1>Crear Juego</h1>
-				<p>Inicia Sesión y Crea tu Juego</p>
-				<button class="ghost" id="signIn" (click)="toggleOverlay()">Crear</button>
-			</div>
-			<div class="overlay-panel overlay-right">
-				<h1>Unirse a Juego</h1>
-				<p>Ingresa un Código y Únete a tus Amigos</p>
-				<button class="ghost" id="signUp" (click)="toggleOverlay()">Unirse</button>
-			</div>
-		</div>
-	</div>
+      <input type="text" placeholder="Código" (ngModel)="(gameUrl)" />
+      <button (click)="joinGame()">Unirse</button>
+    </form>
+  </div>
+  <div class="form-container sign-in-container">
+    <app-login></app-login>
+  </div>
+  <div class="overlay-container">
+    <div class="overlay">
+      <div class="overlay-panel overlay-left">
+        <h1>Crear Juego</h1>
+        <p>Inicia Sesión y Crea tu Juego</p>
+        <button class="ghost" id="signIn" (click)="toggleOverlay()">
+          Crear
+        </button>
+      </div>
+      <div class="overlay-panel overlay-right">
+        <h1>Unirse a Juego</h1>
+        <p>Ingresa un Código y Únete a tus Amigos</p>
+        <button class="ghost" id="signUp" (click)="toggleOverlay()">
+          Unirse
+        </button>
+      </div>
+    </div>
+  </div>
 </div>
