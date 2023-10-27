@@ -12,7 +12,6 @@ export class LoginComponent {
   password!: string;
 
   constructor(private router: Router) {}
-
   login(): void {
     // Perform authentication logic, e.g., check username and password
    /* if (this.username === 'admin' && this.password === 'password') {

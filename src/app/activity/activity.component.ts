@@ -1,13 +1,13 @@
 import { Component, Output, EventEmitter } from '@angular/core';
 import { AdminService } from '../admin.service';
-import { IActivity, CATEGORIES } from '../IActivity';
+import { IActivity, CATEGORIES } from './IActivity';
 
 @Component({
-  selector: 'app-create-activity',
-  templateUrl: './create-activity.component.html',
-  styleUrls: ['./create-activity.component.css']
+  selector: 'app-activity',
+  templateUrl: './activity.component.html',
+  styleUrls: ['./activity.component.css']
 })
-export class CreateActivityComponent {
+export class ActivityComponent {
 
   constructor(private adminService: AdminService) { }
 

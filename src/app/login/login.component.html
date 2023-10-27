@@ -1,15 +1,13 @@
-<h1>Login</h1>
-
-<form (ngSubmit)="login()">
-  <div>
-    <label for="username">Username:</label>
-    <input type="text" id="username" name="username" (ngModel)="username" required>
+<form action="#" (ngSubmit)="login()">
+  <h1>Iniciar Sesión</h1>
+  <div class="social-container">
+    <a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
+    <a href="#" class="social"><i class="fab fa-google-plus-g"></i></a>
+    <a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
   </div>
-
-  <div>
-    <label for="password">Password:</label>
-    <input type="password" id="password" name="password" (ngModel)="password" required>
-  </div>
-
-  <button type="submit">Login</button>
+  <span>Así que tienes una cuenta?</span>
+  <span>Inicia sesión aquí</span>
+  <input type="text" name="username" placeholder="Username" (ngModel)="(username)" required />
+  <input type="password" name="password" placeholder="Contraseña" (ngModel)="(password)" required/>
+  <button type="submit">Iniciar Sesión</button>
 </form>

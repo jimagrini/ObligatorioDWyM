@@ -1,16 +1,16 @@
 import { Component } from '@angular/core';
-import { IActivity } from '../IActivity';
+import { IActivity } from '../activity/IActivity';
 import { AdminService } from '../admin.service';
 import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
-import { ProposalService } from '../proposal.service';
+import { ProposalService } from './proposal.service';
 
 @Component({
-  selector: 'app-create-proposal',
-  templateUrl: './create-proposal.component.html',
-  styleUrls: ['./create-proposal.component.css']
+  selector: 'app-proposal',
+  templateUrl: './proposal.component.html',
+  styleUrls: ['./proposal.component.css']
 })
-export class CreateProposalComponent {
+export class ProposalComponent {
   constructor(private route: ActivatedRoute, private proposalService : ProposalService) { }
 
   proposal: IActivity[] = []; 

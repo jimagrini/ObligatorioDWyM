@@ -9,8 +9,15 @@ import { Router } from '@angular/router';
 })
 export class HomeComponent {
   gameUrl?: string;
+  overlayRight:boolean = false;
 
   constructor(private router: Router/*, private gameService: GameService*/) {}
+ 
+  
+
+
+  ngOnInit(): void {
+  }
 
   loginAsAdmin(): void {
     this.router.navigate(['/login']);
@@ -26,8 +33,10 @@ export class HomeComponent {
       alert('Por favor, ingresa un código de juego');
       }
   }*/
-}
-}
+    this.router.navigate(['/game', this.gameUrl]);
+  }  
 
-
- 
+  toggleOverlay(): void {
+    this.overlayRight = !this.overlayRight;
+  }
+}
