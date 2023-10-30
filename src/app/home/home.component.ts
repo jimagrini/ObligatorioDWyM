@@ -29,19 +29,4 @@ export class HomeComponent {
   toggleOverlay(): void {
     this.overlayRight = !this.overlayRight;
   }
-
-  addAdmin(admin: IAdmin): void {
-    this.adminService.addAdmin(admin);
-  }
-
-  showRegisterForm = false;
-  toggleRegisterForm(): void {
-    this.showRegisterForm = !this.showRegisterForm;
-    const button = document.getElementById('form-button');
-    if (this.showRegisterForm) {
-      button!.textContent = 'Ocultar Formulario';
-    } else {
-      button!.textContent = 'Crear Usuario';
-    }
-  }
 }
