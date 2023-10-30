@@ -8,14 +8,16 @@
 				<a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
 			</div>
 			<span>Con que tienes un código, ¿no?</span>
-      <span>Ingresa el código aquí</span>
-			<input type="text" placeholder="Código" (ngModel)="(gameUrl)"/>
+			<span>Ingresa el código aquí</span>
+			<input type="text" placeholder="Código" (ngModel)="(gameUrl)" />
 			<button (click)="joinGame()">Unirse</button>
 		</form>
 	</div>
-<div class="form-container sign-in-container">
-	<app-login></app-login>
-</div>
+	<div class="form-container sign-in-container">
+		<app-login></app-login>
+		<button type="button" id="form-button" title="Crear un nuevo usuario" (click)="toggleRegisterForm()">Crear Usuario</button>
+		<app-register *ngIf="showRegisterForm"></app-register>
+	</div>
 	<div class="overlay-container">
 		<div class="overlay">
 			<div class="overlay-panel overlay-left">
