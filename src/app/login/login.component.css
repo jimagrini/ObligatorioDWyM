@@ -46,8 +46,8 @@ button {
 	display: flex;
 	padding: 11px 52px;
 	height: 40px;
-	margin-top: 1px; 
-  }
+	margin-top: 1px;
+}
 
 button:active {
 	transform: scale(0.95);

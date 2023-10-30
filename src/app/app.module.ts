@@ -11,6 +11,7 @@ import { HomeComponent } from './home/home.component';
 import { ActivityComponent } from './activity/activity.component';
 import { ProposalComponent } from './proposal/proposal.component';
 import { GameComponent } from './game/game.component';
+import { RegisterComponent } from './register/register.component';
 
 
 @NgModule({
@@ -20,7 +21,8 @@ import { GameComponent } from './game/game.component';
     HomeComponent,
     ActivityComponent,
     ProposalComponent,
-    GameComponent
+    GameComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,

@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-/*import { GameService } from '../game.service'; */
 
 @Component({
   selector: 'app-home',
@@ -12,9 +11,6 @@ export class HomeComponent {
   overlayRight:boolean = false;
 
   constructor(private router: Router/*, private gameService: GameService*/) {}
- 
-  
-
 
   ngOnInit(): void {
   }
