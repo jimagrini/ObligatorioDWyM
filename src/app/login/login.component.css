@@ -36,11 +36,19 @@ button {
 	color: #FFFFFF;
 	font-size: 12px;
 	font-weight: bold;
-	padding: 12px 45px;
+	padding: 11px 45px;
 	letter-spacing: 1px;
 	text-transform: uppercase;
 	transition: transform 80ms ease-in;
+
 }
+
+.registrarse {
+	display: flex;
+	padding: 11px 52px;
+	height: 40px;
+	margin-top: 1px; 
+  }
 
 button:active {
 	transform: scale(0.95);
