@@ -36,3 +36,19 @@ h1 {
 h1:hover{
     color: rgb(121, 35, 20);    
 }
+
+footer {
+	font-family: 'Montserrat', sans-serif;
+    font-size: inherit;
+    text-align: center;
+    margin: 4px;
+    background-color: black;
+    margin: 3px 0px;
+    height: 35px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    vertical-align: middle;
+    color: #ffffff;
+}

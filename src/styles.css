@@ -1,10 +1,15 @@
+@import url('https://unpkg.com/css.gg@2.0.0/icons/css/smile-mouth-open.css');
+@import url('https://unpkg.com/css.gg@2.0.0/icons/css/smile-neutral.css');
+@import url('https://unpkg.com/css.gg@2.0.0/icons/css/smile-sad.css');
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,800');
+ 
 .container {
     max-width: 100%;
     padding: 1rem;
 }
 
-.row {
-    background-color: #ed92c5;
+/*.row {
+    background-color: black;
     margin: 3px 0px;
     height: 35px;
     width: 100%;
@@ -13,7 +18,7 @@
     align-items: center;
     vertical-align: middle;
     color: #ffffff;
-}
+}*/
 
 @media (min-width: 768px) {
 
