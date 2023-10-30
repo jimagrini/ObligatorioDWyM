@@ -1,14 +1,26 @@
 <form action="#" (ngSubmit)="login()">
   <h1>Iniciar Sesión</h1>
   <div class="social-container">
-    <a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
-    <a href="#" class="social"><i class="fab fa-google-plus-g"></i></a>
-    <a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
+    <div href="#" class="social happy"><i class="gg-smile-mouth-open"></i></div>
+    <div href="#" class="social neutral"><i class="gg-smile-neutral"></i></div>
+    <div href="#" class="social sad"><i class="gg-smile-sad"></i></div>
   </div>
   <span>Así que tienes una cuenta?</span>
   <span>Inicia sesión aquí</span>
-  <input type="text" name="username" placeholder="Username" (ngModel)="(username)" required />
-  <input type="password" name="password" placeholder="Contraseña" (ngModel)="(password)" required/>
+  <input
+    type="text"
+    name="username"
+    placeholder="Usuario"
+    (ngModel)="(username)"
+    required
+  />
+  <input
+    type="password"
+    name="password"
+    placeholder="Contraseña"
+    (ngModel)="(password)"
+    required
+  />
   <button type="submit">Iniciar Sesión</button>
   <a href="register">Crea un nuevo usuario</a>
 </form>

@@ -1,7 +1,5 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { IAdmin } from '../IAdmin';
-import { AdminService } from '../admin.service';
 
 @Component({
   selector: 'app-home',
@@ -9,11 +7,10 @@ import { AdminService } from '../admin.service';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent {
-
   gameUrl?: string;
   overlayRight:boolean = false;
-  
-  constructor(private router: Router, private adminService: AdminService) {}
+
+  constructor(private router: Router/*, private gameService: GameService*/) {}
 
   ngOnInit(): void {
   }
@@ -23,6 +20,15 @@ export class HomeComponent {
   }
 
   joinGame(): void {
+  /*
+    if (this.gameUrl) {
+      const game = this.gameService.getGameByUrl(this.gameUrl);
+      if (game) {
+        this.router.navigate(['/game', this.gameUrl]);
+      } else {
+      alert('Por favor, ingresa un código de juego');
+      }
+  }*/
     this.router.navigate(['/game', this.gameUrl]);
   }  
 

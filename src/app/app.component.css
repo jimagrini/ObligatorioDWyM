@@ -2,6 +2,10 @@
     display: block;
 }
 
+.row{
+    background-color: #FF4B2B;
+}
+
 .header {
     padding: 0;
 	height: 65px;
@@ -10,7 +14,7 @@
     align-items: center;
     justify-content: space-between;
     vertical-align: middle;
-    border-bottom: 3px solid #ed92c5;
+    border-bottom: 3px solid #FF4B2B;
 }
 .logo {
     display: flex;
@@ -22,7 +26,7 @@
 h1 {
     text-align: center;
     align-self: center;
-	color: #ed92c5;
+	color: #FF4B2B;
 	font-family: "kapra-bold", sans-serif;
     font-weight: 850;
 	font-size: 42px;
@@ -31,4 +35,20 @@ h1 {
 
 h1:hover{
     color: rgb(121, 35, 20);    
+}
+
+footer {
+	font-family: 'Montserrat', sans-serif;
+    font-size: inherit;
+    text-align: center;
+    margin: 4px;
+    background-color: black;
+    margin: 3px 0px;
+    height: 35px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    vertical-align: middle;
+    color: #ffffff;
 }
