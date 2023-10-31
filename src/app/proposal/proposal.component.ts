@@ -1,78 +1,63 @@
 import { Component } from '@angular/core';
 import { IActivity } from '../activity/IActivity';
 import { AdminService } from '../admin.service';
-import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
-import { ProposalService } from './proposal.service';
+import { ActivityService } from '../activity/activity.service';
 
 @Component({
   selector: 'app-proposal',
   templateUrl: './proposal.component.html',
-  styleUrls: ['./proposal.component.css']
+  styleUrls: ['./proposal.component.css'],
 })
 export class ProposalComponent {
-  constructor(private route: ActivatedRoute, private proposalService : ProposalService) { }
+  constructor(
+    private router: Router,
+    private activityService: ActivityService
+  ) {}
 
-  proposal: IActivity[] = []; 
-
-  minimal = false;
-  
+  ngOnInit() {
+    this.getActivities();
+    this.getSelectedActivities();
+  }
+  selectedActivities: IActivity[] = [];
   name!: string;
-  
+  id!: string;
 
-  createProposal(name : string){
+  createProposal(name: string) {
+
+    //CREAR BIEN LA PROPUESTA
+    this.id =
+      Math.random().toString(36).substring(2, 15) +
+      Math.random().toString(36).substring(2, 15);
     this.name = name;
   }
 
-  changeStatus(){
-    this.minimal = true;
-  }
-
-  getProposal(){
-    return this.proposal;
+  getProposal() {
+    return this;
   }
 
   getActivities(): IActivity[] {
-    return this.proposalService.getActivities()
+    return this.activityService.getActivities();
   }
 
-  addActivity(id : number){
-    const act = this.selectedActivity;
-    if(this.getActivities().length>=2){
-      this.changeStatus();
-    }
-    if(act){
-      this.proposal.push(act);
-    }else{
-      console.log("Actividad inexistente")
-    }
-  }
-  
-  closeProposal(){
-    if(this.minimal){
-      console.log("propuesta cerrada");
-    }else{
-      console.log("Debes añadir al menos dos o más activdades para cerrar la propuesta")
-    }
+  /*getFirstActivity(): IActivity {
+    return this.activityService.getActivity(1);
+  }*/
+
+  getSelectedActivities(): IActivity[] {
+    this.selectedActivities = this.activityService.selectedActivities;
+    return this.selectedActivities;
   }
 
-  selectedActivity?: IActivity;
-    onSelect(activity: IActivity) : void {
-      this.selectedActivity = activity;
-    }
-
-  createActivity(activity: IActivity): void {
-    this.proposalService.createActivity(activity);
-  }
-
-  showActivityForm = false;
-  toggleActivityForm(): void {
-    this.showActivityForm = !this.showActivityForm;
-    const button = document.getElementById('form-button');
-    if (this.showActivityForm) {
-      button!.textContent = 'Ocultar Formulario';
+  startGame(): void {
+    if (this.getActivities().length >= 2 || !this.id) {
+      //start
+      //count 3 seconds and redirect to game component
+      this.router.navigate(['/game', this.id]);
     } else {
-      button!.textContent = 'Agregar Actividad';
+      alert(
+        'Debes añadir al menos dos o más actividades para comenzar el juego'
+      );
     }
   }
 }
