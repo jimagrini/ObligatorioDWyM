@@ -1,6 +1,6 @@
 import { Component, Output, EventEmitter } from '@angular/core';
 import { AdminService } from '../admin.service';
-import { IActivity } from '../activity/IActivity';
+import { IActivity } from '../activities/IActivity';
 import { IAdmin } from '../IAdmin';
 import { Location } from '@angular/common';
 
