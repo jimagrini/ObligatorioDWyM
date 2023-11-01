@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
-import { ACTIVITIES } from '../activity/mock-activities';
-import { IActivity } from '../activity/IActivity';
+import { ACTIVITIES } from './mock-activities';
+import { IActivity } from './IActivity';
 
 
 @Injectable({
   providedIn: 'root'
 })
-export class ProposalService {
-
+export class ActivityService {
+  
+  selectedActivities: IActivity[] = [];
   constructor() { }
 
   getActivities() : IActivity[] {
@@ -21,6 +22,18 @@ export class ProposalService {
     const activity = ACTIVITIES.find(act => act.id === id)!;
     //this.messageService.add(`HeroService: fetched hero id=${id}`);
     return activity;
+  }
+
+  selectActivity(activity: IActivity) {
+    activity.selected = !activity.selected;
+    if (!activity.selected) {
+      this.selectedActivities.splice(
+        this.selectedActivities.indexOf(activity),
+        1
+      );
+    } else {
+      this.selectedActivities.push(activity);
+    }
   }
 
   createActivity(activity: IActivity): void {

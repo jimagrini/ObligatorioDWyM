@@ -1,6 +1,6 @@
-import { Component, Output, EventEmitter } from '@angular/core';
-import { AdminService } from '../admin.service';
-import { IActivity, CATEGORIES } from './IActivity';
+import { Component } from '@angular/core';
+import { IActivity } from './IActivity';
+import { ActivityService } from './activity.service';
 
 @Component({
   selector: 'app-activity',
@@ -8,24 +8,37 @@ import { IActivity, CATEGORIES } from './IActivity';
   styleUrls: ['./activity.component.css']
 })
 export class ActivityComponent {
+  selectedActivities: IActivity[] = [];
 
-  constructor(private adminService: AdminService) { }
+  constructor(private activityService: ActivityService) { }
 
-  categories = CATEGORIES;
+  getActivities(): IActivity[] {
+    return this.activityService.getActivities()
+  }
 
-  @Output() activityAdded = new EventEmitter<IActivity>();
+  getSelectedActivities(): IActivity[] {
+    this.selectedActivities = this.activityService.selectedActivities;
+    return this.selectedActivities;
+  }
 
-  model = { name: 'Futbol 5', category: 'Deportiva', description: 'Reserva de una cancha de futbol 5 por el total de 1 hora', image: new URL('https://artigasnoticias.com.uy/wp-content/uploads/2020/07/15885348365759.jpg') } as IActivity;
+  selectActivity(activity: IActivity): void {
+    this.activityService.selectActivity(activity);
+    
+  }
 
-  submitted = false;
+  createActivity(activity: IActivity): void {
+    this.activityService.createActivity(activity);
+  }
 
-  onSubmit() { this.submitted = true; }
+  showNewActivityForm = false;
 
-  newActivity(): void {
-    const newPlayer = { name: this.model.name, category: this.model.category, description: this.model.description, image: this.model.image } as IActivity;
-    this.activityAdded.emit(newPlayer);
-
-    this.model = { name: 'Futbol 5', category: 'Deportiva', description: 'Reserva de una cancha de futbol 5 por el total de 1 hora', image: new URL('https://artigasnoticias.com.uy/wp-content/uploads/2020/07/15885348365759.jpg') } as IActivity;
-    this.submitted = false;
+  toggleActivityForm(): void {
+    this.showNewActivityForm = !this.showNewActivityForm;
+    const button = document.getElementById('form-button');
+    if (this.showNewActivityForm) {
+      button!.textContent = 'Ocultar Formulario';
+    } else {
+      button!.textContent = 'Agregar Actividad';
+    }
   }
 }
