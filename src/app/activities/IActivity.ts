@@ -1,6 +1,5 @@
 export interface IActivity {
     id: number,
-    /*gameUrl: string,*/
     name: string,
     category: string,
     description: string,

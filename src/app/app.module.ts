@@ -13,7 +13,9 @@ import { NewActivityComponent } from './newActivity/newActivity.component';
 import { ProposalComponent } from './proposal/proposal.component';
 import { GameComponent } from './game/game.component';
 import { RegisterComponent } from './register/register.component';
-import { ActivityComponent } from './activity/activity.component';
+import { ActivitiesComponent } from './activities/activities.component';
+import { ResultsComponent } from './results/results.component';
+import { LobbyComponent } from './lobby/lobby.component';
 
 
 @NgModule({
@@ -21,11 +23,13 @@ import { ActivityComponent } from './activity/activity.component';
     AppComponent,
     LoginComponent,
     HomeComponent,
-    ActivityComponent,
+    ActivitiesComponent,
     ProposalComponent,
     GameComponent,
     RegisterComponent,
     NewActivityComponent,
+    ResultsComponent,
+    LobbyComponent,
   ],
   imports: [
     BrowserModule,
