@@ -1,16 +1,16 @@
 import { Component } from '@angular/core';
 import { IActivity } from './IActivity';
-import { ActivityService } from './activity.service';
+import { ActivitiesService } from './activities.service';
 
 @Component({
-  selector: 'app-activity',
-  templateUrl: './activity.component.html',
-  styleUrls: ['./activity.component.css']
+  selector: 'app-activities',
+  templateUrl: './activities.component.html',
+  styleUrls: ['./activities.component.css']
 })
-export class ActivityComponent {
+export class ActivitiesComponent {
   selectedActivities: IActivity[] = [];
 
-  constructor(private activityService: ActivityService) { }
+  constructor(private activityService: ActivitiesService) { }
 
   getActivities(): IActivity[] {
     return this.activityService.getActivities()
@@ -31,7 +31,6 @@ export class ActivityComponent {
   }
 
   showNewActivityForm = false;
-
   toggleActivityForm(): void {
     this.showNewActivityForm = !this.showNewActivityForm;
     const button = document.getElementById('form-button');

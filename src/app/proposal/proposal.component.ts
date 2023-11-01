@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-import { IActivity } from '../activity/IActivity';
+import { IActivity } from '../activities/IActivity';
 import { AdminService } from '../admin.service';
 import { Router } from '@angular/router';
-import { ActivityService } from '../activity/activity.service';
+import { ActivitiesService } from '../activities/activities.service';
 
 @Component({
   selector: 'app-proposal',
@@ -12,7 +12,7 @@ import { ActivityService } from '../activity/activity.service';
 export class ProposalComponent {
   constructor(
     private router: Router,
-    private activityService: ActivityService
+    private activitiesService: ActivitiesService
   ) {}
 
   ngOnInit() {
@@ -37,15 +37,15 @@ export class ProposalComponent {
   }
 
   getActivities(): IActivity[] {
-    return this.activityService.getActivities();
+    return this.activitiesService.getActivities();
   }
 
   /*getFirstActivity(): IActivity {
-    return this.activityService.getActivity(1);
+    return this.activitiesService.getActivity(1);
   }*/
 
   getSelectedActivities(): IActivity[] {
-    this.selectedActivities = this.activityService.selectedActivities;
+    this.selectedActivities = this.activitiesService.selectedActivities;
     return this.selectedActivities;
   }
 

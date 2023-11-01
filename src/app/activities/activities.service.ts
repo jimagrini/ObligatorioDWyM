@@ -6,22 +6,17 @@ import { IActivity } from './IActivity';
 @Injectable({
   providedIn: 'root'
 })
-export class ActivityService {
+export class ActivitiesService {
   
   selectedActivities: IActivity[] = [];
   constructor() { }
 
   getActivities() : IActivity[] {
-    const activities = ACTIVITIES;
-    return activities;
+    return ACTIVITIES;
   }
 
   getActivity(id: number): IActivity {
-    // For now, assume that a hero with the specified `id` always exists.
-    // Error handling will be added in the next Ac of the tutorial.
-    const activity = ACTIVITIES.find(act => act.id === id)!;
-    //this.messageService.add(`HeroService: fetched hero id=${id}`);
-    return activity;
+    return ACTIVITIES.find(act => act.id === id)!;
   }
 
   selectActivity(activity: IActivity) {

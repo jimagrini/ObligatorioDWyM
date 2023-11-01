@@ -1,0 +1,36 @@
+<div class="container text-center">
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-3 card" *ngFor="let act of getActivities()">
+      <img class="pic" alt="art" src="{{ act.image }}" style="cursor: pointer; border-radius: 10px"
+        (click)="selectActivity(act)" *ngIf="act.image" />
+      <p>{{ act.name }} {{ act.description }}</p>
+      <div *ngIf="act.selected" class="selected"></div>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-3">
+      <button type="button" id="form-button" title="Agregar una nueva actividad" (click)="toggleActivityForm()">
+        Agregar Actividad
+      </button>
+      <app-newActivity (activityAdded)="createActivity($event); toggleActivityForm()"
+        *ngIf="showNewActivityForm"></app-newActivity>
+    </div>
+  </div>
+</div>
+
+<div id="carouselExample" class="carousel slide" style="background-color: black">
+  <div class="carousel-inner">
+    <div class="carousel-item active">Aquí se muestran las Actividades Seleccionadas</div>
+
+    <div class="carousel-item" *ngFor="let act of getSelectedActivities()">
+      <img alt="art" src="{{ act.image }}" style="cursor: pointer; border-radius: 10px" *ngIf="act.image" />
+      <p>{{ act.name }} {{ act.description }}</p>
+    </div>
+  </div>
+  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
+</div>
