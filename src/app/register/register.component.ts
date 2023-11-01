@@ -23,8 +23,9 @@ export class RegisterComponent {
     const newAdmin = { id: this.index, fullName: this.model.fullName, username: this.model.username, password: this.model.password, email: this.model.email } as IAdmin;
     this.index++;
     this.adminService.addAdmin(newAdmin);
-    this.goBack();
+    alert('Usuario registrado con exito!');
     this.submitted = false;
+    this.goBack();
   }
   goBack(): void {
     this.location.back();
