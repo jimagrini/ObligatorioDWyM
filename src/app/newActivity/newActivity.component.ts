@@ -1,13 +1,13 @@
 import { Component, Output, EventEmitter } from '@angular/core';
 import { AdminService } from '../admin.service';
-import { IActivity, CATEGORIES } from './IActivity';
+import { IActivity, CATEGORIES } from '../activities/IActivity';
 
 @Component({
-  selector: 'app-activity',
-  templateUrl: './activity.component.html',
-  styleUrls: ['./activity.component.css']
+  selector: 'app-newActivity',
+  templateUrl: './newActivity.component.html',
+  styleUrls: ['./newActivity.component.css']
 })
-export class ActivityComponent {
+export class NewActivityComponent {
 
   constructor(private adminService: AdminService) { }
 
@@ -24,7 +24,6 @@ export class ActivityComponent {
   newActivity(): void {
     const newPlayer = { name: this.model.name, category: this.model.category, description: this.model.description, image: this.model.image } as IActivity;
     this.activityAdded.emit(newPlayer);
-
     this.model = { name: 'Futbol 5', category: 'Deportiva', description: 'Reserva de una cancha de futbol 5 por el total de 1 hora', image: new URL('https://artigasnoticias.com.uy/wp-content/uploads/2020/07/15885348365759.jpg') } as IActivity;
     this.submitted = false;
   }

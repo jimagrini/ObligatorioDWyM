@@ -1,7 +1,8 @@
 import { Component, Output, EventEmitter } from '@angular/core';
 import { AdminService } from '../admin.service';
-import { IActivity } from '../activity/IActivity';
+import { IActivity } from '../activities/IActivity';
 import { IAdmin } from '../IAdmin';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-register',
@@ -9,7 +10,7 @@ import { IAdmin } from '../IAdmin';
   styleUrls: ['./register.component.css']
 })
 export class RegisterComponent {
-  constructor(private adminService: AdminService) { }
+  constructor(private adminService: AdminService, private location: Location) { }
 
   index = 100;
 
@@ -22,7 +23,10 @@ export class RegisterComponent {
     const newAdmin = { id: this.index, fullName: this.model.fullName, username: this.model.username, password: this.model.password, email: this.model.email } as IAdmin;
     this.index++;
     this.adminService.addAdmin(newAdmin);
-    this.model = { fullName: 'Luis Suarez', username: 'LuchoSuarez9', password: 'qhiud2xka526ubcds8', email: 'luis.suarez@gmail.com' };
+    this.goBack();
     this.submitted = false;
+  }
+  goBack(): void {
+    this.location.back();
   }
 }
