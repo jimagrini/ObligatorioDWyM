@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
+import { SocketService } from './socket.service';
 import { Location } from '@angular/common';
+
 
 @Component({
   selector: 'app-root',
@@ -8,6 +10,15 @@ import { Location } from '@angular/common';
 })
 export class AppComponent {
   title = 'Juegos';
+message = ''
 
-  
+constructor(private socketService: SocketService){
+
+}
+ngOnInit(){   
+  this.socketService.getNewMessage().subscribe((message: string) => {
+    console.log(message);
+    this.message = message;
+  })
+}
 }
