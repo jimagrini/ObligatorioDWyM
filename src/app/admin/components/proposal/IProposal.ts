@@ -1,4 +1,4 @@
-import { IActivity } from "../activities/IActivity";
+import { IActivity } from "../../../activities/IActivity";
 
 export interface IProposal{
     id: number, 

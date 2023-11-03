@@ -3,13 +3,13 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ILogin } from './ILogin';
-import { IResponse } from '../IResponse';
+import { IResponse } from '../../../IResponse';
 import { Subscription } from 'rxjs/internal/Subscription';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css', '../home/home.component.css'],
+  styleUrls: ['./login.component.css'],
 })
 export class LoginComponent implements OnInit, OnDestroy{
   formLogin: FormGroup;
