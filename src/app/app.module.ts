@@ -16,6 +16,7 @@ import { RegisterComponent } from './register/register.component';
 import { ActivitiesComponent } from './activities/activities.component';
 import { ResultsComponent } from './results/results.component';
 import { LobbyComponent } from './lobby/lobby.component';
+import { VoteComponent } from './user/components/vote/vote.component';
 
 
 @NgModule({
@@ -30,6 +31,7 @@ import { LobbyComponent } from './lobby/lobby.component';
     NewActivityComponent,
     ResultsComponent,
     LobbyComponent,
+    VoteComponent,
   ],
   imports: [
     BrowserModule,
