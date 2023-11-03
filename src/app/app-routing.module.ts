@@ -5,13 +5,15 @@ import { HomeComponent } from './home/home.component';
 import { ProposalComponent } from './proposal/proposal.component';
 import { RegisterComponent } from './register/register.component';
 import { GameComponent } from './game/game.component';
+import { ResultsComponent } from './results/results.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: 'home', component: HomeComponent },
-  { path: 'proposal', component: ProposalComponent },
+  { path: 'create-room', component: ProposalComponent },
   { path: 'game', component: GameComponent },
   { path: 'register', component: RegisterComponent },
+  { path: 'results', component: ResultsComponent },
 ];
 
 @NgModule({
