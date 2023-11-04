@@ -7,15 +7,16 @@ import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
-import { LoginComponent } from './login/login.component';
+import { LoginComponent } from './admin/components/login/login.component';
 import { HomeComponent } from './home/home.component';
-import { NewActivityComponent } from './newActivity/newActivity.component';
-import { ProposalComponent } from './proposal/proposal.component';
+import { NewActivityComponent } from './admin/components/newActivity/newActivity.component';
+import { ProposalComponent } from './admin/components/proposal/proposal.component';
 import { GameComponent } from './game/game.component';
-import { RegisterComponent } from './register/register.component';
+import { RegisterComponent } from './admin/components/register/register.component';
 import { ActivitiesComponent } from './activities/activities.component';
 import { ResultsComponent } from './results/results.component';
-import { LobbyComponent } from './lobby/lobby.component';
+import { LobbyComponent } from './admin/components/lobby/lobby.component';
+import { VoteComponent } from './user/components/vote/vote.component';
 
 
 @NgModule({
@@ -30,6 +31,7 @@ import { LobbyComponent } from './lobby/lobby.component';
     NewActivityComponent,
     ResultsComponent,
     LobbyComponent,
+    VoteComponent,
   ],
   imports: [
     BrowserModule,

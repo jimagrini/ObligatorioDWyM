@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-import { IActivity } from '../activities/IActivity';
-import { AdminService } from '../admin.service';
+import { IActivity } from '../../../activities/IActivity';
+import { AdminService } from '../../admin.service';
 import { Router } from '@angular/router';
-import { ActivitiesService } from '../activities/activities.service';
+import { ActivitiesService } from '../../../activities/activities.service';
 
 @Component({
   selector: 'app-proposal',
