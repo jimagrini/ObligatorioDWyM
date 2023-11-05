@@ -8,8 +8,10 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 //Middlewares
-app.use('/api', adminRoutes);
 app.use(express.json());
+app.use('/api', adminRoutes);
+
+
 
 //Routes
 app.get('/', (req, res) => {
