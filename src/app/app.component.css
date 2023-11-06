@@ -38,19 +38,20 @@ h1:hover{
 }
 
 footer {
-	font-family: 'Montserrat', sans-serif;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    font-family: 'Montserrat', sans-serif;
     font-size: inherit;
     text-align: center;
-    margin: 4px;
     background-color: black;
-    margin: 3px 0px;
     height: 35px;
-    width: 100%;
+    color: #ffffff;
     display: flex;
     justify-content: center;
     align-items: center;
     vertical-align: middle;
-    color: #ffffff;
 }
 
 footer p {
@@ -62,6 +63,6 @@ footer i {
 }
 
 footer a {
-	color: #3c97bf;
+	color: #d9534f;
 	text-decoration: none;
 }

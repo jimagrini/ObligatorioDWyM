@@ -3,8 +3,9 @@ import cardRouter from './routes/cards'
 import { createServer } from "http";
 
 const app = express()
-app.use(express.json()) //middleware
 
+//Middleware
+app.use(express.json()) 
 
 const httpServer = createServer(app);
 const io = require('socket.io')(httpServer, {

@@ -1,10 +1,10 @@
 .ng-valid[required],
 .ng-valid.required {
-    border-left: 5px solid #2cd234;
+    border-left: 5px solid #FF4B2B;
 }
 
 .ng-invalid:not(form) {
-    border-left: 5px solid #c92623;
+    border-left: 5px solid #FF4B2B;
 }
 
 /* Styles for the container */
@@ -28,7 +28,7 @@ h1 {
     margin: 0;
     margin-bottom: 20px;
     color: #ffffff;
-    background-color: #42b6e5;
+    background-color: #FF416C;
 }
 
 .container form {
@@ -48,7 +48,7 @@ h1 {
 /* Styles for the form labels */
 label {
     font-weight: bold;
-    color: #0398d3;
+    color: #FF416C;
     display: block;
     margin-bottom: 5px;
 }
@@ -73,7 +73,7 @@ label {
 
 /* Styles for the error messages */
 .alert-danger {
-    color: #d9534f;
+    color: #FF416C;
 }
 
 /* Styles for the buttons */
@@ -100,7 +100,7 @@ label {
 
 .btn-default {
     background-color: #fff;
-    color: #42b6e5;
+    color: #FF416C;
     border: 1px solid #ccc;
     margin-right: 10px;
 }
