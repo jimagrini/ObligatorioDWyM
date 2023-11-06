@@ -3,7 +3,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ILogin } from './ILogin';
-import { IResponse } from '../../../IResponse';
+import { IResponse } from './IResponse';
 import { Subscription } from 'rxjs/internal/Subscription';
 
 @Component({
@@ -43,7 +43,7 @@ export class LoginComponent implements OnInit, OnDestroy{
       sessionStorage.setItem('token', token);
       this.router.navigate(['/proposal']);
     }, err => {
-      console.log('Error en el login', err);
+      console.log('Error al iniciar sesion', err);
     });
   }
 

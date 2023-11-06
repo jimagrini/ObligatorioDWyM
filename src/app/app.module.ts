@@ -7,16 +7,17 @@ import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
-import { LoginComponent } from './admin/components/login/login.component';
-import { HomeComponent } from './home/home.component';
-import { NewActivityComponent } from './admin/components/newActivity/newActivity.component';
-import { ProposalComponent } from './admin/components/proposal/proposal.component';
-import { GameComponent } from './game/game.component';
-import { RegisterComponent } from './admin/components/register/register.component';
-import { ActivitiesComponent } from './activities/activities.component';
-import { ResultsComponent } from './results/results.component';
-import { LobbyComponent } from './admin/components/lobby/lobby.component';
-import { VoteComponent } from './user/components/vote/vote.component';
+import { LoginComponent } from './components/Admin/login/login.component';
+import { HomeComponent } from './components/Home/home.component';
+import { NewActivityComponent } from './components/Admin/newActivity/newActivity.component';
+import { ProposalComponent } from './components/Admin/proposal/proposal.component';
+import { GameComponent } from './components/Admin/game/game.component';
+import { RegisterComponent } from './components/Admin/register/register.component';
+import { ActivitiesComponent } from './components/Admin/activities/activities.component';
+import { ResultsComponent } from './components/Admin/results/results.component';
+import { LobbyComponent } from './components/Admin/lobby/lobby.component';
+import { VoteComponent } from './components/User/vote/vote.component';
+import { WaitingRoomComponent } from './components/User/waiting-room/waiting-room.component';
 
 
 @NgModule({
@@ -32,6 +33,7 @@ import { VoteComponent } from './user/components/vote/vote.component';
     ResultsComponent,
     LobbyComponent,
     VoteComponent,
+    WaitingRoomComponent,
   ],
   imports: [
     BrowserModule,

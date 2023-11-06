@@ -7,5 +7,3 @@ export interface IActivity {
     selected: boolean,
 }
 
-export const CATEGORIES = ['Deportiva', 'Visita', 'Al aire libre', 'Cultural', 'Lúdica', 'Relajación', 'Audio-visual'];
-

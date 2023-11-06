@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { IActivity } from '../activities/IActivity';
-/*import { GameService } from '../game.service'; */
+import { AdminService } from '../admin.service';
 
 @Component({
   selector: 'app-game',
@@ -14,20 +14,7 @@ export class GameComponent {
   votes: { [activityId: string]: number } = {};
   showResults = false;
 
-  constructor(private route: ActivatedRoute/*, private gameService: GameService*/) {
-  }
-
-  ngOnInit(): void {
-    /*this.route.params.subscribe(params => {
-      const gameUrl = params['gameUrl'];
-      const game = this.gameService.getGameByUrl(gameUrl);
-      if (game) {
-        this.currentActivity = game;
-      } else {
-        console.error('Juego no encontrado');
-      }
-    });*/
-  }
+  constructor(private route: ActivatedRoute, adminService: AdminService) {}
 
   startGame(): void {
     this.showResults = false;
@@ -49,12 +36,6 @@ export class GameComponent {
           this.showResults= true;
         }
       }, 10000); 
-    }
-  }
-
-  vote(vote: number): void {
-    if(this.currentActivity){
-      this.votes[this.currentActivity.id] += vote;
     }
   }
 }
