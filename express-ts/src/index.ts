@@ -14,29 +14,42 @@ const io = require('socket.io')(httpServer, {
 
 
 const PORT = 3001
-let counter = 0
+
 
 app.get('/test', (req, res) => {    
     console.log("hello world");
     res.send('V 1.1')
 })
+app.post('/test',(req, res) => {
+  ejecutarjuego(0);
+  res.send('V 1.1')
+})
+
+function ejecutarjuego(pos:number) {
+  const listaAct = [1,2,3];
+  if (pos < listaAct.length){
+    io.emit('message', listaAct[pos])
+    setTimeout(() => {
+      ejecutarjuego(pos + 1)
+    
+    }, 3000);
+  }else[
+    io.emit('message', 'fin juego')
+  ]
+  
+    
+}
+
 
 io.on('connection', (socket: any) => {
     console.log('a user connected');
   
-    socket.on('message', (message: any) => {
-      console.log(message);
-      io.emit('message', `${socket.id.substr(0, 2)} said ${message}`);
-    });
+   
   
     socket.on('disconnect', () => {
       console.log('a user disconnected!');
     });
 
-    setInterval(() => {
-        io.emit('message', Math.random());
-        counter++;
-      }, 5000);
   });
 
 httpServer.listen(PORT);
