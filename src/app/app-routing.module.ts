@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { LoginComponent } from './admin/components/login/login.component';
-import { HomeComponent } from './home/home.component';
-import { ProposalComponent } from './admin/components/proposal/proposal.component';
-import { RegisterComponent } from './admin/components/register/register.component';
-import { GameComponent } from './game/game.component';
-import { LobbyComponent } from './admin/components/lobby/lobby.component';
-import { ResultsComponent } from './results/results.component';
+import { LoginComponent } from './components/Admin/login/login.component';
+import { HomeComponent } from './components/Home/home.component';
+import { ProposalComponent } from './components/Admin/proposal/proposal.component';
+import { RegisterComponent } from './components/Admin/register/register.component';
+import { GameComponent } from './components/Admin/game/game.component';
+import { LobbyComponent } from './components/Admin/lobby/lobby.component';
+import { ResultsComponent } from './components/Admin/results/results.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IUser } from '../../../user/IUser';
+import { IUser } from '../../User/IUser';
 
 @Component({
   selector: 'app-lobby',
@@ -7,5 +7,6 @@ import { IUser } from '../../../user/IUser';
   styleUrls: ['./lobby.component.css']
 })
 export class LobbyComponent {
+  gameCode: string= "";
   users: IUser[] = [];
 }
