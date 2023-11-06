@@ -16,7 +16,7 @@ const activitySchema = new mongoose.Schema({
     },
     image :  {
         type: URL,
-        required: true
+        required: false
     },
 });
 
