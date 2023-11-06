@@ -1,21 +1,31 @@
 .ng-valid[required],
 .ng-valid.required {
-    border-left: 5px solid #2cd234;
+    border-left: 5px solid #FF4B2B;
 }
 
 .ng-invalid:not(form) {
-    border-left: 5px solid #c92623;
+    border-left: 5px solid #FF4B2B;
+}
+
+.alert-danger {
+    background-color: #FF4B2B;
+    color: #fff;
+    padding: 10px;
+    border-radius: 5px;
+    margin-top: 10px;
 }
 
 /* Styles for the container */
 .container {
-    margin: 20px auto;
-    padding: 0;
-    max-width: 800px;
-    background-color: #f5f5f5;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    background-color: aliceblue;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+    position: relative;
+    overflow: hidden;
+    width: 768px;
+    max-width: 100%;
+    min-height: 480px;
+    padding: 0 50px;
 }
 
 /* Styles for the form title */
@@ -28,7 +38,7 @@ h1 {
     margin: 0;
     margin-bottom: 20px;
     color: #ffffff;
-    background-color: #42b6e5;
+    background-color: #FF416C;
 }
 
 .container form {
@@ -48,7 +58,7 @@ h1 {
 /* Styles for the form labels */
 label {
     font-weight: bold;
-    color: #0398d3;
+    color: #FF416C;
     display: block;
     margin-bottom: 5px;
 }
@@ -73,7 +83,7 @@ label {
 
 /* Styles for the error messages */
 .alert-danger {
-    color: #d9534f;
+    color: #FF416C;
 }
 
 /* Styles for the buttons */
@@ -87,11 +97,19 @@ label {
     cursor: pointer;
 }
 
+
 .btn-success {
-    background-color: #5cb85c;
-    color: #fff;
-    border: none;
-    margin-right: 10px;
+    border-radius: 20px;
+    border: 1px solid #FF4B2B;
+    background-color: #FF4B2B;
+    color: #FFFFFF;
+    font-size: 14px;
+    font-weight: bold;
+    padding: 12px 45px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: transform 80ms ease-in;
+    cursor: pointer;
 }
 
 .btn-success:hover {
@@ -100,7 +118,7 @@ label {
 
 .btn-default {
     background-color: #fff;
-    color: #42b6e5;
+    color: #FF416C;
     border: 1px solid #ccc;
     margin-right: 10px;
 }
