@@ -38,10 +38,9 @@ router.get('/activity/:id', (req, res) => {
 
 router.put('/activity/:id', (req, res) => {
     const { id } = req.params;
-    const { name, category } = req.body;
-    const { description, image } = req.body;
+    const { name, category, description, image} = req.body;
 
-    activitySchema.updateOne({ _id: id }, { name, category }, { description, image } )
+    activitySchema.updateOne({ _id: id }, { name, category, description, image } )
         .then((data) => {
             res.json(data);
         })
