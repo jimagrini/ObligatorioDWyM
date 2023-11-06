@@ -1,6 +1,7 @@
 import { Component, Output, EventEmitter } from '@angular/core';
-import { AdminService } from '../../admin.service';
-import { IActivity, CATEGORIES } from '../../../activities/IActivity';
+import { AdminService } from '../admin.service';
+import { IActivity } from '../activities/IActivity';
+import { CATEGORIES } from 'src/app/constants';
 
 @Component({
   selector: 'app-newActivity',
@@ -15,7 +16,7 @@ export class NewActivityComponent {
 
   @Output() activityAdded = new EventEmitter<IActivity>();
 
-  model = { name: 'Futbol 5', category: 'Deportiva', description: 'Reserva de una cancha de futbol 5 por el total de 1 hora', image: new URL('https://artigasnoticias.com.uy/wp-content/uploads/2020/07/15885348365759.jpg') } as IActivity;
+  model = { name: 'Nombre Actividad', category: 'Tipo de Actividad', description: 'Descripcion de la actividad', image: new URL('https://cdn-icons-png.flaticon.com/512/271/271215.png') } as IActivity;
 
   submitted = false;
 
@@ -24,7 +25,8 @@ export class NewActivityComponent {
   newActivity(): void {
     const newPlayer = { name: this.model.name, category: this.model.category, description: this.model.description, image: this.model.image } as IActivity;
     this.activityAdded.emit(newPlayer);
-    this.model = { name: 'Futbol 5', category: 'Deportiva', description: 'Reserva de una cancha de futbol 5 por el total de 1 hora', image: new URL('https://artigasnoticias.com.uy/wp-content/uploads/2020/07/15885348365759.jpg') } as IActivity;
+    alert('Actividad creada con exito!');
+    this.model = { name: 'Nombre Actividad', category: 'Tipo de actividad', description: 'Descripcion de la actividad', image: new URL('https://cdn-icons-png.flaticon.com/512/271/271215.png') } as IActivity;
     this.submitted = false;
   }
 }

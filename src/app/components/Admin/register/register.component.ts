@@ -1,7 +1,6 @@
-import { Component, Output, EventEmitter } from '@angular/core';
-import { AdminService } from '../../admin.service';
-import { IActivity } from '../../../activities/IActivity';
-import { IAdmin } from '../../IAdmin';
+import { Component} from '@angular/core';
+import { AdminService } from '../admin.service';
+import { IAdmin } from '../IAdmin';
 import { Location } from '@angular/common';
 
 @Component({
@@ -14,7 +13,7 @@ export class RegisterComponent {
 
   index = 100;
 
-  model = { fullName: 'Luis Suarez', username: 'LuchoSuarez9', password: 'qhiud2xka526ubcds8', email: 'luis.suarez@gmail.com' };
+  model = { fullName: 'Tu Nombre', username: 'nombre_usuario', password: 'qhiud2xka526ubcds8', email: 'usuario@gmail.com' };
 
   submitted = false;
   onSubmit() { this.submitted = true; }
@@ -24,6 +23,7 @@ export class RegisterComponent {
     this.index++;
     this.adminService.addAdmin(newAdmin);
     alert('Usuario registrado con exito!');
+    this.model = { fullName: 'Tu Nombre', username: 'nombre_usuario', password: 'qhiud2xka526ubcds8', email: 'usuario@gmail.com' };
     this.submitted = false;
     this.goBack();
   }
