@@ -1,7 +1,7 @@
 import { IActivity } from "../activities/IActivity";
 
 export interface IProposal{
-    id: string, 
+    id: number, 
     activities: IActivity[],
     name: string;
 }
