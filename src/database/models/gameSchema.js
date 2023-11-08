@@ -14,7 +14,7 @@ const gameSchema = new mongoose.Schema({
         required: true
     },
 
-    members:  {
+    users:  {
         type: String,
         required: true
     },
