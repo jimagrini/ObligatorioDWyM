@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { IActivity } from '../activities/IActivity';
 import { Router } from '@angular/router';
-import { AdminService } from '../admin.service';
+import { ActivitiesService } from '../activities/activities.service';
 
 @Component({
   selector: 'app-proposal',
@@ -11,12 +11,11 @@ import { AdminService } from '../admin.service';
 export class ProposalComponent {
   constructor(
     private router: Router,
-    private adminService: AdminService
+    private activitiesService: ActivitiesService
   ) {}
 
   ngOnInit() {
     this.getActivities();
-    this.getSelectedActivities();
   }
   selectedActivities: IActivity[] = [];
   name!: string;
@@ -36,17 +35,12 @@ export class ProposalComponent {
   }
 
   getActivities(): IActivity[] {
-    return this.adminService.getActivities();
+    return this.selectedActivities;
   }
 
   /*getFirstActivity(): IActivity {
-    return this.adminService.getActivity(1);
+    return this.activitiesService.getActivity(1);
   }*/
-
-  getSelectedActivities(): IActivity[] {
-    this.selectedActivities = this.adminService.selectedActivities;
-    return this.selectedActivities;
-  }
 
   startGame(): void {
     if (this.getActivities().length >= 2 || !this.id) {

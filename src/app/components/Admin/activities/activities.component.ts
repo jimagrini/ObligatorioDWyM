@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { IActivity } from './IActivity';
-import { AdminService } from '../admin.service';
+import { ActivitiesService } from './activities.service';
 
 @Component({
   selector: 'app-activities',
@@ -10,24 +10,24 @@ import { AdminService } from '../admin.service';
 export class ActivitiesComponent {
   selectedActivities: IActivity[] = [];
 
-  constructor(private adminService: AdminService) { }
+  constructor(private activitiesService: ActivitiesService) { }
 
   getActivities(): IActivity[] {
-    return this.adminService.getActivities()
+    return this.activitiesService.getActivities()
   }
 
   getSelectedActivities(): IActivity[] {
-    this.selectedActivities = this.adminService.selectedActivities;
+    this.selectedActivities = this.activitiesService.selectedActivities;
     return this.selectedActivities;
   }
 
   selectActivity(activity: IActivity): void {
-    this.adminService.selectActivity(activity);
+    this.activitiesService.selectActivity(activity);
     
   }
 
   createActivity(activity: IActivity): void {
-    this.adminService.createActivity(activity);
+    this.activitiesService.createActivity(activity);
   }
 
   showNewActivityForm = false;
