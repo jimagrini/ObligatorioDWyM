@@ -18,7 +18,6 @@ import { ResultsComponent } from './components/Admin/results/results.component';
 import { LobbyComponent } from './components/Admin/lobby/lobby.component';
 import { VoteComponent } from './components/User/vote/vote.component';
 import { WaitingRoomComponent } from './components/User/waiting-room/waiting-room.component';
-import { MessageComponent } from './message/message.component';
 
 
 @NgModule({
@@ -35,7 +34,6 @@ import { MessageComponent } from './message/message.component';
     LobbyComponent,
     VoteComponent,
     WaitingRoomComponent,
-    MessageComponent,
   ],
   imports: [
     BrowserModule,

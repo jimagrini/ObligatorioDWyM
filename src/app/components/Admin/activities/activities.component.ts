@@ -8,40 +8,27 @@ import { ActivitiesService } from './activities.service';
   styleUrls: ['./activities.component.css']
 })
 export class ActivitiesComponent {
-  activities: IActivity[] = [];
-
+  selectedActivities: IActivity[] = [];
 
   constructor(private activitiesService: ActivitiesService) { }
 
-  ngOnInit() {
-    this.getActivities();
+  getActivities(): IActivity[] {
+    return this.activitiesService.getActivities()
   }
 
-  getActivities() {
-    this.activitiesService.getActivities()
-    .subscribe(activities => this.activities = activities); 
+  getSelectedActivities(): IActivity[] {
+    this.selectedActivities = this.activitiesService.selectedActivities;
+    return this.selectedActivities;
   }
 
   selectActivity(activity: IActivity): void {
     this.activitiesService.selectActivity(activity);
+    
   }
 
-  add(name: string, category: string, description: string, image: URL): void {
-    category= category.trim()
-    description= description.trim()
-    name = name.trim();
-    if (!name) { return; }
-    this.activitiesService.createActivity({ name, category, description, image } as IActivity)
-      .subscribe(activities => {
-        this.activities.push(activities);
-      });  
-    }
-
-    delete(activity: IActivity){
-      this.activities = this.activities.filter(h => h !== activity);
-      this.activitiesService.deleteActivity(activity.id).subscribe();
-    }
-
+  createActivity(activity: IActivity): void {
+    this.activitiesService.createActivity(activity);
+  }
 
   showNewActivityForm = false;
   toggleActivityForm(): void {
