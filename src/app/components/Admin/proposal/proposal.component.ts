@@ -25,6 +25,7 @@ export class ProposalComponent {
   selectedActivities: IActivity[] = [];
   name!: string;
   id!: string;
+  proposal?: IProposal;
 
   add(name: string) {
     name = name.trim();
@@ -39,13 +40,16 @@ export class ProposalComponent {
     this.proposals = this.proposals.filter(h => h !== proposal);
     this.proposalService.deleteProposal(proposal.id).subscribe();
   }
-
   proposals: IProposal[] = [];
 
 
   getProposals() {
     this.proposalService.getPROPOSALS()
-    .subscribe(proposal => this.proposals = proposal); 
+    .subscribe(proposal => this.proposals = proposal);
+  }
+
+  getProposal() {
+    return this.proposal;
   }
 
   getActivities(): IActivity[] {
@@ -58,13 +62,10 @@ export class ProposalComponent {
 
   startGame(): void {
     if (this.getActivities().length >= 2 || !this.id) {
-      //start
-      //count 3 seconds and redirect to game component
-      this.router.navigate(['/game', this.id]);
+      /* const game= {id: this.id, members: [], admin: , proposal: this.proposal} as IGame;
+      this.adminService.startGame(game); */
     } else {
-      alert(
-        'Debes añadir al menos dos o más actividades para comenzar el juego'
-      );
+      alert('Debes añadir al menos dos o más actividades para comenzar el juego');
     }
   }
 }

@@ -27,6 +27,7 @@ export class RegisterComponent {
     this.submitted = false;
     this.goBack();
   }
+  
   goBack(): void {
     this.location.back();
   }

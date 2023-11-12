@@ -7,7 +7,7 @@
     border-left: 5px solid #c92623;
 }
 
-/* Styles for the container */
+
 .container {
     margin: 20px auto;
     padding: 0;
@@ -18,7 +18,7 @@
     background-color: aliceblue;
 }
 
-/* Styles for the form title */
+
 h1 {
     height: 3rem;
     display: flex;
@@ -35,7 +35,7 @@ h1 {
     padding: 20px;
 }
 
-/* Styles for the form sections */
+
 .form-section {
     background-color: #fff;
     border: 2px solid #ccc;
@@ -45,7 +45,7 @@ h1 {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-/* Styles for the form labels */
+
 label {
     font-weight: bold;
     color: #0398d3;
@@ -60,7 +60,7 @@ label {
     overflow: auto;
 }
 
-/* Styles for the form inputs */
+
 .form-control {
     width: 100%;
     padding: 10px;
@@ -71,12 +71,12 @@ label {
     transition: border-color 0.2s;
 }
 
-/* Styles for the error messages */
+
 .alert-danger {
     color: #d9534f;
 }
 
-/* Styles for the buttons */
+
 .btn-success,
 .btn-default,
 .btn-primary {
@@ -110,7 +110,7 @@ label {
 }
 
 
-/* Additional styling for select element */
+
 .select-control {
     width: 100%;
     padding: 10px;
