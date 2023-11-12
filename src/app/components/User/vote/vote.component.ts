@@ -16,4 +16,5 @@ export class VoteComponent {
     this.voteSubmitted.emit(value);
   }
 
+  
 }

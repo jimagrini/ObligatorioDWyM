@@ -1,5 +1,6 @@
 import { IAdmin } from "./components/Admin/IAdmin";
 import { IActivity } from "./components/Admin/activities/IActivity";
+import { IProposal } from "./components/Admin/proposal/IProposal";
 
 export const ADMINISTRATORS: IAdmin[] = [
     { id: 1, fullName: 'Juan Magrini', username: 'mcgreene', email: 'juan@gmail.com', password: '1234'},
@@ -21,4 +22,16 @@ export const ACTIVITIES: IActivity[] = [
     { id: 10, name: 'Chevrolet', category: 'Onix Premiere',  description: 'Onix Premiere', image: new URL("https://www.megautos.com/wp-content/uploads/2019/10/chevrolet-onix-premier-2020-dinamica.jpg"), selected: false},
 ];
 
-export const CATEGORIES = ['Deportiva', 'Visita', 'Al aire libre', 'Cultural', 'Lúdica', 'Relajación', 'Audio-visual'];
+
+export const PROPOSALS: IProposal[] = [
+    { id: 1, activities: [ACTIVITIES[1],ACTIVITIES[2],ACTIVITIES[3]], name: "Proposal 1"},
+    { id: 2, activities: [ACTIVITIES[4],ACTIVITIES[5],ACTIVITIES[1]], name: "Proposal 2"},
+    { id: 3, activities: [ACTIVITIES[6],ACTIVITIES[2],ACTIVITIES[1]], name: "Proposal 3"},
+    { id: 4, activities: [ACTIVITIES[1],ACTIVITIES[0],ACTIVITIES[9]], name: "Proposal 4"},
+    { id: 5, activities: [ACTIVITIES[9],ACTIVITIES[8],ACTIVITIES[7]], name: "Proposal 5"},
+    { id: 6, activities: [ACTIVITIES[4],ACTIVITIES[2],ACTIVITIES[6]], name: "Proposal 6"},
+    { id: 7, activities: [ACTIVITIES[6],ACTIVITIES[1],ACTIVITIES[2]], name: "Proposal 7"},
+];
+
+
+export const CATEGORIES = ['Deportiva', 'Visita', 'Al aire libre', 'Cultural', 'Lúdica', 'Relajación', 'Audio-visual', 'Otros'];
