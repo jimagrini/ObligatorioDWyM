@@ -1,12 +1,16 @@
 import { Injectable } from '@angular/core';
 import { IAdmin } from './IAdmin';
 import { IActivity } from './activities/IActivity';
-import { ADMINISTRATORS, ACTIVITIES } from 'src/app/constants';
+import { ADMINISTRATORS, ACTIVITIES, GAMES } from 'src/app/constants';
+import { Router } from 'express';
+import { IGame } from 'src/app/game';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AdminService {
+
+  constructor(private router: Router) { }
 
   getAdmins(): IAdmin[] {
     const admins = ADMINISTRATORS;
@@ -29,7 +33,7 @@ export class AdminService {
    */
   selectedActivities: IActivity[] = [];
 
-  getActivities() : IActivity[] {
+  getActivities(): IActivity[] {
     return ACTIVITIES;
   }
 
@@ -53,6 +57,20 @@ export class AdminService {
     if (activity) {
       ACTIVITIES.push(activity);
     }
+  }
+
+// GAME SESSIONS
+
+  startGame(game: IGame) {
+    if(game){
+      GAMES.push(game)
+      //this.router.navigate(['/game', id]);
+    }
+  }
+
+  getGame(id: number){
+    const game= GAMES.find(game => game.id===id) as IGame;
+    return game;
   }
 
 }

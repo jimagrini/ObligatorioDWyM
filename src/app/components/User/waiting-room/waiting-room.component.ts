@@ -6,5 +6,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./waiting-room.component.css']
 })
 export class WaitingRoomComponent {
-
+  
 }

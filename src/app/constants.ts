@@ -1,5 +1,6 @@
 import { IAdmin } from "./components/Admin/IAdmin";
 import { IActivity } from "./components/Admin/activities/IActivity";
+import { IGame } from "./game";
 
 export const ADMINISTRATORS: IAdmin[] = [
     { id: 1, fullName: 'Juan Magrini', username: 'mcgreene', email: 'juan@gmail.com', password: '1234'},
@@ -22,3 +23,5 @@ export const ACTIVITIES: IActivity[] = [
 ];
 
 export const CATEGORIES = ['Deportiva', 'Visita', 'Al aire libre', 'Cultural', 'Lúdica', 'Relajación', 'Audio-visual'];
+
+export const GAMES: IGame[] = [];

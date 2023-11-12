@@ -34,6 +34,7 @@ export class GameComponent {
           this.showNextActivity();
         } else {
           this.showResults= true;
+          // navigate to new page
         }
       }, 10000); 
     }

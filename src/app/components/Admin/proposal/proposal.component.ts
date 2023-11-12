@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { IActivity } from '../activities/IActivity';
 import { Router } from '@angular/router';
 import { AdminService } from '../admin.service';
+import { IProposal } from './IProposal';
+import { IGame } from 'src/app/game';
 
 @Component({
   selector: 'app-proposal',
@@ -9,10 +11,7 @@ import { AdminService } from '../admin.service';
   styleUrls: ['./proposal.component.css'],
 })
 export class ProposalComponent {
-  constructor(
-    private router: Router,
-    private adminService: AdminService
-  ) {}
+  constructor(private adminService: AdminService) { }
 
   ngOnInit() {
     this.getActivities();
@@ -21,6 +20,7 @@ export class ProposalComponent {
   selectedActivities: IActivity[] = [];
   name!: string;
   id!: string;
+  proposal?: IProposal;
 
   createProposal(name: string) {
 
@@ -32,7 +32,7 @@ export class ProposalComponent {
   }
 
   getProposal() {
-    return this;
+    return this.proposal; // ojo, una cosa es una IProposal y otra es el Component
   }
 
   getActivities(): IActivity[] {
@@ -50,13 +50,10 @@ export class ProposalComponent {
 
   startGame(): void {
     if (this.getActivities().length >= 2 || !this.id) {
-      //start
-      //count 3 seconds and redirect to game component
-      this.router.navigate(['/game', this.id]);
+      /* const game= {id: this.id, members: [], admin: , proposal: this.proposal} as IGame;
+      this.adminService.startGame(game); */
     } else {
-      alert(
-        'Debes añadir al menos dos o más actividades para comenzar el juego'
-      );
+      alert('Debes añadir al menos dos o más actividades para comenzar el juego');
     }
   }
 }
