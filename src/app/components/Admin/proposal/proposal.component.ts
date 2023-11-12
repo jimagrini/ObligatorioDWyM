@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { IActivity } from '../activities/IActivity';
 import { Router } from '@angular/router';
 import { ActivitiesService } from '../activities/activities.service';
+import { IProposal } from './IProposal';
 
 @Component({
   selector: 'app-proposal',
@@ -20,10 +21,11 @@ export class ProposalComponent {
   selectedActivities: IActivity[] = [];
   name!: string;
   id!: string;
+  proposal?: IProposal;
 
   createProposal(name: string) {
 
-    //CREAR BIEN LA PROPUESTA
+    //CREAR BIEN LA PROPUESTA y asignarla a this.proposal
     this.id =
       Math.random().toString(36).substring(2, 15) +
       Math.random().toString(36).substring(2, 15);
@@ -31,7 +33,7 @@ export class ProposalComponent {
   }
 
   getProposal() {
-    return this;
+    return this.proposal;
   }
 
   getActivities(): IActivity[] {
@@ -44,13 +46,10 @@ export class ProposalComponent {
 
   startGame(): void {
     if (this.getActivities().length >= 2 || !this.id) {
-      //start
-      //count 3 seconds and redirect to game component
-      this.router.navigate(['/game', this.id]);
+      /* const game= {id: this.id, members: [], admin: , proposal: this.proposal} as IGame;
+      this.adminService.startGame(game); */
     } else {
-      alert(
-        'Debes añadir al menos dos o más actividades para comenzar el juego'
-      );
+      alert('Debes añadir al menos dos o más actividades para comenzar el juego');
     }
   }
 }

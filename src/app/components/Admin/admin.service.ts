@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { IAdmin } from './IAdmin';
 import { IActivity } from './activities/IActivity';
-import { ADMINISTRATORS, ACTIVITIES } from 'src/app/constants';
+import { ADMINISTRATORS, ACTIVITIES, GAMES } from 'src/app/constants';
+import { Router } from 'express';
+import { IGame } from 'src/app/game';
 import { ActivitiesService } from './activities/activities.service';
 import { ProposalService } from './proposal/proposal.service';
 import { IProposal } from './proposal/IProposal';
@@ -11,11 +13,11 @@ import { IProposal } from './proposal/IProposal';
 })
 export class AdminService {
 
-constructor(private activitiesService : ActivitiesService, private proposalService : ProposalService){
+  constructor(private activitiesService: ActivitiesService, private proposalService: ProposalService) {
 
-  this.proposalService = proposalService;
-  this.activitiesService = activitiesService;
-}
+    this.proposalService = proposalService;
+    this.activitiesService = activitiesService;
+  }
 
   getAdmins(): IAdmin[] {
     const admins = ADMINISTRATORS;
@@ -33,20 +35,34 @@ constructor(private activitiesService : ActivitiesService, private proposalServi
     }
   }
 
-  deleteActivity(id : number): void{
+  deleteActivity(id: number): void {
     this.activitiesService.deleteActivity(id);
   }
 
-  createActivity(activity : IActivity): void{
+  createActivity(activity: IActivity): void {
     this.activitiesService.createActivity(activity);
   }
 
-  deleteProposal(id : number): void{
+  deleteProposal(id: number): void {
     this.proposalService.deleteProposal(id);
   }
 
-  createProposal(proposal : IProposal): void{
+  createProposal(proposal: IProposal): void {
     this.proposalService.createProposal(proposal);
+  }
+
+  // GAME SESSIONS
+
+  startGame(game: IGame) {
+    if (game) {
+      GAMES.push(game)
+      //this.router.navigate(['/game', id]);
+    }
+  }
+
+  getGame(id: number) {
+    const game = GAMES.find(game => game.id === id) as IGame;
+    return game;
   }
 
 }
