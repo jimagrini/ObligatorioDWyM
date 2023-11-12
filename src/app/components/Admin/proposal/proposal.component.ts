@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { IActivity } from '../activities/IActivity';
 import { Router } from '@angular/router';
 import { ActivitiesService } from '../activities/activities.service';
+import { ProposalService } from './proposal.service';
+import { IProposal } from './IProposal';
 
 @Component({
   selector: 'app-proposal',
@@ -11,27 +13,39 @@ import { ActivitiesService } from '../activities/activities.service';
 export class ProposalComponent {
   constructor(
     private router: Router,
-    private activitiesService: ActivitiesService
+    private activitiesService: ActivitiesService, 
+    private proposalService: ProposalService
   ) {}
 
+
+
   ngOnInit() {
-    this.getActivities();
+    this.getProposals();
   }
   selectedActivities: IActivity[] = [];
   name!: string;
   id!: string;
 
-  createProposal(name: string) {
-
-    //CREAR BIEN LA PROPUESTA
-    this.id =
-      Math.random().toString(36).substring(2, 15) +
-      Math.random().toString(36).substring(2, 15);
-    this.name = name;
+  add(name: string) {
+    name = name.trim();
+    if (!name) { return; }
+    this.proposalService.createProposal({ name } as IProposal)
+      .subscribe(proposal => {
+        this.proposals.push(proposal);
+      });
   }
 
-  getProposal() {
-    return this;
+  delete(proposal: IProposal){
+    this.proposals = this.proposals.filter(h => h !== proposal);
+    this.proposalService.deleteProposal(proposal.id).subscribe();
+  }
+
+  proposals: IProposal[] = [];
+
+
+  getProposals() {
+    this.proposalService.getPROPOSALS()
+    .subscribe(proposal => this.proposals = proposal); 
   }
 
   getActivities(): IActivity[] {
