@@ -4,13 +4,20 @@ import { IActivity } from './activities/IActivity';
 import { ADMINISTRATORS, ACTIVITIES, GAMES } from 'src/app/constants';
 import { Router } from 'express';
 import { IGame } from 'src/app/game';
+import { ActivitiesService } from './activities/activities.service';
+import { ProposalService } from './proposal/proposal.service';
+import { IProposal } from './proposal/IProposal';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AdminService {
 
-  constructor(private router: Router) { }
+  constructor(private activitiesService: ActivitiesService, private proposalService: ProposalService) {
+
+    this.proposalService = proposalService;
+    this.activitiesService = activitiesService;
+  }
 
   getAdmins(): IAdmin[] {
     const admins = ADMINISTRATORS;
@@ -28,48 +35,33 @@ export class AdminService {
     }
   }
 
-  /**
-   * ACTIVITIES
-   */
-  selectedActivities: IActivity[] = [];
-
-  getActivities(): IActivity[] {
-    return ACTIVITIES;
-  }
-
-  getActivity(id: number): IActivity {
-    return ACTIVITIES.find(act => act.id === id)!;
-  }
-
-  selectActivity(activity: IActivity) {
-    activity.selected = !activity.selected;
-    if (!activity.selected) {
-      this.selectedActivities.splice(
-        this.selectedActivities.indexOf(activity),
-        1
-      );
-    } else {
-      this.selectedActivities.push(activity);
-    }
+  deleteActivity(id: number): void {
+    this.activitiesService.deleteActivity(id);
   }
 
   createActivity(activity: IActivity): void {
-    if (activity) {
-      ACTIVITIES.push(activity);
-    }
+    this.activitiesService.createActivity(activity);
   }
 
-// GAME SESSIONS
+  deleteProposal(id: number): void {
+    this.proposalService.deleteProposal(id);
+  }
+
+  createProposal(proposal: IProposal): void {
+    this.proposalService.createProposal(proposal);
+  }
+
+  // GAME SESSIONS
 
   startGame(game: IGame) {
-    if(game){
+    if (game) {
       GAMES.push(game)
       //this.router.navigate(['/game', id]);
     }
   }
 
-  getGame(id: number){
-    const game= GAMES.find(game => game.id===id) as IGame;
+  getGame(id: number) {
+    const game = GAMES.find(game => game.id === id) as IGame;
     return game;
   }
 

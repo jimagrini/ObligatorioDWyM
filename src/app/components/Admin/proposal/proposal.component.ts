@@ -1,9 +1,8 @@
 import { Component } from '@angular/core';
 import { IActivity } from '../activities/IActivity';
 import { Router } from '@angular/router';
-import { AdminService } from '../admin.service';
+import { ActivitiesService } from '../activities/activities.service';
 import { IProposal } from './IProposal';
-import { IGame } from 'src/app/game';
 
 @Component({
   selector: 'app-proposal',
@@ -11,11 +10,13 @@ import { IGame } from 'src/app/game';
   styleUrls: ['./proposal.component.css'],
 })
 export class ProposalComponent {
-  constructor(private adminService: AdminService) { }
+  constructor(
+    private router: Router,
+    private activitiesService: ActivitiesService
+  ) {}
 
   ngOnInit() {
     this.getActivities();
-    this.getSelectedActivities();
   }
   selectedActivities: IActivity[] = [];
   name!: string;
@@ -24,7 +25,7 @@ export class ProposalComponent {
 
   createProposal(name: string) {
 
-    //CREAR BIEN LA PROPUESTA
+    //CREAR BIEN LA PROPUESTA y asignarla a this.proposal
     this.id =
       Math.random().toString(36).substring(2, 15) +
       Math.random().toString(36).substring(2, 15);
@@ -32,21 +33,16 @@ export class ProposalComponent {
   }
 
   getProposal() {
-    return this.proposal; // ojo, una cosa es una IProposal y otra es el Component
+    return this.proposal;
   }
 
   getActivities(): IActivity[] {
-    return this.adminService.getActivities();
+    return this.selectedActivities;
   }
 
   /*getFirstActivity(): IActivity {
-    return this.adminService.getActivity(1);
+    return this.activitiesService.getActivity(1);
   }*/
-
-  getSelectedActivities(): IActivity[] {
-    this.selectedActivities = this.adminService.selectedActivities;
-    return this.selectedActivities;
-  }
 
   startGame(): void {
     if (this.getActivities().length >= 2 || !this.id) {
