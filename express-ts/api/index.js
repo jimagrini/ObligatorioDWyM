@@ -1,25 +1,21 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const adminRoutes = require ('./routes/admin');
-
 require('dotenv').config();
+const adminRoutes = require('./routes/admin');
 
 const app = express();
 const port = process.env.PORT || 3000;
 
-//Middlewares
+// Middlewares
 app.use(express.json());
 app.use('/api', adminRoutes);
 
-
-
-//Routes
+// Routes
 app.get('/', (req, res) => {
-    res.send('Hello World! API');
+    res.send('¡Bienvenido a la API!');
 });
 
-
-//MongoDB connection
+// MongoDB connection
 mongoose.connect(process.env.MONGODB_URI).then(() => {
     console.log('Connected to MongoDB');
 }).catch(err => {

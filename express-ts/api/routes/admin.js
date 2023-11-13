@@ -1,7 +1,7 @@
 const express = require('express');
-const adminSchema = require('../models/adminSchema');
-
 const router = express.Router();
+
+const adminSchema = require('../models/adminSchema');
 
 // Create Admin
 router.post('/register', (req, res) => {
