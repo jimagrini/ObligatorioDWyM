@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ACTIVITIES } from 'src/app/constants';
 import { IActivity } from './IActivity';
+import { HttpClient } from '@angular/common/http';
 
 
 @Injectable({
