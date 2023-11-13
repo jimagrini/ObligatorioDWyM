@@ -7,16 +7,10 @@
   </div>
   <span>¿Así que tienes una cuenta?</span>
   <span>Inicia sesión aquí</span>
-  <input
-    type="text"
-    formControlName="username"
-    placeholder="Usuario"
-  />
-  <input
-    type="password"
-    formControlName="password"
-    placeholder="Contraseña"
-  />
-  <button [disabled]="!formLogin.valid" type="submit">Iniciar Sesión</button>
+  <input type="text" formControlName="username" placeholder="Usuario" />
+  <input type="password" formControlName="password" placeholder="Contraseña" />
+  <!--<button [disabled]="!formLogin.valid" type="submit" click="create-room">Iniciar Sesión</button>-->
+  <a href="create-room">Iniciar Sesión</a>
+
   <a href="register">Crea un nuevo usuario</a>
 </form>
