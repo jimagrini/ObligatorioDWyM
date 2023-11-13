@@ -1,16 +1,17 @@
 import { Injectable } from '@angular/core';
 import { ACTIVITIES } from 'src/app/constants';
 import { IActivity } from './IActivity';
+import { HttpClient } from '@angular/common/http';
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class ActivitiesService {
-  
+
   selectedActivities: IActivity[] = [];
 
-  getActivities() : IActivity[] {
+  getActivities(): IActivity[] {
     return ACTIVITIES;
   }
 
@@ -36,9 +37,9 @@ export class ActivitiesService {
     }
   }
 
-  deleteActivity(id : number): void{
-    ACTIVITIES.forEach((element,index)=>{
-      if(element.id==id) ACTIVITIES.splice(index,1);
-   });
+  deleteActivity(id: number): void {
+    ACTIVITIES.forEach((element, index) => {
+      if (element.id == id) ACTIVITIES.splice(index, 1);
+    });
   }
 }

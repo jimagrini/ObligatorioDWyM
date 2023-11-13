@@ -1,36 +1,21 @@
 
 const mongoose = require('mongoose');
-const gameSchema = require('./gameSchema');
-
-const proposalSchemaSchema = require('./proposalSchema');
-const adminSchema = require('./adminSchema');
-
-var actvs  = mongoose.model('Proposal', proposalSchemaSchema);
+const proposalSchema = require('./proposalSchema');
 
 const gameSchema = new mongoose.Schema({
 
-    id:  {
+    id: {
         type: Number,
         required: true
     },
 
-    users:  {
-        type: String,
+    users: [{ type: String }],
+
+    proposal: {
+        type: proposalSchema.Schema,
+        ref: 'proposalSchema',
         required: true
     },
-    fromDate:  {
-        type: Date,
-        required: true
-    },
-    upToDate:  {
-        type: Date,
-        required: true
-    },
-
-
-    proposals: [{ type: mongoose.Schema.Types.ObjectId, ref: 'proposalSchema' }],
-    admins: [{ type: mongoose.Schema.Types.ObjectId, ref: 'adminSchema' }]
-
 });
 
-module.exports = mongoose.model('proposal', proposalSchema);
+module.exports = mongoose.model('game', gameSchema);
