@@ -8,10 +8,10 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root'
 })
 export class ActivitiesService {
-  
+
   selectedActivities: IActivity[] = [];
 
-  getActivities() : IActivity[] {
+  getActivities(): IActivity[] {
     return ACTIVITIES;
   }
 
@@ -37,9 +37,9 @@ export class ActivitiesService {
     }
   }
 
-  deleteActivity(id : number): void{
-    ACTIVITIES.forEach((element,index)=>{
-      if(element.id==id) ACTIVITIES.splice(index,1);
-   });
+  deleteActivity(id: number): void {
+    ACTIVITIES.forEach((element, index) => {
+      if (element.id == id) ACTIVITIES.splice(index, 1);
+    });
   }
 }
