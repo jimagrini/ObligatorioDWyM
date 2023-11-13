@@ -1,7 +1,6 @@
 
 const mongoose = require('mongoose');
 const proposalSchema = require('./proposalSchema');
-const adminSchema = require('./adminSchema');
 
 const gameSchema = new mongoose.Schema({
 
@@ -19,4 +18,4 @@ const gameSchema = new mongoose.Schema({
     },
 });
 
-module.exports = mongoose.model('proposal', proposalSchema);
+module.exports = mongoose.model('game', gameSchema);

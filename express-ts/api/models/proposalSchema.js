@@ -4,6 +4,10 @@ const activitySchema = require('./activitySchema');
 
 const proposalSchema = new mongoose.Schema({
 
+    id: {
+        type: Number,
+        required: true
+    },
     name: {
         type: String,
         required: true
