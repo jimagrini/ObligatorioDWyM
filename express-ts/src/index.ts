@@ -21,23 +21,20 @@ app.get('/test', (req, res) => {
     res.send('V 1.1')
 })
 app.post('/test',(req, res) => {
-  ejecutarjuego(0);
   res.send('V 1.1')
 })
 
-function ejecutarjuego(pos:number) {
-  const listaAct = [1,2,3];
-  if (pos < listaAct.length){
-    io.emit('message', listaAct[pos])
+function ejecutarjuego(activitieslist : any, pos = 0) {
+  if (pos < activitieslist.length) {
+    const currentActivity = activitieslist[pos];
+    io.emit('activityPart', currentActivity);
+
     setTimeout(() => {
-      ejecutarjuego(pos + 1)
-    
-    }, 3000);
-  }else[
-    io.emit('message', 'fin juego')
-  ]
-  
-    
+      ejecutarjuego(activitieslist, pos + 1);
+    }, 10000);
+  } else {
+    io.emit('message', 'fin juego');
+  }
 }
 
 
@@ -48,6 +45,10 @@ io.on('connection', (socket: any) => {
   
     socket.on('disconnect', () => {
       console.log('a user disconnected!');
+    });
+
+    socket.on('sendActivities', (activities: any) => {
+      ejecutarjuego(activities, 0);
     });
 
   });
