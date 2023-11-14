@@ -1,5 +1,5 @@
 import express from 'express'
-import cardRouter from './routes/cards'
+import cardRouter from './routes-socket/cards'
 import { createServer } from "http";
 
 const app = express()

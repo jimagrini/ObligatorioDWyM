@@ -14,7 +14,6 @@ import { IProposal } from './proposal/IProposal';
 export class AdminService {
 
   constructor(private activitiesService: ActivitiesService, private proposalService: ProposalService) {
-
     this.proposalService = proposalService;
     this.activitiesService = activitiesService;
   }
@@ -29,9 +28,11 @@ export class AdminService {
     return admin;
   }
 
-  addAdmin(admin: IAdmin): void {
-    if (admin) {
-      ADMINISTRATORS.push(admin);
+  addAdmin(username: string, password: string): void {
+    if (username && password) {
+
+      // post a la api
+
     }
   }
 
@@ -49,20 +50,6 @@ export class AdminService {
 
   createProposal(proposal: IProposal): void {
     this.proposalService.createProposal(proposal);
-  }
-
-  // GAME SESSIONS
-
-  startGame(game: IGame) {
-    if (game) {
-      GAMES.push(game)
-      //this.router.navigate(['/game', id]);
-    }
-  }
-
-  getGame(id: number) {
-    const game = GAMES.find(game => game.id === id) as IGame;
-    return game;
   }
 
 }

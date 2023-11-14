@@ -5,7 +5,7 @@ const router = express.Router();
 
 // Create game
 router.post('/game', (req, res) => {
-    const proposal = new gameSchema(req.body);
+    const game = new gameSchema(req.body);
     game.save()
         .then((data) => {
             res.json(data);
