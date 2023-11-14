@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Location } from '@angular/common';
-import { SocketService } from './websocket.service';
+import { WebSocketService } from './websocket.service';
 
 
 @Component({
@@ -12,15 +12,11 @@ export class AppComponent {
   title = 'Juegos';
   message = ''
 
-  constructor(private socketService: SocketService){
+  constructor(private socketService: WebSocketService){
 
   }
   
   ngOnInit(){   
-    this.socketService.getNewMessage().subscribe((message: string) => {
-      console.log(message);
-      this.message = message;
-    })
   }
   
 }

@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { IActivity } from '../activities/IActivity';
 import { AdminService } from '../admin.service';
+import { WebSocketService } from 'src/app/websocket.service';
 
 @Component({
   selector: 'app-game',
@@ -14,12 +15,19 @@ export class GameComponent {
   votes: { [activityId: string]: number } = {};
   showResults = false;
 
-  constructor(private route: ActivatedRoute, adminService: AdminService) {}
+  constructor(private route: ActivatedRoute, adminService: AdminService,private socketService: WebSocketService) {
+    this.socketService.getNewMessage().subscribe((activityPart: IActivity) => {
+      this.currentActivity = activityPart;
+    });
+
+  }
+  
 
   startGame(): void {
     this.showResults = false;
     this.votes = {};
     this.showNextActivity();
+    this.socketService.sendActivities(this.activities);
   }
 
   showNextActivity(): void {
