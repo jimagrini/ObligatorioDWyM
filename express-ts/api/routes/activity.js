@@ -1,63 +1,73 @@
 const express = require('express');
 const activitySchema = require('../models/activitySchema');
-
 const router = express.Router();
 
 // Create activity
-router.post('/activity', (req, res) => {
-    const activity = new activitySchema(req.body);
-    activity.save()
-        .then((data) => {
-            res.json(data);
-        })
-        .catch((err) => {
-            res.json({ message: err });
-        });
+router.post('/activities', async (req, res) => {
+    try {
+        const activity = new activitySchema(req.body);
+        const savedActivity = await activity.save();
+        res.status(201).json(savedActivity);
+    } catch (err) {
+        res.status(500).json({ message: 'Internal Server Error', details: err.message });
+    }
 });
 
-router.get('/activity', (req, res) => {
-    activitySchema.find()
-        .then((data) => {
-            res.json(data);
-        })
-        .catch((err) => {
-            res.json({ message: err });
-        });
+// Get all activities
+router.get('/activities', async (req, res) => {
+    try {
+        const data = await activitySchema.find();
+        res.status(200).json(data);
+    } catch (err) {
+        res.status(500).json({ message: 'Internal Server Error', details: err.message });
+    }
 });
 
-router.get('/activity/:id', (req, res) => {
+// Get activity by ID
+router.get('/activities/:id', (req, res) => {
     const { id } = req.params;
     activitySchema.findById(id)
         .then((data) => {
-            res.json(data);
+            if (data) {
+                res.json(data);
+            } else {
+                res.status(404).json({ message: 'Activity not found' });
+            }
         })
         .catch((err) => {
-            res.json({ message: err });
+            res.status(500).json({ message: 'Internal Server Error', details: err.message });
         });
 });
 
-router.put('/activity/:id', (req, res) => {
+// Update activity by ID
+router.put('/activities/:id', (req, res) => {
     const { id } = req.params;
-    const { name, category, description, image} = req.body;
+    const { name, category, description, image } = req.body;
 
-    activitySchema.updateOne({ _id: id }, { name, category, description, image } )
+    activitySchema.updateOne({ _id: id }, { name, category, description, image })
         .then((data) => {
-            res.json(data);
+            res.status(204).send();
         })
         .catch((err) => {
-            res.json({ message: err });
+            res.status(500).json({ message: 'Internal Server Error', details: err.message });
         });
 });
 
-router.delete('/activity/:id', (req, res) => {
+// Delete activity by ID
+router.delete('/activities/:id', async (req, res) => {
     const { id } = req.params;
-    activitySchema.deleteOne({ _id: id })
-        .then((data) => {
-            res.json(data);
-        })
-        .catch((err) => {
-            res.json({ message: err });
-        });
+
+    try {
+        const result = await activitySchema.deleteOne({ _id: id });
+
+        if (result.deletedCount > 0) {
+            res.json({ success: true });
+        } else {
+            res.json({ success: false, message: 'Activity not found' });
+        }
+    } catch (err) {
+        res.status(500).json({ success: false, message: 'Internal Server Error', details: err.message });
+    }
 });
 
 module.exports = router;

@@ -13,6 +13,10 @@ const adminSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    proposals: [{ 
+        type: mongoose.Schema.Types.ObjectId, ref: 'Proposal',
+        required: true
+    }]
 });
 
 module.exports = mongoose.model('Admin', adminSchema);

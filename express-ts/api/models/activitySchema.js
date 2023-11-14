@@ -6,26 +6,26 @@ const activitySchema = new mongoose.Schema({
         type: Number,
         required: true
     },
-    name:  {
+    name: {
         type: String,
         required: true
     },
-    category :  {
+    category: {
         type: String,
         required: true
     },
-    description :  {
+    description: {
         type: String,
         required: true
     },
-    image :  {
-        type: URL,
+    image: {
+        type: String,
         required: false
     },
-    selected : {
+    selected: {
         type: Boolean,
         required: true
     },
 });
 
-module.exports = mongoose.model('activity', activitySchema);
+module.exports = mongoose.model('Activity', activitySchema);

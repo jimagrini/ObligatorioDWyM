@@ -18,15 +18,15 @@ export class RegisterComponent {
   submitted = false;
   onSubmit() { this.submitted = true; }
 
-  /**
+  /** Creates admin user.
    * Calls addAdmin() method from adminService. Returns model attributes
    * to its initial values. Redirects user to the previous page 'home'.
    *
    *  PENDIENTE: Validar que el username no exista (sea unico).
   */
-  add(): void {
+  registerAdmin(): void {
     if (this.model.username, this.model.password) {
-      this.adminService.addAdmin(this.model.username, this.model.password);
+      this.adminService.add(this.model.username, this.model.password);
       alert('Usuario registrado con exito!');
       this.model = { username: 'nombre_usuario', password: 'qhiud2xka526ubcds8' };
       this.submitted = false;
@@ -34,6 +34,9 @@ export class RegisterComponent {
     }
   }
 
+  /** Returns user to previous page 'home'
+   * 
+   */
   goBack(): void {
     this.location.back();
   }

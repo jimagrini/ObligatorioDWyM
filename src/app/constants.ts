@@ -4,10 +4,10 @@ import { IGame } from "./game";
 import { IProposal } from "./components/Admin/proposal/IProposal";
 
 export const ADMINISTRATORS: IAdmin[] = [
-    { id: 1, username: 'mcgreene', password: '1234' },
-    { id: 2, username: 'panchei', password: '2345' },
-    { id: 3, username: 'diego_Handa', password: '3456' },
-    { id: 4, username: 'villoldo', password: '4567' },
+    { id: 1, username: 'mcgreene', password: '1234', proposals: [] },
+    { id: 2, username: 'panchei', password: '2345', proposals: [] },
+    { id: 3, username: 'diego_Handa', password: '3456', proposals: [] },
+    { id: 4, username: 'villoldo', password: '4567', proposals: [] },
 ];
 
 export const ACTIVITIES: IActivity[] = [

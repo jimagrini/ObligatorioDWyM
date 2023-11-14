@@ -1,0 +1,10 @@
+###
+POST http://localhost:4200/api/admins HTTP 1.1
+Content-Type: application/json
+
+{
+    "id": 100,
+    "username": "Luis Suarez",
+    "password": "nacional",
+    "proposals": [],
+}

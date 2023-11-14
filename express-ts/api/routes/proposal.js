@@ -3,60 +3,72 @@ const proposalSchema = require('../models/proposalSchema');
 
 const router = express.Router();
 
+
 // Create proposal
-router.post('/proposal', (req, res) => {
-    const proposal = new proposalSchema(req.body);
-    proposal.save()
-        .then((data) => {
-            res.json(data);
-        })
-        .catch((err) => {
-            res.json({ message: err });
-        });
+router.post('/proposals', async (req, res) => {
+    try {
+        const proposal = new proposalSchema(req.body);
+        const savedProposal = await proposal.save();
+        res.status(201).json(savedProposal);
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
 });
 
-router.get('/proposal', (req, res) => {
+
+router.get('/proposals', (req, res) => {
     proposalSchema.find()
         .then((data) => {
-            res.json(data);
+            res.status(200).json(data);
         })
         .catch((err) => {
-            res.json({ message: err });
+            res.status(500).json({ message: 'Internal Server Error', details: err.message });
         });
 });
 
-router.get('/proposal/:id', (req, res) => {
+router.get('/proposals/:id', (req, res) => {
     const { id } = req.params;
     proposalSchema.findById(id)
         .then((data) => {
-            res.json(data);
+            if (data) {
+                res.status(200).json(data);
+            } else {
+                res.status(404).json({ message: 'Proposal not found' });
+            }
         })
         .catch((err) => {
-            res.json({ message: err });
+            res.status(500).json({ message: 'Internal Server Error', details: err.message });
         });
 });
 
-router.put('/proposal/:id', (req, res) => {
+// Update proposal by ID
+router.put('/proposals/:id', (req, res) => {
     const { id } = req.params;
-    const { name } = req.body;
-    proposalSchema.updateOne({ _id: id }, { name})
+    const { name, activities } = req.body;
+    proposalSchema.updateOne({ _id: id }, { name, activities })
         .then((data) => {
-            res.json(data);
+            res.status(204).send();
         })
         .catch((err) => {
-            res.json({ message: err });
+            res.status(500).json({ message: 'Internal Server Error', details: err.message });
         });
 });
 
-router.delete('/proposal/:id', (req, res) => {
+router.delete('/proposals/:id', async (req, res) => {
     const { id } = req.params;
-    proposalSchema.deleteOne({ _id: id })
-        .then((data) => {
-            res.json(data);
-        })
-        .catch((err) => {
-            res.json({ message: err });
-        });
+
+    try {
+        const result = await proposalSchema.deleteOne({ _id: id });
+
+        if (result.deletedCount > 0) {
+            res.json({ success: true });
+        } else {
+            res.json({ success: false, message: 'Proposal not found' });
+        }
+    } catch (err) {
+        res.status(500).json({ success: false, message: 'Internal Server Error', details: err.message });
+    }
 });
+
 
 module.exports = router;

@@ -12,8 +12,11 @@ const proposalSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    activities: [{ type: activitySchema.Schema, ref: 'Activity' }]
+    activities: [{ 
+        type: mongoose.Schema.Types.ObjectId, ref: 'Activity',
+        required: true
+    }]
 
 });
 
-module.exports = mongoose.model('proposal', proposalSchema);
+module.exports = mongoose.model('Proposal', proposalSchema);

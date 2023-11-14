@@ -1,62 +1,72 @@
 const express = require('express');
 const gameSchema = require('../models/gameSchema');
-
 const router = express.Router();
 
 // Create game
-router.post('/game', (req, res) => {
-    const game = new gameSchema(req.body);
-    game.save()
-        .then((data) => {
-            res.json(data);
-        })
-        .catch((err) => {
-            res.json({ message: err });
-        });
+router.post('/games', async (req, res) => {
+    try {
+        const game = new gameSchema(req.body);
+        const savedGame = await game.save();
+        res.status(201).json(savedGame);
+    } catch (err) {
+        res.status(500).json({ message: 'Internal Server Error', details: err.message });
+    }
 });
 
-router.get('/game', (req, res) => {
+// Get all games
+router.get('/games', (req, res) => {
     gameSchema.find()
         .then((data) => {
-            res.json(data);
+            res.status(200).json(data);
         })
         .catch((err) => {
-            res.json({ message: err });
+            res.status(500).json({ message: 'Internal Server Error', details: err.message });
         });
 });
 
-router.get('/game/:id', (req, res) => {
+// Get game by ID
+router.get('/games/:id', (req, res) => {
     const { id } = req.params;
     gameSchema.findById(id)
         .then((data) => {
-            res.json(data);
+            if (data) {
+                res.status(200).json(data);
+            } else {
+                res.status(404).json({ message: 'Game not found' });
+            }
         })
         .catch((err) => {
-            res.json({ message: err });
+            res.status(500).json({ message: 'Internal Server Error', details: err.message });
         });
 });
 
-router.put('/game/:id', (req, res) => {
+// Update game by ID
+router.put('/games/:id', (req, res) => {
     const { id } = req.params;
     const { name } = req.body;
-    gameSchema.updateOne({ _id: id }, { name})
+    gameSchema.updateOne({ _id: id }, { name })
         .then((data) => {
-            res.json(data);
+            res.status(204).send(data);
         })
         .catch((err) => {
-            res.json({ message: err });
+            res.status(500).json({ message: 'Internal Server Error', details: err.message });
         });
 });
 
-router.delete('/game/:id', (req, res) => {
+// Delete game by ID
+router.delete('/games/:id', async (req, res) => {
     const { id } = req.params;
-    gameSchema.deleteOne({ _id: id })
-        .then((data) => {
-            res.json(data);
-        })
-        .catch((err) => {
-            res.json({ message: err });
-        });
+    try {
+        const result = await gameSchema.deleteOne({ _id: id });
+
+        if (result.deletedCount > 0) {
+            res.json({ success: true });
+        } else {
+            res.json({ success: false, message: 'Game not found' });
+        }
+    } catch (err) {
+        res.status(500).json({ success: false, message: 'Internal Server Error', details: err.message });
+    }
 });
 
 module.exports = router;

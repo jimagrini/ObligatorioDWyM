@@ -67,8 +67,8 @@ export class ActivitiesService {
    * @param image 
    * @returns 
    */
-  add(name: string, category: string, description: string, image: URL): Observable<IActivity> {
-    return this.http.post<IActivity>(this.activitiesUrl, { name, category, description, image }, this.httpOptions).pipe(
+  add(activity: IActivity): Observable<IActivity> {
+    return this.http.post<IActivity>(this.activitiesUrl, activity, this.httpOptions).pipe(
       tap((newActivity: IActivity) => console.log(`added activity w/ id=${newActivity.id}`)),
       catchError(this.handleError<IActivity>('add'))
     );

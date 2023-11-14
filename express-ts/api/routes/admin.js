@@ -1,62 +1,93 @@
 const express = require('express');
 const router = express.Router();
-
 const adminSchema = require('../models/adminSchema');
 
 // Create Admin
-router.post('/register', (req, res) => {
-    const admin = new adminSchema(req.body);
-    admin.save()
-        .then((data) => {
-            res.json(data);
-        })
-        .catch((err) => {
-            res.json({ message: err });
-        });
+router.post('/admins', async (req, res) => {
+    try {
+        const admin = new adminSchema(req.body);
+        const savedAdmin = await admin.save();
+        res
+            .status(201)
+            .json(savedAdmin);
+    } catch (err) {
+        res
+            .status(500)
+            .json({ message: 'Internal Server Error', details: err.message });
+    }
 });
 
-router.get('/register', (req, res) => {
+// Get all admins
+router.get('/admins', (req, res) => {
     adminSchema.find()
         .then((data) => {
-            res.json(data);
+            res
+                .status(200)
+                .json(data);
         })
         .catch((err) => {
-            res.json({ message: err });
+            res
+                .status(500)
+                .json({ message: 'Internal Server Error', details: err.message });
         });
 });
 
-router.get('/register/:id', (req, res) => {
+// Get admin by ID
+router.get('/admins/:id', (req, res) => {
     const { id } = req.params;
     adminSchema.findById(id)
         .then((data) => {
-            res.json(data);
+            if (data) {
+                res
+                    .status(200)
+                    .json(data);
+            } else {
+                res
+                    .status(404)
+                    .json({ message: 'Admin not found' });
+            }
         })
         .catch((err) => {
-            res.json({ message: err });
+            res
+                .status(500)
+                .json({ message: 'Internal Server Error', details: err.message });
         });
 });
 
-router.put('/register/:id', (req, res) => {
+// Update admin by ID
+router.put('/admins/:id', (req, res) => {
     const { id } = req.params;
     const { username, password } = req.body;
     adminSchema.updateOne({ _id: id }, { username, password })
         .then((data) => {
-            res.json(data);
+            res
+                .status(204)
+                .send(data);
         })
         .catch((err) => {
-            res.json({ message: err });
+            res
+                .status(500)
+                .json({ message: 'Internal Server Error', details: err.message });
         });
 });
 
-router.delete('/register/:id', (req, res) => {
+// Delete admin by ID
+router.delete('/admins/:id', async (req, res) => {
     const { id } = req.params;
-    adminSchema.deleteOne({ _id: id })
-        .then((data) => {
-            res.json(data);
-        })
-        .catch((err) => {
-            res.json({ message: err });
-        });
+
+    try {
+        const result = await adminSchema.deleteOne({ _id: id });
+
+        if (result.deletedCount > 0) {
+            res.json({ success: true });
+        } else {
+            res.json({ success: false, message: 'Admin not found' });
+        }
+    } catch (err) {
+        res
+            .status(500)
+            .json({ success: false, message: 'Internal Server Error', details: err.message });
+    }
 });
 
 module.exports = router;

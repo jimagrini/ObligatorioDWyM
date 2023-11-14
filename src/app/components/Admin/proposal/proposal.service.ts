@@ -42,7 +42,7 @@ export class ProposalService {
     if (this.cachedProposal && this.cachedProposal.id === id) {
       return of(this.cachedProposal); // Return the cached admin if it matches the requested ID
     } else {
-      const url = `api/${admin.id}/proposals`;
+      const url = `api/${admin.id}/proposals/${id}`;
       return this.http.get<IProposal>(url).pipe(
         tap(_ => console.log(`fetched proposal id=${id}`)),
         catchError(this.handleError<IProposal>(`getProposal id=${id}`))
@@ -74,20 +74,6 @@ export class ProposalService {
   }
 
   // Activities:
-
-  
-
-  /** POST: Calls activitiesService 'add' method.
-   * 
-   * @param name 
-   * @param category 
-   * @param description 
-   * @param image 
-   * @returns 
-   */
-  createActivity(name: string, category: string, description: string, image: URL): Observable<IActivity> {
-    return this.activitiesService.add(name, category, description, image);
-  }
 
   /** POST
    * 

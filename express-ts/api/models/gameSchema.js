@@ -12,10 +12,9 @@ const gameSchema = new mongoose.Schema({
     users: [{ type: String }],
 
     proposal: {
-        type: proposalSchema.Schema,
-        ref: 'proposalSchema',
+        type: mongoose.Schema.Types.ObjectId, ref: 'Proposal',
         required: true
     },
 });
 
-module.exports = mongoose.model('game', gameSchema);
+module.exports = mongoose.model('Game', gameSchema);
