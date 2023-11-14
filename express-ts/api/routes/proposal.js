@@ -7,68 +7,80 @@ const router = express.Router();
 // Create proposal
 router.post('/proposals', async (req, res) => {
     try {
-        const proposal = new proposalSchema(req.body);
-        const savedProposal = await proposal.save();
-        res.status(201).json(savedProposal);
-    } catch (err) {
-        res.status(500).json({ message: err.message });
+        const proposals = await proposalSchema.create(req.body);
+        res.status(201)
+            .json(proposals);
+    } catch (error) {
+        res.status(500)
+            .json({ message: 'Internal Server Error', details: error.message });
     }
 });
 
-
-router.get('/proposals', (req, res) => {
-    proposalSchema.find()
-        .then((data) => {
-            res.status(200).json(data);
-        })
-        .catch((err) => {
-            res.status(500).json({ message: 'Internal Server Error', details: err.message });
-        });
+// Get all proposals
+router.get('/proposals', async (req, res) => {
+    try {
+        const proposals = await proposalSchema.find({});
+        res.status(200)
+            .json(proposals);
+    } catch (error) {
+        res.status(500)
+            .json({ message: 'Internal Server Error', details: error.message });
+    }
 });
 
-router.get('/proposals/:id', (req, res) => {
-    const { id } = req.params;
-    proposalSchema.findById(id)
-        .then((data) => {
-            if (data) {
-                res.status(200).json(data);
-            } else {
-                res.status(404).json({ message: 'Proposal not found' });
-            }
-        })
-        .catch((err) => {
-            res.status(500).json({ message: 'Internal Server Error', details: err.message });
-        });
+// Get proposal by ID
+router.get('/proposals/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const proposal = await proposalSchema.findById(id);
+        if (proposal) {
+            res.status(200)
+                .json(proposal);
+        } else {
+            res.status(404)
+                .json({ message: `Cannot find any proposal with ID '${id}'` });
+        }
+    } catch (error) {
+        res.status(500)
+            .json({ message: 'Internal Server Error', details: error.message });
+    }
 });
 
 // Update proposal by ID
-router.put('/proposals/:id', (req, res) => {
-    const { id } = req.params;
-    const { name, activities } = req.body;
-    proposalSchema.updateOne({ _id: id }, { name, activities })
-        .then((data) => {
-            res.status(204).send();
-        })
-        .catch((err) => {
-            res.status(500).json({ message: 'Internal Server Error', details: err.message });
-        });
+router.put('/proposals/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { name, activities } = req.body;
+        const proposal = await proposalSchema.findByIdAndUpdate(id, { name, activities }, { new: true });
+        if (!proposal) {
+            return res.status(404)
+                .json({ message: `Cannot find any proposal with ID '${id}'` });
+        }
+        const updatedProposal = await proposalSchema.findById(id);
+        res.status(200)
+            .json(updatedProposal);
+    } catch (error) {
+        res.status(500)
+            .json({ message: 'Internal Server Error', details: error.message });
+    }
 });
 
+// Delete proposal by ID
 router.delete('/proposals/:id', async (req, res) => {
     const { id } = req.params;
 
     try {
-        const result = await proposalSchema.deleteOne({ _id: id });
-
-        if (result.deletedCount > 0) {
-            res.json({ success: true });
-        } else {
-            res.json({ success: false, message: 'Proposal not found' });
+        const proposal = await proposalSchema.findByIdAndDelete({ _id: id });
+        if (!proposal) {
+            res.status(404)
+                .json({ success: false, message: `Cannot find any proposal with ID '${id}'` });
         }
-    } catch (err) {
-        res.status(500).json({ success: false, message: 'Internal Server Error', details: err.message });
+        res.status(200)
+            .json({ success: true })
+    } catch (error) {
+        res.status(500)
+            .json({ success: false, message: 'Internal Server Error', details: error.message });
     }
 });
-
 
 module.exports = router;

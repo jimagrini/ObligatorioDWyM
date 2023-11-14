@@ -5,67 +5,78 @@ const router = express.Router();
 // Create game
 router.post('/games', async (req, res) => {
     try {
-        const game = new gameSchema(req.body);
-        const savedGame = await game.save();
-        res.status(201).json(savedGame);
-    } catch (err) {
-        res.status(500).json({ message: 'Internal Server Error', details: err.message });
+        const game = await gameSchema.create(req.body);
+        res.status(201).json(game);
+    } catch (error) {
+        res.status(500)
+            .json({ message: 'Internal Server Error', details: error.message });
     }
 });
 
 // Get all games
-router.get('/games', (req, res) => {
-    gameSchema.find()
-        .then((data) => {
-            res.status(200).json(data);
-        })
-        .catch((err) => {
-            res.status(500).json({ message: 'Internal Server Error', details: err.message });
-        });
+router.get('/games', async (req, res) => {
+    try {
+        const games = await gameSchema.find({});
+        res.status(200)
+            .json(games);
+    } catch (error) {
+        res.status(500)
+            .json({ message: 'Internal Server Error', details: error.message });
+    }
 });
 
 // Get game by ID
-router.get('/games/:id', (req, res) => {
-    const { id } = req.params;
-    gameSchema.findById(id)
-        .then((data) => {
-            if (data) {
-                res.status(200).json(data);
-            } else {
-                res.status(404).json({ message: 'Game not found' });
-            }
-        })
-        .catch((err) => {
-            res.status(500).json({ message: 'Internal Server Error', details: err.message });
-        });
+router.get('/games/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const game = await gameSchema.findById(id);
+        if (game) {
+            res.status(200)
+                .json(game);
+        } else {
+            res.status(404)
+                .json({ message: `Cannot find any game with ID '${id}'` });
+        }
+    } catch (error) {
+        res.status(500)
+            .json({ message: 'Internal Server Error', details: error.message });
+    }
 });
 
 // Update game by ID
-router.put('/games/:id', (req, res) => {
-    const { id } = req.params;
-    const { name } = req.body;
-    gameSchema.updateOne({ _id: id }, { name })
-        .then((data) => {
-            res.status(204).send(data);
-        })
-        .catch((err) => {
-            res.status(500).json({ message: 'Internal Server Error', details: err.message });
-        });
+router.put('/games/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { users, proposal } = req.body;
+        const game = await gameSchema.findByIdAndUpdate(id, { users, proposal }, { new: true });
+        if (!game) {
+            return res.status(404)
+                .json({ message: `Cannot find any game with ID '${id}'` });
+        }
+        const updatedGame = await gameSchema.findById(id);
+        res.status(200)
+            .json(updatedGame);
+    } catch (error) {
+        res.status(500)
+            .json({ message: 'Internal Server Error', details: error.message });
+    }
 });
 
 // Delete game by ID
 router.delete('/games/:id', async (req, res) => {
     const { id } = req.params;
-    try {
-        const result = await gameSchema.deleteOne({ _id: id });
 
-        if (result.deletedCount > 0) {
-            res.json({ success: true });
-        } else {
-            res.json({ success: false, message: 'Game not found' });
+    try {
+        const game = await gameSchema.findByIdAndDelete({ _id: id });
+        if (!game) {
+            res.status(404)
+                .json({ success: false, message: `Cannot find any game with ID '${id}'` });
         }
-    } catch (err) {
-        res.status(500).json({ success: false, message: 'Internal Server Error', details: err.message });
+        res.status(200)
+            .json({ success: true })
+    } catch (error) {
+        res.status(500)
+            .json({ success: false, message: 'Internal Server Error', details: error.message });
     }
 });
 

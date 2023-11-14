@@ -5,52 +5,62 @@ const router = express.Router();
 // Create activity
 router.post('/activities', async (req, res) => {
     try {
-        const activity = new activitySchema(req.body);
-        const savedActivity = await activity.save();
-        res.status(201).json(savedActivity);
-    } catch (err) {
-        res.status(500).json({ message: 'Internal Server Error', details: err.message });
+        const activities = await activitySchema.create(req.body);
+        res.status(201)
+            .json(activities);
+    } catch (error) {
+        res.status(500)
+            .json({ message: 'Internal Server Error', details: error.message });
     }
 });
 
 // Get all activities
 router.get('/activities', async (req, res) => {
     try {
-        const data = await activitySchema.find();
-        res.status(200).json(data);
-    } catch (err) {
-        res.status(500).json({ message: 'Internal Server Error', details: err.message });
+        const activities = await activitySchema.find({});
+        res.status(200)
+            .json(activities);
+    } catch (error) {
+        res.status(500)
+            .json({ message: 'Internal Server Error', details: error.message });
     }
 });
 
 // Get activity by ID
-router.get('/activities/:id', (req, res) => {
-    const { id } = req.params;
-    activitySchema.findById(id)
-        .then((data) => {
-            if (data) {
-                res.json(data);
-            } else {
-                res.status(404).json({ message: 'Activity not found' });
-            }
-        })
-        .catch((err) => {
-            res.status(500).json({ message: 'Internal Server Error', details: err.message });
-        });
+router.get('/activities/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const activity = await activitySchema.findById(id);
+        if (activity) {
+            res.status(200)
+                .json(activity);
+        } else {
+            res.status(404)
+                .json({ message: `Cannot find any activity with ID '${id}'` });
+        }
+    } catch (error) {
+        res.status(500)
+            .json({ message: 'Internal Server Error', details: error.message });
+    }
 });
 
 // Update activity by ID
-router.put('/activities/:id', (req, res) => {
-    const { id } = req.params;
-    const { name, category, description, image } = req.body;
-
-    activitySchema.updateOne({ _id: id }, { name, category, description, image })
-        .then((data) => {
-            res.status(204).send();
-        })
-        .catch((err) => {
-            res.status(500).json({ message: 'Internal Server Error', details: err.message });
-        });
+router.put('/activities/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { name, category, description, image, selected } = req.body;
+        const activity = await activitySchema.findByIdAndUpdate(id, { name, category, description, image, selected }, { new: true });
+        if (!activity) {
+            return res.status(404)
+                .json({ message: `Cannot find any activity with ID '${id}'` });
+        }
+        const updatedActivity = await activitySchema.findById(id);
+        res.status(200)
+            .json(updatedActivity);
+    } catch (error) {
+        res.status(500)
+            .json({ message: 'Internal Server Error', details: error.message });
+    }
 });
 
 // Delete activity by ID
@@ -58,15 +68,16 @@ router.delete('/activities/:id', async (req, res) => {
     const { id } = req.params;
 
     try {
-        const result = await activitySchema.deleteOne({ _id: id });
-
-        if (result.deletedCount > 0) {
-            res.json({ success: true });
-        } else {
-            res.json({ success: false, message: 'Activity not found' });
+        const activity = await activitySchema.findByIdAndDelete({ _id: id });
+        if (!activity) {
+            res.status(404)
+                .json({ success: false, message: `Cannot find any activity with ID '${id}'` });
         }
-    } catch (err) {
-        res.status(500).json({ success: false, message: 'Internal Server Error', details: err.message });
+        res.status(200)
+            .json({ success: true })
+    } catch (error) {
+        res.status(500)
+            .json({ success: false, message: 'Internal Server Error', details: error.message });
     }
 });
 
