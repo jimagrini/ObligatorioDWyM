@@ -1,7 +1,7 @@
 import { Component, Output, EventEmitter } from '@angular/core';
-import { AdminService } from '../admin.service';
 import { IActivity } from '../activities/IActivity';
 import { CATEGORIES } from 'src/app/constants';
+import { ActivitiesService } from '../activities/activities.service';
 
 @Component({
   selector: 'app-newActivity',
@@ -10,23 +10,26 @@ import { CATEGORIES } from 'src/app/constants';
 })
 export class NewActivityComponent {
 
-  constructor(private adminService: AdminService) { }
+  constructor(private activitiesService: ActivitiesService) { }
 
   categories = CATEGORIES;
 
   @Output() activityAdded = new EventEmitter<IActivity>();
 
-  model = { name: 'Nombre Actividad', category: 'Tipo de Actividad', description: 'Descripcion de la actividad', image: new URL('https://cdn-icons-png.flaticon.com/512/271/271215.png') } as IActivity;
+  model = { name: 'Nombre Actividad', category: 'Tipo de Actividad', description: 'Descripcion de la actividad', image: 'https://cdn-icons-png.flaticon.com/512/271/271215.png' } as IActivity;
 
   submitted = false;
-
   onSubmit() { this.submitted = true; }
 
+  /** Emits a new activity from the values contained in the form.
+   * 
+   */
   newActivity(): void {
-    const newPlayer = { name: this.model.name, category: this.model.category, description: this.model.description, image: this.model.image } as IActivity;
-    this.activityAdded.emit(newPlayer);
-    alert('Actividad creada con exito!');
-    this.model = { name: 'Nombre Actividad', category: 'Tipo de actividad', description: 'Descripcion de la actividad', image: new URL('https://cdn-icons-png.flaticon.com/512/271/271215.png') } as IActivity;
-    this.submitted = false;
+    if (this.model.name && this.model.category && this.model.description && this.model.image) {
+      this.activityAdded.emit(this.model);
+      alert('Actividad creada con éxito!');
+      this.model = { name: 'Nombre Actividad', category: 'Tipo de actividad', description: 'Descripción de la actividad', image: 'https://cdn-icons-png.flaticon.com/512/271/271215.png' } as IActivity;
+      this.submitted = false;
+    }
   }
 }
