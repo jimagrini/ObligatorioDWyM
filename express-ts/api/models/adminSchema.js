@@ -1,22 +1,27 @@
 const mongoose = require('mongoose');
 
-const adminSchema = new mongoose.Schema({
-    id: {
-        type: Number,
-        required: true
+const adminSchema = mongoose.Schema(
+    {
+        username: {
+            type: String,
+            required: [true, "Debe ingresar un nombre de usuario válido."]
+        },
+        password: {
+            type: String,
+            required: true
+        },
+        proposals: [
+            {
+                type: mongoose.Schema.Types.ObjectId, ref: 'Proposal',
+                required: true,
+                default: []
+            }
+        ]
     },
-    username: {
-        type: String,
-        required: true
-    },
-    password: {
-        type: String,
-        required: true
-    },
-    proposals: [{ 
-        type: mongoose.Schema.Types.ObjectId, ref: 'Proposal',
-        required: true
-    }]
-});
+    {
+        timestamps: true
+    }
+);
 
-module.exports = mongoose.model('Admin', adminSchema);
+const Admin = mongoose.model('Admin', adminSchema);
+module.exports = Admin;

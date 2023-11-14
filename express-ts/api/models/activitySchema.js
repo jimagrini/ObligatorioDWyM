@@ -1,31 +1,31 @@
 const mongoose = require('mongoose');
 
-const activitySchema = new mongoose.Schema({
+const activitySchema = new mongoose.Schema(
+    {
+        name: {
+            type: String,
+            required: true
+        },
+        category: {
+            type: String,
+            required: true
+        },
+        description: {
+            type: String,
+            required: true,
+            default: ""
+        },
+        image: {
+            type: String,
+            required: false
+        },
+        selected: {
+            type: Boolean,
+            required: true, 
+            default: false
+        },
+    }
+);
 
-    id: {
-        type: Number,
-        required: true
-    },
-    name: {
-        type: String,
-        required: true
-    },
-    category: {
-        type: String,
-        required: true
-    },
-    description: {
-        type: String,
-        required: true
-    },
-    image: {
-        type: String,
-        required: false
-    },
-    selected: {
-        type: Boolean,
-        required: true
-    },
-});
-
-module.exports = mongoose.model('Activity', activitySchema);
+const Activity = mongoose.model('Activity', activitySchema);
+module.exports = Activity;
