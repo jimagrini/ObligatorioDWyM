@@ -12,7 +12,7 @@ const io = require('socket.io')(httpServer, {
   cors: {origin : '*'}
 });
 
-
+const activitiesliste = [1,2,3] ;
 const PORT = 3001
 
 
@@ -21,7 +21,8 @@ app.get('/test', (req, res) => {
     res.send('V 1.1')
 })
 app.post('/test',(req, res) => {
-  res.send('V 1.1')
+  ejecutarjuego(activitiesliste)
+  res.send('funca')
 })
 
 function ejecutarjuego(activitieslist : any, pos = 0) {
