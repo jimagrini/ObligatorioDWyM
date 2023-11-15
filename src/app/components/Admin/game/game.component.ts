@@ -16,12 +16,17 @@ export class GameComponent {
   showResults = false;
 
   constructor(private route: ActivatedRoute, adminService: AdminService,private socketService: WebSocketService) {
-    this.socketService.getNewMessage().subscribe((activityPart: IActivity) => {
-      this.currentActivity = activityPart;
-    });
-
-  }
   
+    }
+
+
+  
+  ngOnInit(){
+    this.socketService.getNewMessage().subscribe((activityPart: IActivity) => {
+      console.log(activityPart);
+      this.currentActivity = activityPart;
+    })
+  };
 
   startGame(): void {
     this.showResults = false;
