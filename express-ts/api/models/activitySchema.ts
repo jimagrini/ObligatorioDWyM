@@ -1,6 +1,6 @@
-const mongoose = require('mongoose');
+import { Schema, Document, model } from 'mongoose';
 
-const activitySchema = new mongoose.Schema(
+const activitySchema = new Schema(
     {
         name: {
             type: String,
@@ -21,11 +21,19 @@ const activitySchema = new mongoose.Schema(
         },
         selected: {
             type: Boolean,
-            required: true, 
+            required: true,
             default: false
         },
     }
 );
 
-const Activity = mongoose.model('Activity', activitySchema);
-module.exports = Activity;
+export interface ActivityDocument extends Document {
+    name: string;
+    category: string;
+    description: string;
+    image: string;
+    selected: boolean;
+}
+
+const Activity = model<ActivityDocument>('Activity', activitySchema);
+export default Activity;
