@@ -27,7 +27,7 @@ export class GameComponent {
     this.showResults = false;
     this.votes = {};
     this.showNextActivity();
-    this.socketService.sendMessage(this.activities);
+    this.socketService.sendMessage({ activities: this.activities });
   }
 
   showNextActivity(): void {

@@ -12,7 +12,7 @@ const io = require('socket.io')(httpServer, {
   cors: {origin : '*'}
 });
 
-const activitiesliste = [1,2,3] ;
+
 const PORT = 3001
 
 
@@ -20,13 +20,14 @@ app.get('/test', (req, res) => {
     console.log("hello world");
     res.send('V 1.1')
 })
-app.post('/test',(req, res) => {
-  ejecutarjuego(activitiesliste)
-  res.send('funca')
-})
+app.post('/test', (req, res) => {
+  const activitiesList = req.body.activities;
+  ejecutarjuego(activitiesList);
+  res.send('funca');
+});
 
-function ejecutarjuego(activitieslist : any, pos = 0) {
-  if (pos < activitieslist.length) {
+function ejecutarjuego(activitieslist: any, pos = 0) {
+  if (activitieslist && activitieslist.length && pos < activitieslist.length) {
     const currentActivity = activitieslist[pos];
     io.emit('activityPart', currentActivity);
 
@@ -38,6 +39,10 @@ function ejecutarjuego(activitieslist : any, pos = 0) {
   }
 }
 
+io.on('sendActivities', (activities:any) => {
+  ejecutarjuego(activities, 0);
+});
+
 
 io.on('connection', (socket: any) => {
     console.log('a user connected');
@@ -48,7 +53,12 @@ io.on('connection', (socket: any) => {
       console.log('a user disconnected!');
     });
 
+    socket.on('activityPart', (activityPart: any) => {
+      console.log('Received activity part:', activityPart);
+    });
+
     socket.on('sendActivities', (activities: any) => {
+      console.log('Received sendActivities event with activities:', activities);
       ejecutarjuego(activities, 0);
     });
 

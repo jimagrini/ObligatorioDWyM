@@ -14,8 +14,8 @@ export class WebSocketService {
   socket = io('http://localhost:3001');
 
 
-  public sendMessage(message: any) {
-    this.socket.emit('message', message);
+  public sendMessage(message: any): void {
+    this.socket.emit('sendActivities', message);
   }
 
   public getNewMessage = (): Observable<any> => {
