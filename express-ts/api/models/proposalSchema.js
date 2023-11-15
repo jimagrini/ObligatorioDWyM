@@ -1,19 +1,20 @@
-
 const mongoose = require('mongoose');
-const activitySchema = require('./activitySchema');
 
-const proposalSchema = new mongoose.Schema({
+const proposalSchema = new mongoose.Schema(
+    {
+        name: {
+            type: String,
+            required: true
+        },
+        activities: [
+            {
+                type: mongoose.Schema.Types.ObjectId, ref: 'Activity',
+                required: true,
+                default: []
+            }
+        ]
+    }
+);
 
-    id: {
-        type: Number,
-        required: true
-    },
-    name: {
-        type: String,
-        required: true
-    },
-    activities: [{ type: activitySchema.Schema, ref: 'Activity' }]
-
-});
-
-module.exports = mongoose.model('proposal', proposalSchema);
+const Proposal = mongoose.model('Proposal', proposalSchema);
+module.exports = Proposal;

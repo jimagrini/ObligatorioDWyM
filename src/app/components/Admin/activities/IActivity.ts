@@ -3,7 +3,7 @@ export interface IActivity {
     name: string,
     category: string,
     description: string,
-    image: URL,
+    image: string,
     selected: boolean,
 }
 

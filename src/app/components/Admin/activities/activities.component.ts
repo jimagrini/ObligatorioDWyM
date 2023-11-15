@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { IActivity } from './IActivity';
 import { ActivitiesService } from './activities.service';
+import { IAdmin } from '../IAdmin';
 
 @Component({
   selector: 'app-activities',
@@ -8,26 +9,45 @@ import { ActivitiesService } from './activities.service';
   styleUrls: ['./activities.component.css']
 })
 export class ActivitiesComponent {
+
+  @Input() admin: IAdmin | null = null;
+  @Output() activityAdded = new EventEmitter<IActivity>();
   selectedActivities: IActivity[] = [];
+  activities: IActivity[] = [];
 
   constructor(private activitiesService: ActivitiesService) { }
 
-  getActivities(): IActivity[] {
-    return this.activitiesService.getActivities()
+  /**
+   * 
+   * @returns 
+   */
+  async getActivities(): Promise<void> {
+    try {
+      this.activities = await this.activitiesService.getActivities().toPromise() || [];
+    } catch (error) {
+      console.error('Error fetching activities:', error);
+    }
   }
 
   getSelectedActivities(): IActivity[] {
-    this.selectedActivities = this.activitiesService.selectedActivities;
     return this.selectedActivities;
   }
 
   selectActivity(activity: IActivity): void {
-    this.activitiesService.selectActivity(activity);
-    
+    if(this.selectedActivities && this.admin){
+      this.selectedActivities.push(activity)
+    }
   }
 
+  /** Create a new activity
+   * 
+   * @param name 
+   * @param category 
+   * @param description 
+   * @param image 
+   */
   createActivity(activity: IActivity): void {
-    this.activitiesService.createActivity(activity);
+    this.activitiesService.add(activity);
   }
 
   showNewActivityForm = false;

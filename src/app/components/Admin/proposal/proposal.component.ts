@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { IActivity } from '../activities/IActivity';
-import { Router } from '@angular/router';
-import { ActivitiesService } from '../activities/activities.service';
 import { IProposal } from './IProposal';
+import { ProposalService } from './proposal.service';
+import { AdminService } from '../admin.service';
+import { IAdmin } from '../IAdmin';
 
 @Component({
   selector: 'app-proposal',
@@ -10,26 +11,39 @@ import { IProposal } from './IProposal';
   styleUrls: ['./proposal.component.css'],
 })
 export class ProposalComponent {
-  constructor(
-    private router: Router,
-    private activitiesService: ActivitiesService
-  ) {}
+
+  @Input() admin: IAdmin | null = null;
+  @Output() proposalAdded = new EventEmitter<IProposal>();
+
+  constructor(private adminService: AdminService, private proposalService: ProposalService) { }
 
   ngOnInit() {
     this.getActivities();
   }
+
   selectedActivities: IActivity[] = [];
-  name!: string;
-  id!: string;
   proposal?: IProposal;
 
-  createProposal(name: string) {
-
-    //CREAR BIEN LA PROPUESTA y asignarla a this.proposal
-    this.id =
-      Math.random().toString(36).substring(2, 15) +
-      Math.random().toString(36).substring(2, 15);
-    this.name = name;
+  /**
+   * 
+   * @param id - admin id
+   * @param name 
+   */
+  createProposal(name: string): void {
+    if (this.admin && this.selectedActivities.length >= 2 && name) {
+      this.adminService.addProposal(this.admin.id, name, this.selectedActivities)
+        .subscribe({
+          next: (newProposal: IProposal) => {
+            this.proposalAdded.emit(newProposal);
+            alert('Propuesta creada con éxito!');
+          },
+          error: (error) => {
+            console.error('Error creating proposal:', error);
+          }
+        });
+    } else {
+      alert("Error en la creacion de la propuesta. Vuelva a intentarlo.")
+    }
   }
 
   getProposal() {
@@ -44,12 +58,7 @@ export class ProposalComponent {
     return this.activitiesService.getActivity(1);
   }*/
 
-  startGame(): void {
-    if (this.getActivities().length >= 2 || !this.id) {
-      /* const game= {id: this.id, members: [], admin: , proposal: this.proposal} as IGame;
-      this.adminService.startGame(game); */
-    } else {
-      alert('Debes añadir al menos dos o más actividades para comenzar el juego');
-    }
+  startGame(name: string): void {
+    this.createProposal(name);
   }
 }
