@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 import Game, { GameDocument } from '../models/gameSchema';
 
-class GamesController {
+export class GamesController {
 
     constructor() { }
 
@@ -23,8 +23,3 @@ class GamesController {
         return !!result;
     }
 }
-
-/**
- * Singleton instance of GamesController.
- */
-export const gamesController: GamesController = new GamesController();

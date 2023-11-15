@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 import Proposal, { ProposalDocument } from '../models/proposalSchema';
 
-class ProposalsController {
+export class ProposalsController {
 
     constructor() { }
 
@@ -23,8 +23,3 @@ class ProposalsController {
         return !!result;
     }
 }
-
-/**
- * Singleton instance of ProposalsController.
- */
-export const proposalsController: ProposalsController = new ProposalsController();

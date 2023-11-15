@@ -3,7 +3,7 @@ import Admin, { AdminDocument } from '../models/adminSchema';
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
-class AdminsController {
+export class AdminsController {
 
     constructor() { }
 
@@ -50,8 +50,3 @@ class AdminsController {
         return jwt.sign(payload, 'token');
     }
 }
-
-/**
- * Singleton instance of AdminsController.
- */
-export const adminsController: AdminsController = new AdminsController();

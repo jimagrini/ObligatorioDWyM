@@ -1,7 +1,8 @@
 import express from 'express';
-import { adminsController } from '../controllers/adminsController';
+import { AdminsController } from '../controllers/adminsController';
 
 const router = express.Router();
+const adminsController: AdminsController = new AdminsController();
 const bcrypt = require('bcryptjs');
 
 // Create Admin

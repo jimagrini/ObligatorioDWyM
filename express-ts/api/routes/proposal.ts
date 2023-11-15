@@ -1,8 +1,8 @@
 import express from 'express';
-import { proposalsController } from "../controllers/proposalsController";
+import { ProposalsController } from "../controllers/proposalsController";
 
 const router = express.Router();
-
+const proposalsController: ProposalsController = new ProposalsController();
 
 // POST - Create new Proposal
 router.post('/newProposal', async (req, res) => {

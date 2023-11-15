@@ -1,7 +1,8 @@
 import express from 'express';
-import { activitiesController } from '../controllers/activitiesController';
+import { ActivitiesController } from '../controllers/activitiesController';
 
 const router = express.Router();
+const activitiesController: ActivitiesController = new ActivitiesController();
 
 // POST - Create activity
 router.post('/newActivity', async (req, res) => {

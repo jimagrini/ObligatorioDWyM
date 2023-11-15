@@ -1,6 +1,6 @@
 import Activity, { ActivityDocument } from '../models/activitySchema';
 
-class ActivitiesController {
+export class ActivitiesController {
 
     constructor() { }
 
@@ -22,8 +22,3 @@ class ActivitiesController {
         return !!result;
     }
 }
-
-/**
- * Singleton instance of ActivitysController.
- */
-export const activitiesController: ActivitiesController = new ActivitiesController();

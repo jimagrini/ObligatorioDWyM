@@ -1,8 +1,8 @@
 import express from 'express';
-import { gamesController } from "../controllers/gamesController";
+import { GamesController } from "../controllers/gamesController";
 
 const router = express.Router();
-
+const gamesController: GamesController = new GamesController();
 
 // POST - Create new Game
 router.post('/newGame', async (req, res) => {
