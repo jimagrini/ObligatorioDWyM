@@ -7,26 +7,26 @@ import { WebSocketService } from 'src/app/websocket.service';
 @Component({
   selector: 'app-game',
   templateUrl: './game.component.html',
-  styleUrls: ['./game.component.css']
+  styleUrls: ['./game.component.css'],
 })
-export class GameComponent {
+export class GameComponent implements OnInit {
   activities: IActivity[] = [];
   currentActivity: IActivity | null = null;
   votes: { [activityId: string]: number } = {};
   showResults = false;
 
-  constructor(private route: ActivatedRoute, adminService: AdminService,private socketService: WebSocketService) {
-  
-    }
+  constructor(
+    private route: ActivatedRoute,
+    private adminService: AdminService,
+    private socketService: WebSocketService
+  ) {}
 
-
-  
-  ngOnInit(){
+  ngOnInit() {
     this.socketService.getNewMessage().subscribe((activityPart: IActivity) => {
       console.log(activityPart);
       this.currentActivity = activityPart;
-    })
-  };
+    });
+  }
 
   startGame(): void {
     this.showResults = false;
@@ -38,18 +38,14 @@ export class GameComponent {
   showNextActivity(): void {
     if (this.currentActivity) {
       setTimeout(() => {
-
-        /* implementar votaciones */
-
-        const index = this.activities.indexOf(this.currentActivity!) + 1;
+        const index = this.activities.findIndex((activity) => activity.id === this.currentActivity!.id) + 1;
         if (index < this.activities.length) {
           this.currentActivity = this.activities[index];
           this.showNextActivity();
         } else {
-          this.showResults= true;
-          // navigate to new page
+          this.showResults = true;
         }
-      }, 10000); 
+      }, 10000);
     }
   }
 }
