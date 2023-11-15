@@ -1,8 +1,44 @@
 const express = require('express');
 const router = express.Router();
 const adminSchema = require('../models/adminSchema');
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
 // Create Admin
+
+
+router.post('/register',async (req, res) => {
+    const admin = await adminSchema.create(req.body);
+    //Encriptar password
+    req.body.password = bcrypt.hashSync(req.body.password, 10); //10 veces se
+    res.json(admin);
+    admin.save();
+    /*
+    admin.save()
+        .then((data) => {
+            res.json(data);
+        })
+        .catch((err) => {
+            res.json({ message: err });
+        });
+        */
+});
+
+router.post('/login',async (req, res) => {
+    const {username,password} = req.body;
+    const admin = await adminSchema.findOne({username:username});
+    if(!admin){
+        return res.json({error: 'Contraseña o usuario incorrecto'})
+    }
+    if(password!=admin.password){
+        return res.json({error: 'Contraseña o usuario incorrecto'})
+    }
+    console.log('success');
+    return res.json({response:createToken(admin)});
+});
+
+
+
 router.post('/admins', async (req, res) => {
     try {
         const admin = await adminSchema.create(req.body);
@@ -84,5 +120,12 @@ router.delete('/admins/:id', async (req, res) => {
     }
 });
 
+
+function createToken(admin){
+    const payload = {
+        admin_token: admin.token
+    }
+    return jwt.sign(payload, 'token')
+}
 
 module.exports = router;

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { IAdmin } from './IAdmin';
 import { IActivity } from './activities/IActivity';
 import { ADMINISTRATORS } from 'src/app/constants';
@@ -6,7 +6,7 @@ import { ActivitiesService } from './activities/activities.service';
 import { ProposalService } from './proposal/proposal.service';
 import { IProposal } from './proposal/IProposal';
 
-import { Observable, of, EMPTY } from 'rxjs';
+import { Observable, of, EMPTY, firstValueFrom } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, map, tap, switchMap, filter } from 'rxjs/operators';
 
@@ -15,17 +15,32 @@ import { catchError, map, tap, switchMap, filter } from 'rxjs/operators';
 })
 export class AdminService {
 
+  private baseUrl: string;
+  private httpClient = inject(HttpClient);
+
+  
+
   private cachedAdmin: IAdmin | null = null;
 
   private adminsUrl = 'api/admin';  // URL to web api
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+    
   };
 
   constructor(private http: HttpClient,
     private activitiesService: ActivitiesService,
-    private proposalService: ProposalService) { }
+    private proposalService: ProposalService) {
+      this.baseUrl = 'http://localhost:3000/api'
+     }
+    
+
+    async register(formValue: any){
+      const response = await firstValueFrom(this.httpClient.post<any>(`${this.baseUrl}/register`,formValue));
+      return response;
+    }
+  
 
   /** GET admins from the server
    * 
