@@ -5,9 +5,9 @@ const router = express.Router();
 // Create activity
 router.post('/activities', async (req, res) => {
     try {
-        const activities = await activitySchema.create(req.body);
+        const activity = await activitySchema.create(req.body);
         res.status(201)
-            .json(activities);
+            .json(activity);
     } catch (error) {
         res.status(500)
             .json({ message: 'Internal Server Error', details: error.message });
