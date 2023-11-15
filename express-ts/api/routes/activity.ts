@@ -5,7 +5,7 @@ const router = express.Router();
 const activitiesController: ActivitiesController = new ActivitiesController();
 
 // POST - Create activity
-router.post('/newActivity', async (req, res) => {
+router.post('/', async (req, res) => {
     try {
         const { name, category, description, image } = req.body;
         if (!name || !category || !description || !image) {
@@ -23,7 +23,7 @@ router.post('/newActivity', async (req, res) => {
 });
 
 // GET all Activities
-router.get('/activities', async (req, res) => {
+router.get('/', async (req, res) => {
     try {
         const activities = await activitiesController.getActivities();
         res.status(200)
@@ -35,7 +35,7 @@ router.get('/activities', async (req, res) => {
 });
 
 // GET Activity by Id
-router.get('/activities/:id', async (req, res) => {
+router.get('/:id', async (req, res) => {
     const { id } = req.params;
     try {
         const activity = await activitiesController.getActivityById(id);
@@ -53,7 +53,7 @@ router.get('/activities/:id', async (req, res) => {
 });
 
 // Delete activity by ID
-router.delete('/activities/:id', async (req, res) => {
+router.delete('/:id', async (req, res) => {
     const { id } = req.params;
 
     try {

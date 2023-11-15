@@ -43,7 +43,7 @@ router.post('/login', async (req, res) => {
 });
 
 // Get all Admins
-router.get('/admins', async (req, res) => {
+router.get('/', async (req, res) => {
     try {
         const admins = await adminsController.getAdmins();
         res.status(200)
@@ -55,7 +55,7 @@ router.get('/admins', async (req, res) => {
 });
 
 // Get Admin by Id
-router.get('/admins/:id', async (req, res) => {
+router.get('/:id', async (req, res) => {
     const { id } = req.params;
     try {
         const admin = await adminsController.getAdminById(id);
@@ -74,7 +74,7 @@ router.get('/admins/:id', async (req, res) => {
 });
 
 // Delete Admin by Id
-router.delete('/admins/:id', async (req, res) => {
+router.delete('/:id', async (req, res) => {
     const { id } = req.params;
     try {
         const success = await adminsController.deleteAdmin(id);

@@ -5,7 +5,7 @@ const router = express.Router();
 const proposalsController: ProposalsController = new ProposalsController();
 
 // POST - Create new Proposal
-router.post('/newProposal', async (req, res) => {
+router.post('/', async (req, res) => {
     try {
         const { name, activities } = req.body;
         if (!name) {
@@ -23,7 +23,7 @@ router.post('/newProposal', async (req, res) => {
 });
 
 // GET all Proposals
-router.get('/proposals', async (req, res) => {
+router.get('/', async (req, res) => {
     try {
         const proposals = await proposalsController.getProposals();
         res.status(200)
@@ -35,7 +35,7 @@ router.get('/proposals', async (req, res) => {
 });
 
 // GET Proposal by Id
-router.get('/proposals/:id', async (req, res) => {
+router.get('/:id', async (req, res) => {
     const { id } = req.params;
     try {
         const proposal = await proposalsController.getProposalById(id);
@@ -53,7 +53,7 @@ router.get('/proposals/:id', async (req, res) => {
 });
 
 // DELETE Proposal by Id
-router.delete('/proposals/:id', async (req, res) => {
+router.delete('/:id', async (req, res) => {
     const { id } = req.params;
 
     try {

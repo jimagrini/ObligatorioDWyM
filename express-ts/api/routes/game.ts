@@ -5,7 +5,7 @@ const router = express.Router();
 const gamesController: GamesController = new GamesController();
 
 // POST - Create new Game
-router.post('/newGame', async (req, res) => {
+router.post('/', async (req, res) => {
     try {
         const { name, activities } = req.body;
         if (!name || !activities) {
@@ -23,7 +23,7 @@ router.post('/newGame', async (req, res) => {
 });
 
 // GET all Games
-router.get('/games', async (req, res) => {
+router.get('/', async (req, res) => {
     try {
         const Games = await gamesController.getGames();
         res.status(200)
@@ -35,7 +35,7 @@ router.get('/games', async (req, res) => {
 });
 
 // GET Game by Id
-router.get('/games/:id', async (req, res) => {
+router.get('/:id', async (req, res) => {
     const { id } = req.params;
     try {
         const Game = await gamesController.getGameById(id);
@@ -53,7 +53,7 @@ router.get('/games/:id', async (req, res) => {
 });
 
 // DELETE Game by Id
-router.delete('/games/:id', async (req, res) => {
+router.delete('/:id', async (req, res) => {
     const { id } = req.params;
 
     try {
