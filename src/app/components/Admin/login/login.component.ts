@@ -36,12 +36,12 @@ export class LoginComponent implements OnInit, OnDestroy{
       password: this.formLogin.value.password
     };
 
-    this.subRef$ = this.http.post<IResponse>('http://localhost:4200/login', userLogin, {observe: 'response'})
+    this.subRef$ = this.http.post<IResponse>('http://localhost:3000/api/login', userLogin, {observe: 'response'})
     .subscribe(res => {
       const token = res.body!.response;
       console.log('token', token);
       sessionStorage.setItem('token', token);
-      this.router.navigate(['/proposal']);
+      this.router.navigate(['/create-room']);
     }, err => {
       console.log('Error al Iniciar Sesión', err);
     });
