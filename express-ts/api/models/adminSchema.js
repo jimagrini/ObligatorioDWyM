@@ -1,6 +1,6 @@
-import { Schema, Document, model, Types } from 'mongoose';
+const mongoose = require('mongoose');
 
-const adminSchema = new Schema(
+const adminSchema = mongoose.Schema(
     {
         username: {
             type: String,
@@ -12,8 +12,7 @@ const adminSchema = new Schema(
         },
         proposals: [
             {
-                type: Types.ObjectId, 
-                ref: 'Proposal',
+                type: mongoose.Schema.Types.ObjectId, ref: 'Proposal',
                 required: true,
                 default: []
             }
@@ -24,12 +23,5 @@ const adminSchema = new Schema(
     }
 );
 
-export interface AdminDocument extends Document {
-    username: string;
-    password: string;
-    proposals: Types.ObjectId[];
-    token: string;
-}
-
-const Admin = model<AdminDocument>('Admin', adminSchema);
-export default Admin;
+const Admin = mongoose.model('Admin', adminSchema);
+module.exports = Admin;
