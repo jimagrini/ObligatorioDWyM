@@ -13,9 +13,6 @@ export class WebSocketService {
 
   socket = io('http://localhost:3001');
 
-  public sendActivities(activities: any[]): void {
-    this.socket.emit('sendActivities', activities);
-  }
 
   public sendMessage(message: any) {
     this.socket.emit('message', message);
