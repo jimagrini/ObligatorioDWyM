@@ -1,4 +1,4 @@
-import { Schema, Document, model } from 'mongoose';
+const { Schema, model } = require('mongoose');
 
 const activitySchema = new Schema(
     {
@@ -27,13 +27,5 @@ const activitySchema = new Schema(
     }
 );
 
-export interface ActivityDocument extends Document {
-    name: string;
-    category: string;
-    description: string;
-    image: string;
-    selected: boolean;
-}
-
-const Activity = model<ActivityDocument>('Activity', activitySchema);
-export default Activity;
+const Activity = model('Activity', activitySchema);
+module.exports = Activity;

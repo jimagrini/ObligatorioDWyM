@@ -1,8 +1,8 @@
-import express from 'express';
-import { ProposalsController } from "../controllers/proposalsController";
+const express = require('express');
+const ProposalsController = require('../controllers/proposalsController');
 
 const router = express.Router();
-const proposalsController: ProposalsController = new ProposalsController();
+const proposalsController = new ProposalsController();
 
 // POST - Create new Proposal
 router.post('/', async (req, res) => {
@@ -71,4 +71,4 @@ router.delete('/:id', async (req, res) => {
     }
 });
 
-export default router;
+module.exports = router;

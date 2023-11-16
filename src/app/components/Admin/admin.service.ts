@@ -18,29 +18,28 @@ export class AdminService {
   private baseUrl: string;
   private httpClient = inject(HttpClient);
 
-  
+
 
   private cachedAdmin: IAdmin | null = null;
 
-  private adminsUrl = 'api/admin';  // URL to web api
+  private adminsUrl = 'api/admins';  // URL to web api
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-    
+
   };
 
   constructor(private http: HttpClient,
     private activitiesService: ActivitiesService,
     private proposalService: ProposalService) {
-      this.baseUrl = 'http://localhost:3000/api'
-     }
-    
+    this.baseUrl = 'http://localhost:3000/api'
+  }
 
-    async register(formValue: any){
-      const response = await firstValueFrom(this.httpClient.post<any>(`${this.baseUrl}/register`,formValue));
-      return response;
-    }
-  
+  async register(formValue: any) {
+    const response = await firstValueFrom(this.httpClient.post<any>(`${this.adminsUrl}/register`, formValue));
+    return response;
+  }
+
 
   /** GET admins from the server
    * 
@@ -82,7 +81,8 @@ export class AdminService {
    * @returns object admin (type IAdmin) created
    */
   add(username: string, password: string): Observable<IAdmin> {
-    return this.http.post<IAdmin>('api/register', { username, password }, this.httpOptions).pipe(
+    const url = `${this.adminsUrl}/register`;
+    return this.http.post<IAdmin>(url, { username, password }, this.httpOptions).pipe(
       tap((newAdmin: IAdmin) => console.log(`added admin w/ id=${newAdmin.id}`)),
       catchError(this.handleError<IAdmin>('addAdmin'))
     );
@@ -93,7 +93,7 @@ export class AdminService {
    * @param id - admin id
    * @returns - proposals list of admin found
    */
-  getProposals(id: number): Observable<IProposal[]> {
+  /*getProposals(id: number): Observable<IProposal[]> {
     return this.getAdmin(id).pipe(
       tap((admin: IAdmin) => console.log(`fetched admin w/ id=${admin.id}`)),
       switchMap((admin: IAdmin) => {
@@ -101,7 +101,7 @@ export class AdminService {
       }),
       catchError(this.handleError<IProposal[]>('getProposals'))
     );
-  }
+  }*/
 
   /** GET proposal by adminId, proposalId. Calls getAdmin method
    * 
@@ -109,7 +109,7 @@ export class AdminService {
    * @param proposalId 
    * @returns 
    */
-  getProposal(adminId: number, proposalId: number): Observable<IProposal> {
+  /*getProposal(adminId: number, proposalId: number): Observable<IProposal> {
     return this.getAdmin(adminId).pipe(
       tap((admin: IAdmin) => console.log(`fetched admin w/ id=${admin.id}`)),
       switchMap((admin: IAdmin) => {
@@ -117,7 +117,7 @@ export class AdminService {
       }),
       catchError(this.handleError<IProposal>('getProposal'))
     );
-  }
+  }*/
 
   /** POST: add new proposal (to the specified admin) to the server
    * 
@@ -126,7 +126,7 @@ export class AdminService {
    * @param activities 
    * @returns 
    */
-  addProposal(adminId: number, name: string, activities: IActivity[]): Observable<IProposal> {
+  /*addProposal(adminId: number, name: string, activities: IActivity[]): Observable<IProposal> {
     return this.getAdmin(adminId).pipe(
       tap((admin: IAdmin) => console.log(`fetched admin w/ id=${admin.id}`)),
       switchMap((admin: IAdmin) => {
@@ -134,7 +134,7 @@ export class AdminService {
       }),
       catchError(this.handleError<IProposal>('addProposal'))
     );
-  }
+  }*/
 
   /** DELETE: remove proposal (of the specified admin) from the server
    * 
@@ -142,7 +142,7 @@ export class AdminService {
    * @param proposalId 
    * @returns 
    */
-  deleteProposal(adminId: number, proposalId: number): Observable<boolean> {
+  /*deleteProposal(adminId: number, proposalId: number): Observable<boolean> {
     return this.getAdmin(adminId).pipe(
       tap((admin: IAdmin) => console.log(`fetched admin w/ id=${admin.id}`)),
       switchMap((admin: IAdmin) => {
@@ -150,7 +150,7 @@ export class AdminService {
       }),
       catchError(this.handleError<boolean>('deleteProposal'))
     );
-  }
+  }*/
 
   /**
  * Handle Http operation that failed.

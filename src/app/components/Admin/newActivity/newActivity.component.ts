@@ -27,7 +27,6 @@ export class NewActivityComponent {
   newActivity(): void {
     if (this.model.name && this.model.category && this.model.description && this.model.image) {
       this.activityAdded.emit(this.model);
-      alert('Actividad creada con éxito!');
       this.model = { name: 'Nombre Actividad', category: 'Tipo de actividad', description: 'Descripción de la actividad', image: 'https://cdn-icons-png.flaticon.com/512/271/271215.png' } as IActivity;
       this.submitted = false;
     }

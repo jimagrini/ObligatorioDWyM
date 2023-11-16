@@ -1,8 +1,8 @@
-import express from 'express';
-import { GamesController } from "../controllers/gamesController";
+const express = require('express');
+const GamesController = require('../controllers/gamesController');
 
 const router = express.Router();
-const gamesController: GamesController = new GamesController();
+const gamesController = new GamesController();
 
 // POST - Create new Game
 router.post('/', async (req, res) => {
@@ -71,4 +71,4 @@ router.delete('/:id', async (req, res) => {
     }
 });
 
-export default router;
+module.exports = router;

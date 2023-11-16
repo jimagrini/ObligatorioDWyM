@@ -1,8 +1,8 @@
-import express from 'express';
-import { ActivitiesController } from '../controllers/activitiesController';
+const express = require('express');
+const ActivitiesController = require('../controllers/activitiesController');
 
 const router = express.Router();
-const activitiesController: ActivitiesController = new ActivitiesController();
+const activitiesController = new ActivitiesController();
 
 // POST - Create activity
 router.post('/', async (req, res) => {
@@ -71,4 +71,4 @@ router.delete('/:id', async (req, res) => {
     }
 });
 
-export default router;
+module.exports = router;

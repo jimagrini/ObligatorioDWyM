@@ -1,39 +1,38 @@
-import mongoose from 'mongoose';
-import Admin, { AdminDocument } from '../models/adminSchema';
+const mongoose = require('mongoose');
+const Admin = require('../models/adminSchema');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
-export class AdminsController {
-
+class AdminsController {
     constructor() { }
 
-    async getAdmins(): Promise<AdminDocument[]> {
+    async getAdmins() {
         return Admin.find().exec();
     }
 
-    async getAdminById(id: string): Promise<AdminDocument | null> {
+    async getAdminById(id) {
         return Admin.findById(id).exec();
     }
 
-    async addAdmin(username: string, password: string, proposals: mongoose.Types.ObjectId[]): Promise<AdminDocument> {
+    async addAdmin(username, password, proposals) {
         const newAdmin = await Admin.create({ username, password, proposals });
         return newAdmin;
     }
 
-    async deleteAdmin(id: string): Promise<boolean> {
+    async deleteAdmin(id) {
         const result = await Admin.findByIdAndDelete(id).exec();
         return !!result;
     }
 
-    async login(username: string, password: string): Promise<string | null> {
+    async login(username, password) {
         try {
             const admin = await Admin.findOne({ username: username });
             if (!admin) {
-                return null; // Admin not found
+                return null;
             }
             const passwordMatch = await bcrypt.compare(password, admin.password);
             if (!passwordMatch) {
-                return null; // Incorrect password
+                return null;
             }
             const token = this.createToken(admin);
             return token;
@@ -43,10 +42,12 @@ export class AdminsController {
         }
     }
 
-    private createToken(admin: AdminDocument): string {
+    createToken(admin) {
         const payload = {
             admin_token: admin.token
         };
         return jwt.sign(payload, 'token');
     }
 }
+
+module.exports = AdminsController;

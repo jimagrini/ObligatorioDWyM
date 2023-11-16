@@ -1,9 +1,9 @@
-import express from 'express';
-import mongoose from 'mongoose';
-import adminRouter from './routes/admin';
-import proposalRouter from './routes/proposal';
-import activityRouter from './routes/activity';
-import gameRouter from './routes/game';
+const express = require('express');
+const mongoose = require('mongoose');
+const adminRouter = require('./routes/admin');
+const proposalRouter = require('./routes/proposal');
+const activityRouter = require('./routes/activity');
+const gameRouter = require('./routes/game');
 
 require('dotenv').config();
 
@@ -27,15 +27,13 @@ app.use('/api/activities', activityRouter);
 app.use('/api/proposals', proposalRouter);
 app.use('/api/games', gameRouter);
 
-
 // Routes
 app.get('/', (req, res) => {
     res.send('¡Bienvenido a la API!');
 });
 
-//mongoose.set("strictQuery", false);
 mongoose
-    .connect(process.env.MONGODB_URI!)
+    .connect(process.env.MONGODB_URI)
     .then(() => {
         console.log('Connected to MongoDB');
         app.listen(port, () => {

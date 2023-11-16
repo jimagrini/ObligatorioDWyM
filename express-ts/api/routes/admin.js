@@ -1,8 +1,8 @@
-import express from 'express';
-import { AdminsController } from '../controllers/adminsController';
+const express = require('express');
+const  AdminsController = require('../controllers/adminsController');
 
 const router = express.Router();
-const adminsController: AdminsController = new AdminsController();
+const adminsController = new AdminsController();
 const bcrypt = require('bcryptjs');
 
 // Create Admin
@@ -92,4 +92,4 @@ router.delete('/:id', async (req, res) => {
     }
 });
 
-export default router;
+module.exports = router;
