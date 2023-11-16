@@ -14,7 +14,7 @@ import { ActivitiesService } from '../activities/activities.service';
 export class ProposalService {
 
   private cachedProposal: IProposal | null = null;
-  private proposalsUrl = 'api/proposals';  // URL to web api
+  private proposalsUrl = 'http://localhost:4200/api/proposals';  // URL to web api
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { IActivity } from './IActivity';
 import { IProposal } from '../proposal/IProposal';
-
+import { CATEGORIES } from 'src/app/constants';
 import { EMPTY, Observable, of } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, map, tap, switchMap } from 'rxjs/operators';
@@ -15,7 +15,7 @@ export class ActivitiesService {
 
   private cachedActivity: IActivity | null = null;
 
-  private activitiesUrl = 'api/activities';  // URL to web api
+  private activitiesUrl = 'http://localhost:4200/api/activities';  // URL to web api
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -68,10 +68,15 @@ export class ActivitiesService {
    * @returns 
    */
   add(name: string, category: string, description: string, image: string): Observable<IActivity> {
-    return this.http.post<IActivity>(this.activitiesUrl, { name, category, description, image }, this.httpOptions).pipe(
-      tap((newActivity: IActivity) => console.log(`added activity w/ id=${newActivity.id}`)),
-      catchError(this.handleError<IActivity>('add'))
-    );
+    if (CATEGORIES.find(c => c === category)) {
+      return this.http.post<IActivity>(this.activitiesUrl, { name, category, description, image }, this.httpOptions).pipe(
+        tap((newActivity: IActivity) => console.log(`added activity w/ id=${newActivity.id}`)),
+        catchError(this.handleError<IActivity>('add'))
+      );
+    } else {
+      alert('The specified category is not valid.')
+      return of();
+    }
   }
 
   /** DELETE: remove specified activity from the server

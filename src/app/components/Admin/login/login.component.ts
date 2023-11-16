@@ -36,7 +36,7 @@ export class LoginComponent implements OnInit, OnDestroy{
       password: this.formLogin.value.password
     };
 
-    this.subRef$ = this.http.post<IResponse>('http://localhost:3000/api/login', userLogin, {observe: 'response'})
+    this.subRef$ = this.http.post<IResponse>('http://localhost:3000/api/admins/login', userLogin, {observe: 'response'})
     .subscribe(res => {
       const token = res.body!.response;
       console.log('token', token);

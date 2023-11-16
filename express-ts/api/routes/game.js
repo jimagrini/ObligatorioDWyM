@@ -7,12 +7,12 @@ const gamesController = new GamesController();
 // POST - Create new Game
 router.post('/', async (req, res) => {
     try {
-        const { name, activities } = req.body;
-        if (!name || !activities) {
+        const { proposal } = req.body;
+        if (!proposal) {
             res.status(400)
                 .json({ message: 'Missing parameters. Cannot create game.' });
         } else {
-            const newGame = await gamesController.addGame(name, activities);
+            const newGame = await gamesController.addGame(proposal);
             res.status(201)
                 .json(newGame);
         }
@@ -68,6 +68,24 @@ router.delete('/:id', async (req, res) => {
     } catch (error) {
         res.status(500)
             .json({ message: 'Internal Server Error', details: `Failed to delete game '${id}'. Error: ${error}` });
+    }
+});
+
+// POST - Add new user to Game
+router.post('/:id/users', async (req, res) => {
+    try {
+        const { id, nickname } = req.body;
+        if (!id || !nickname) {
+            res.status(400)
+                .json({ message: 'Missing parameters. Cannot add user to game.' });
+        } else {
+            const success = await gamesController.addUser(id, nickname);
+            res.status(201)
+                .json(success);
+        }
+    } catch (error) {
+        res.status(500)
+            .json({ message: 'Internal Server Error', details: `Failed to add user to game. Error: ${error}` });
     }
 });
 

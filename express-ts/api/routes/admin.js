@@ -7,14 +7,15 @@ const bcrypt = require('bcryptjs');
 
 // Create Admin
 router.post('/register', async (req, res) => {
+    console.log('llego a la api');
     try {
-        const { username, password, proposals } = req.body;
+        const { username, password } = req.body;
         if (!username || !password) {
             res.status(400)
                 .json({ message: 'Missing parameters. Cannot create admin.' });
         } else {
             const hashedPassword = bcrypt.hashSync(password, 10);
-            const newAdmin = await adminsController.addAdmin(username, hashedPassword, proposals);
+            const newAdmin = await adminsController.addAdmin(username, hashedPassword);
             res.status(201)
                 .json(newAdmin);
         }

@@ -1,44 +1,36 @@
 import { Injectable, inject } from '@angular/core';
 import { IAdmin } from './IAdmin';
-import { IActivity } from './activities/IActivity';
-import { ADMINISTRATORS } from 'src/app/constants';
 import { ActivitiesService } from './activities/activities.service';
 import { ProposalService } from './proposal/proposal.service';
-import { IProposal } from './proposal/IProposal';
 
-import { Observable, of, EMPTY, firstValueFrom } from 'rxjs';
+import { Observable, of, catchError, tap} from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { catchError, map, tap, switchMap, filter } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AdminService {
 
-  private baseUrl: string;
-  private httpClient = inject(HttpClient);
-
-
-
   private cachedAdmin: IAdmin | null = null;
 
-  private adminsUrl = 'api/admins';  // URL to web api
+  private adminsUrl = 'http://localhost:3000/api/admins';  // URL to web api
 
   httpOptions = {
-    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-
+    headers: new HttpHeaders(
+      { 'Content-Type': 'application/json' }
+    )
   };
 
   constructor(private http: HttpClient,
     private activitiesService: ActivitiesService,
     private proposalService: ProposalService) {
-    this.baseUrl = 'http://localhost:3000/api'
   }
 
+  /* Juan:
   async register(formValue: any) {
     const response = await firstValueFrom(this.httpClient.post<any>(`${this.adminsUrl}/register`, formValue));
     return response;
-  }
+  }*/
 
 
   /** GET admins from the server
@@ -74,15 +66,15 @@ export class AdminService {
     }
   }
 
-  /** POST: add new admin to the server
+  /** POST: register and add new Admin to the server
    * 
    * @param username 
    * @param password 
    * @returns object admin (type IAdmin) created
    */
-  add(username: string, password: string): Observable<IAdmin> {
+  register(username: string, password: string): Observable<IAdmin> {
     const url = `${this.adminsUrl}/register`;
-    return this.http.post<IAdmin>(url, { username, password }, this.httpOptions).pipe(
+    return this.http.put<IAdmin>(url, { username, password }, this.httpOptions).pipe(
       tap((newAdmin: IAdmin) => console.log(`added admin w/ id=${newAdmin.id}`)),
       catchError(this.handleError<IAdmin>('addAdmin'))
     );

@@ -1,28 +1,22 @@
 const { Schema, model, Types } = require('mongoose');
 
-const adminSchema = new Schema(
+const gameSchema = new Schema(
     {
-        username: {
-            type: String,
-            required: [true, "Debe ingresar un nombre de usuario válido."]
-        },
-        password: {
-            type: String,
-            required: true
-        },
-        proposals: [
+        users: [
             {
-                type: Types.ObjectId, 
-                ref: 'Proposal',
+                type: [String],
                 required: true,
                 default: []
             }
-        ]
-    },
-    {
-        timestamps: true
+        ],
+        proposal:
+        {
+            type: Types.ObjectId,
+            ref: 'Proposal',
+            required: true
+        }
     }
 );
 
-const Admin = model('Admin', adminSchema);
-module.exports = Admin;
+const Game = model('Game', gameSchema);
+module.exports = Game;

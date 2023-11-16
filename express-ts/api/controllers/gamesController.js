@@ -1,53 +1,43 @@
 const mongoose = require('mongoose');
-const Admin = require('../models/adminSchema');
+const Game = require('../models/gameSchema');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
-class AdminsController {
+class GamesController {
     constructor() { }
 
-    async getAdmins() {
-        return Admin.find().exec();
+    async getGames() {
+        return Game.find().exec();
     }
 
-    async getAdminById(id) {
-        return Admin.findById(id).exec();
+    async getGameById(id) {
+        return Game.findById(id).exec();
     }
 
-    async addAdmin(username, password, proposals) {
-        const newAdmin = await Admin.create({ username, password, proposals });
-        return newAdmin;
+    async addGame(proposal) {
+        const newGame = await Game.create({ proposal: proposal });
+        return newGame;
     }
 
-    async deleteAdmin(id) {
-        const result = await Admin.findByIdAndDelete(id).exec();
+    async deleteGame(id) {
+        const result = await Game.findByIdAndDelete(id).exec();
         return !!result;
     }
 
-    async login(username, password) {
+    async addUser(id, nickname) {
         try {
-            const admin = await Admin.findOne({ username: username });
-            if (!admin) {
-                return null; // Admin not found
+            const game = await Game.findById(id);
+            if (!game) {
+                return false;
             }
-            const passwordMatch = await bcrypt.compare(password, admin.password);
-            if (!passwordMatch) {
-                return null; // Incorrect password
-            }
-            const token = this.createToken(admin);
-            return token;
+            game.users.push(nickname);
+            await game.save();
+            return true;
         } catch (error) {
-            console.error('Error during login:', error);
-            return null;
+            console.log(error);
         }
     }
-
-    createToken(admin) {
-        const payload = {
-            admin_token: admin.token
-        };
-        return jwt.sign(payload, 'token');
-    }
+    
 }
 
-module.exports = AdminsController;
+module.exports = GamesController;

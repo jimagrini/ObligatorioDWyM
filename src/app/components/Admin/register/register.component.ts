@@ -23,8 +23,7 @@ export class RegisterComponent {
   // Default shown on Register Form
 
   async onSubmit() {
-    const response = await this.adminService.register(this.form.value);
-    this.adminService.add(this.form.value.username, this.form.value.password);
+    const response = await this.adminService.register(this.form.value.username, this.form.value.password);
     console.log(response);
     alert('Usuario registrado con exito!');
     this.goBack();

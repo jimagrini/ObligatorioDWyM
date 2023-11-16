@@ -1,6 +1,7 @@
 const Activity = require('../models/activitySchema');
 
 class ActivitiesController {
+    
     constructor() { }
 
     async getActivities() {

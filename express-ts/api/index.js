@@ -11,12 +11,12 @@ const cors = require('cors');
 const corsOptions = {
     origin: 'http://localhost:4200',
     optionsSuccessStatus: 200,
-    methods: "GET, PUT, POST"
+    methods: "GET, PUT, POST, DELETE"
 };
 
 const app = express();
 app.use(express.json());
-app.use(cors(corsOptions));
+app.use(cors(cors));
 
 const port = process.env.PORT || 3000;
 
@@ -26,6 +26,16 @@ app.use('/api/admins', adminRouter);
 app.use('/api/activities', activityRouter);
 app.use('/api/proposals', proposalRouter);
 app.use('/api/games', gameRouter);
+
+// Error handling middleware
+app.use((req, res, next) => {
+    res.status(404).send('404 - Not Found');
+});
+
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).send('Something went wrong!');
+});
 
 // Routes
 app.get('/', (req, res) => {
