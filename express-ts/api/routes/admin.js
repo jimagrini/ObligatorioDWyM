@@ -7,7 +7,7 @@ const bcrypt = require('bcryptjs');
 
 // Create Admin
 router.post('/register', async (req, res) => {
-    console.log('llego a la api');
+    console.log('register endpoint hit');
     try {
         const { username, password } = req.body;
         if (!username || !password) {
@@ -45,6 +45,7 @@ router.post('/login', async (req, res) => {
 
 // Get all Admins
 router.get('/', async (req, res) => {
+    console.log('llegue');
     try {
         const admins = await adminsController.getAdmins();
         res.status(200)

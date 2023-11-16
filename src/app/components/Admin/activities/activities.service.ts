@@ -44,7 +44,7 @@ export class ActivitiesService {
    * @param id 
    * @returns 
    */
-  getActivity(id: number): Observable<IActivity> {
+  getActivity(id: string): Observable<IActivity> {
     if (this.cachedActivity && this.cachedActivity.id === id) {
       return of(this.cachedActivity); // Return the cached activity if it matches the requested ID
     } else {
@@ -114,7 +114,7 @@ export class ActivitiesService {
    * @param id 
    * @returns 
    */
-  getActivityFromProposal(admin: IAdmin, proposal: IProposal, id: number): Observable<IActivity> {
+  getActivityFromProposal(admin: IAdmin, proposal: IProposal, id: string): Observable<IActivity> {
     const url = `api/${admin.id}/proposals/${proposal.id}/activities/${id}`;
     return this.http.get<IActivity>(url)
       .pipe(
@@ -130,7 +130,7 @@ export class ActivitiesService {
    * @param id 
    * @returns 
    */
-  selectActivity(admin: IAdmin, proposal: IProposal, id: number): Observable<IActivity> {
+  selectActivity(admin: IAdmin, proposal: IProposal, id: string): Observable<IActivity> {
     return this.getActivityFromProposal(admin, proposal, id).pipe(
       tap(_ => console.log(`fetched activity w/ id=${id}`)),
       switchMap((activity: IActivity) => {

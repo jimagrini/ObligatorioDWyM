@@ -35,9 +35,9 @@ export class ProposalService {
   }
 
   /** GET proposal by id. Will 404 if id not found 
-   * @param id - unique numeric id
+   * @param id - unique string id
   */
-  getProposal(id: number): Observable<IProposal> {
+  getProposal(id: string): Observable<IProposal> {
     if (this.cachedProposal && this.cachedProposal.id === id) {
       return of(this.cachedProposal); // Return the cached admin if it matches the requested ID
     } else {
@@ -62,7 +62,7 @@ export class ProposalService {
    * @param id 
    * @returns 
    */
-  delete(id: number): Observable<boolean> {
+  delete(id: string): Observable<boolean> {
     const url = `${this.proposalsUrl}/${id}`;
     return this.http.delete(url).pipe(
       tap(_ => console.log(`deleted proposal id=${id}`)),

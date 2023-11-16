@@ -1,7 +1,7 @@
 import { IProposal } from "./proposal/IProposal";
 
 export interface IAdmin {
-    id: number;
+    id: string;
     username: string;
     password: string;
     proposals: IProposal[];

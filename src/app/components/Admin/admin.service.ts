@@ -21,17 +21,8 @@ export class AdminService {
     )
   };
 
-  constructor(private http: HttpClient,
-    private activitiesService: ActivitiesService,
-    private proposalService: ProposalService) {
+  constructor(private http: HttpClient) {
   }
-
-  /* Juan:
-  async register(formValue: any) {
-    const response = await firstValueFrom(this.httpClient.post<any>(`${this.adminsUrl}/register`, formValue));
-    return response;
-  }*/
-
 
   /** GET admins from the server
    * 
@@ -49,9 +40,9 @@ export class AdminService {
    * 
    * Checks if the id equals to the cachedAdmin (avoiding api request).
    * 
-   * @param id -  unique numeric id
+   * @param id -  unique string id
   */
-  getAdmin(id: number): Observable<IAdmin> {
+  getAdmin(id: string): Observable<IAdmin> {
     if (this.cachedAdmin && this.cachedAdmin.id === id) {
       return of(this.cachedAdmin); // Return the cached admin if it matches the requested ID
     } else {
@@ -74,9 +65,9 @@ export class AdminService {
    */
   register(username: string, password: string): Observable<IAdmin> {
     const url = `${this.adminsUrl}/register`;
-    return this.http.put<IAdmin>(url, { username, password }, this.httpOptions).pipe(
-      tap((newAdmin: IAdmin) => console.log(`added admin w/ id=${newAdmin.id}`)),
-      catchError(this.handleError<IAdmin>('addAdmin'))
+    return this.http.post<IAdmin>(url, { username, password }, this.httpOptions).pipe(
+      tap((newAdmin: IAdmin) => console.log(`added admin w/ id=${newAdmin.id}`))/*,
+      catchError(this.handleError<IAdmin>('addAdmin'))*/
     );
   }
 
@@ -101,7 +92,7 @@ export class AdminService {
    * @param proposalId 
    * @returns 
    */
-  /*getProposal(adminId: number, proposalId: number): Observable<IProposal> {
+  /*getProposal(adminId: string, proposalId: number): Observable<IProposal> {
     return this.getAdmin(adminId).pipe(
       tap((admin: IAdmin) => console.log(`fetched admin w/ id=${admin.id}`)),
       switchMap((admin: IAdmin) => {
