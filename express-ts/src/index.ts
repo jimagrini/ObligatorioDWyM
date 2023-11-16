@@ -9,7 +9,7 @@ app.use(express.json())
 
 const httpServer = createServer(app);
 const io = require('socket.io')(httpServer, {
-  cors: {origin : '*'}
+  cors: {origin: '*'}
 });
 
 
@@ -22,52 +22,41 @@ app.get('/test', (req, res) => {
 })
 app.post('/test', (req, res) => {
   const activitiesList = req.body.activities;
-  ejecutarjuego(activitiesList);
+  ejecutarjuego(io, activitiesList);
   res.send('funca');
 });
 
-function ejecutarjuego(activitieslist: any, pos = 0) {
+io.on('connection', (socket: any) => {
+  console.log('A user connected');
+
+  socket.on('disconnect', () => {
+    console.log('A user disconnected!');
+  });
+
+  socket.on('sendActivities', (activities: any) => {
+    console.log('Received sendActivities event with activities:', activities);
+    ejecutarjuego(socket, activities, 0);
+  });
+});
+
+httpServer.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
+
+app.use('/api/cards', cardRouter);
+
+function ejecutarjuego(socket: any, activitieslist: any, pos = 0) {
   if (activitieslist && activitieslist.length && pos < activitieslist.length) {
     const currentActivity = activitieslist[pos];
     io.emit('activityPart', currentActivity);
+    socket.emit('activityPart', currentActivity); 
 
     setTimeout(() => {
-      ejecutarjuego(activitieslist, pos + 1);
+      ejecutarjuego(socket, activitieslist, pos + 1);
+      console.log(activitieslist[1].name);
     }, 10000);
   } else {
     io.emit('message', 'fin juego');
-  }
+    socket.emit('message', 'fin juego'); 
 }
-
-io.on('sendActivities', (activities:any) => {
-  ejecutarjuego(activities, 0);
-});
-
-
-io.on('connection', (socket: any) => {
-    console.log('a user connected');
-  
-   
-  
-    socket.on('disconnect', () => {
-      console.log('a user disconnected!');
-    });
-
-    socket.on('activityPart', (activityPart: any) => {
-      console.log('Received activity part:', activityPart);
-    });
-
-    socket.on('sendActivities', (activities: any) => {
-      console.log('Received sendActivities event with activities:', activities);
-      ejecutarjuego(activities, 0);
-    });
-
-  });
-
-httpServer.listen(PORT);
-app.use('/api/cards', cardRouter)
-
-// app.listen(PORT, () => {
-//     console.log(`Server running on port ${PORT}`)
-// })
-
+}
