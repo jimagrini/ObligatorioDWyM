@@ -1,82 +1,91 @@
 const express = require('express');
-const gameSchema = require('../models/gameSchema');
+const GamesController = require('../controllers/gamesController');
+
 const router = express.Router();
+const gamesController = new GamesController();
 
-// Create game
-router.post('/games', async (req, res) => {
+// POST - Create new Game
+router.post('/', async (req, res) => {
     try {
-        const game = await gameSchema.create(req.body);
-        res.status(201).json(game);
-    } catch (error) {
-        res.status(500)
-            .json({ message: 'Internal Server Error', details: error.message });
-    }
-});
-
-// Get all games
-router.get('/games', async (req, res) => {
-    try {
-        const games = await gameSchema.find({});
-        res.status(200)
-            .json(games);
-    } catch (error) {
-        res.status(500)
-            .json({ message: 'Internal Server Error', details: error.message });
-    }
-});
-
-// Get game by ID
-router.get('/games/:id', async (req, res) => {
-    try {
-        const { id } = req.params;
-        const game = await gameSchema.findById(id);
-        if (game) {
-            res.status(200)
-                .json(game);
+        const { proposal } = req.body;
+        if (!proposal) {
+            res.status(400)
+                .json({ message: 'Missing parameters. Cannot create game.' });
         } else {
-            res.status(404)
-                .json({ message: `Cannot find any game with ID '${id}'` });
+            const newGame = await gamesController.addGame(proposal);
+            res.status(201)
+                .json(newGame);
         }
     } catch (error) {
         res.status(500)
-            .json({ message: 'Internal Server Error', details: error.message });
+            .json({ message: 'Internal Server Error', details: `Failed to create new game. Error: ${error}` });
     }
 });
 
-// Update game by ID
-router.put('/games/:id', async (req, res) => {
+// GET all Games
+router.get('/', async (req, res) => {
     try {
-        const { id } = req.params;
-        const { users, proposal } = req.body;
-        const game = await gameSchema.findByIdAndUpdate(id, { users, proposal }, { new: true });
-        if (!game) {
-            return res.status(404)
-                .json({ message: `Cannot find any game with ID '${id}'` });
-        }
-        const updatedGame = await gameSchema.findById(id);
+        const Games = await gamesController.getGames();
         res.status(200)
-            .json(updatedGame);
+            .json(Games);
     } catch (error) {
         res.status(500)
-            .json({ message: 'Internal Server Error', details: error.message });
+            .json({ message: 'Internal Server Error', details: `Failed to retrieve games data. Error: ${error}` });
     }
 });
 
-// Delete game by ID
-router.delete('/games/:id', async (req, res) => {
+// GET Game by Id
+router.get('/:id', async (req, res) => {
+    const { id } = req.params;
+    try {
+        const Game = await gamesController.getGameById(id);
+        if (!Game) {
+            res.status(404)
+                .json({ message: `Game '${id}' not found.` });
+        } else {
+            res.status(200)
+                .json(Game);
+        }
+    } catch (error) {
+        res.status(500)
+            .json({ message: 'Internal Server Error', details: `Failed to retrieve game data. Error: ${error}` });
+    }
+});
+
+// DELETE Game by Id
+router.delete('/:id', async (req, res) => {
     const { id } = req.params;
 
     try {
-        const game = await gameSchema.findByIdAndDelete({ _id: id });
-        if (!game) {
+        const success = await gamesController.deleteGame(id);
+        if (!success) {
             res.status(404)
-                .json({ success: false, message: `Cannot find any game with ID '${id}'` });
+                .json({ success: false, message: `Game '${id}' not found.` });
+        } else {
+            res.status(204)
+                .end();
         }
-        res.status(200)
-            .json({ success: true })
     } catch (error) {
         res.status(500)
-            .json({ success: false, message: 'Internal Server Error', details: error.message });
+            .json({ message: 'Internal Server Error', details: `Failed to delete game '${id}'. Error: ${error}` });
+    }
+});
+
+// POST - Add new user to Game
+router.post('/:id/users', async (req, res) => {
+    try {
+        const { id, nickname } = req.body;
+        if (!id || !nickname) {
+            res.status(400)
+                .json({ message: 'Missing parameters. Cannot add user to game.' });
+        } else {
+            const success = await gamesController.addUser(id, nickname);
+            res.status(201)
+                .json(success);
+        }
+    } catch (error) {
+        res.status(500)
+            .json({ message: 'Internal Server Error', details: `Failed to add user to game. Error: ${error}` });
     }
 });
 

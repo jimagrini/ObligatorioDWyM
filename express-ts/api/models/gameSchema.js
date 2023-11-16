@@ -1,21 +1,22 @@
+const { Schema, model, Types } = require('mongoose');
 
-const mongoose = require('mongoose');
-const proposalSchema = require('./proposalSchema');
-
-const gameSchema = new mongoose.Schema(
+const gameSchema = new Schema(
     {
         users: [
             {
-                type: String,
+                type: [String],
+                required: true,
                 default: []
             }
         ],
-        proposal: {
-            type: mongoose.Schema.Types.ObjectId, ref: 'Proposal',
+        proposal:
+        {
+            type: Types.ObjectId,
+            ref: 'Proposal',
             required: true
-        },
+        }
     }
 );
 
-const Game = mongoose.model('Game', gameSchema);
+const Game = model('Game', gameSchema);
 module.exports = Game;

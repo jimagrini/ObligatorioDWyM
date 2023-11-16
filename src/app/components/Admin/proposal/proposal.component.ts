@@ -31,7 +31,7 @@ export class ProposalComponent {
    */
   createProposal(name: string): void {
     if (this.admin && this.selectedActivities.length >= 2 && name) {
-      this.adminService.addProposal(this.admin.id, name, this.selectedActivities)
+      this.proposalService.add(name, this.selectedActivities)
         .subscribe({
           next: (newProposal: IProposal) => {
             this.proposalAdded.emit(newProposal);

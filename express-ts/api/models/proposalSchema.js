@@ -1,6 +1,6 @@
-const mongoose = require('mongoose');
+const { Schema, model, Types } = require('mongoose');
 
-const proposalSchema = new mongoose.Schema(
+const proposalSchema = new Schema(
     {
         name: {
             type: String,
@@ -8,7 +8,8 @@ const proposalSchema = new mongoose.Schema(
         },
         activities: [
             {
-                type: mongoose.Schema.Types.ObjectId, ref: 'Activity',
+                type: Types.ObjectId, 
+                ref: 'Activity',
                 required: true,
                 default: []
             }
@@ -16,5 +17,5 @@ const proposalSchema = new mongoose.Schema(
     }
 );
 
-const Proposal = mongoose.model('Proposal', proposalSchema);
+const Proposal = model('Proposal', proposalSchema);
 module.exports = Proposal;

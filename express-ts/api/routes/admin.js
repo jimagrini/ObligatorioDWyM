@@ -1,131 +1,96 @@
 const express = require('express');
+const  AdminsController = require('../controllers/adminsController');
+
 const router = express.Router();
-const adminSchema = require('../models/adminSchema');
+const adminsController = new AdminsController();
 const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
 
 // Create Admin
-
-
-router.post('/register',async (req, res) => {
-    const admin = await adminSchema.create(req.body);
-    //Encriptar password
-    req.body.password = bcrypt.hashSync(req.body.password, 10); //10 veces se
-    res.json(admin);
-    admin.save();
-    /*
-    admin.save()
-        .then((data) => {
-            res.json(data);
-        })
-        .catch((err) => {
-            res.json({ message: err });
-        });
-        */
-});
-
-router.post('/login',async (req, res) => {
-    const {username,password} = req.body;
-    const admin = await adminSchema.findOne({username:username});
-    if(!admin){
-        return res.json({error: 'Contraseña o usuario incorrecto'})
-    }
-    if(password!=admin.password){
-        return res.json({error: 'Contraseña o usuario incorrecto'})
-    }
-    console.log('success');
-    return res.json({response:createToken(admin)});
-});
-
-
-
-router.post('/admins', async (req, res) => {
+router.post('/register', async (req, res) => {
+    console.log('llego a la api');
     try {
-        const admin = await adminSchema.create(req.body);
-        res.status(201).json(admin);
+        const { username, password } = req.body;
+        if (!username || !password) {
+            res.status(400)
+                .json({ message: 'Missing parameters. Cannot create admin.' });
+        } else {
+            const hashedPassword = bcrypt.hashSync(password, 10);
+            const newAdmin = await adminsController.addAdmin(username, hashedPassword);
+            res.status(201)
+                .json(newAdmin);
+        }
     } catch (error) {
         res.status(500)
-            .json({ message: 'Internal Server Error', details: error.message });
+            .json({ message: 'Internal Server Error', details: `Failed to create new admin. Error: ${error}` });
     }
 });
 
-
-// Get all admins
-router.get('/admins', async (req, res) => {
+// Log Admin 
+router.post('/login', async (req, res) => {
+    const { username, password } = req.body;
     try {
-        const admins = await adminSchema.find({});
+        const token = await adminsController.login(username, password);
+        if (!token) {
+            res.status(401)
+                .json({ error: 'Contraseña o usuario incorrecto' });
+        } else {
+            res.status(200)
+                .json({ response: token });
+        }
+    } catch (error) {
+        res.status(500)
+            .json({ message: 'Internal Server Error', details: `Failed to log admin in. Error: ${error}` });
+    }
+});
+
+// Get all Admins
+router.get('/', async (req, res) => {
+    try {
+        const admins = await adminsController.getAdmins();
         res.status(200)
             .json(admins);
     } catch (error) {
         res.status(500)
-            .json({ message: 'Internal Server Error', details: error.message });
+            .json({ message: 'Internal Server Error', details: `Failed to retrieve admins data. Error: ${error}` });
     }
 });
 
-// Get admin by ID
-router.get('/admins/:id', async (req, res) => {
+// Get Admin by Id
+router.get('/:id', async (req, res) => {
+    const { id } = req.params;
     try {
-        const { id } = req.params;
-        const admin = await adminSchema.findById(id);
-        if (admin) {
+        const admin = await adminsController.getAdminById(id);
+
+        if (!admin) {
+            res.status(404)
+                .json({ message: `Admin '${id}' not found.` });
+        } else {
             res.status(200)
                 .json(admin);
-        } else {
-            res.status(404)
-                .json({ message: `Cannot find any admin with ID '${id}'` });
         }
     } catch (error) {
         res.status(500)
-            .json({ message: 'Internal Server Error', details: error.message });
+            .json({ message: 'Internal Server Error', details: `Failed to retrieve admin '${id}' data. Error: ${error}` });
     }
 });
 
-
-// Update admin by ID
-router.put('/admins/:id', async (req, res) => {
-    try {
-        const { id } = req.params;
-        const { username, password, proposals } = req.body;
-        const admin = await adminSchema.findByIdAndUpdate(id, { username, password, proposals }, { new: true });
-        if (!admin) {
-            return res.status(404)
-                .json({ message: `Cannot find any admin with ID '${id}'` });
-        }
-        const updatedAdmin= await adminSchema.findById(id);
-        res.status(200)
-            .json(updatedAdmin);
-    } catch (error) {
-        res.status(500)
-            .json({ message: 'Internal Server Error', details: error.message });
-    }
-});
-
-
-
-// Delete admin by ID
-router.delete('/admins/:id', async (req, res) => {
+// Delete Admin by Id
+router.delete('/:id', async (req, res) => {
     const { id } = req.params;
-
     try {
-        const admin = await adminSchema.findByIdAndDelete({ _id: id });
-        if (!admin) {
+        const success = await adminsController.deleteAdmin(id);
+
+        if (!success) {
             res.status(404)
-                .json({ success: false, message: `Cannot find any admin with ID '${id}'` });
+                .json({ success: false, message: `Admin '${id}' not found.` });
+        } else {
+            res.status(204)
+                .end();
         }
-        res.status(200)
-            .json({ success: true })
     } catch (error) {
         res.status(500)
-            .json({ success: false, message: 'Internal Server Error', details: error.message });
+            .json({ message: 'Internal Server Error', details: `Failed to delete admin '${id}'. Error: ${error}` });
     }
 });
-
-
-function createToken(admin){
-    const payload = {
-        admin_token: admin.token
-    }
-    return jwt.sign(payload, 'token')
-}
 
 module.exports = router;

@@ -47,7 +47,7 @@ export class ActivitiesComponent {
    * @param image 
    */
   createActivity(activity: IActivity): void {
-    this.activitiesService.add(activity);
+    this.activitiesService.add(activity.name, activity.category, activity.description, activity.image);
   }
 
   showNewActivityForm = false;

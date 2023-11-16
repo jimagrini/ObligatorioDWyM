@@ -12,6 +12,7 @@ export class HomeComponent {
   overlayRight: boolean = false;
 
   gameCode?: number;
+  nickname?: string;
 
   constructor(private router: Router, private gameService: GameService) { }
 
@@ -27,7 +28,7 @@ export class HomeComponent {
   }
 
   joinGame(): void {
-    this.gameService.addUser(this.gameCode!);
+    this.gameService.addUser(this.gameCode!, this.nickname!);
     //this.router.navigate(['/waiting-room']);
   }
 }

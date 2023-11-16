@@ -1,6 +1,6 @@
-const mongoose = require('mongoose');
+const { Schema, model } = require('mongoose');
 
-const activitySchema = new mongoose.Schema(
+const activitySchema = new Schema(
     {
         name: {
             type: String,
@@ -21,11 +21,11 @@ const activitySchema = new mongoose.Schema(
         },
         selected: {
             type: Boolean,
-            required: true, 
+            required: true,
             default: false
         },
     }
 );
 
-const Activity = mongoose.model('Activity', activitySchema);
+const Activity = model('Activity', activitySchema);
 module.exports = Activity;
