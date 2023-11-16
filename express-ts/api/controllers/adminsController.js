@@ -28,11 +28,11 @@ class AdminsController {
         try {
             const admin = await Admin.findOne({ username: username });
             if (!admin) {
-                return null;
+                return null; // Admin not found
             }
             const passwordMatch = await bcrypt.compare(password, admin.password);
             if (!passwordMatch) {
-                return null;
+                return null; // Incorrect password
             }
             const token = this.createToken(admin);
             return token;
