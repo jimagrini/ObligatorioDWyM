@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { ILogin } from '../../../interfaces/login';
 import { IResponse } from './IResponse';
 import { Subscription } from 'rxjs/internal/Subscription';
+import { SecurityService } from '../interceptor/securityService';
 
 @Component({
   selector: 'app-login',
@@ -18,7 +19,8 @@ export class LoginComponent implements OnInit, OnDestroy{
   constructor(
     private router: Router,
     private formBuilder: FormBuilder,
-    private http: HttpClient
+    private http: HttpClient,
+    private securityService: SecurityService
   ) {
     this.formLogin = this.formBuilder.group({
       username: ['', Validators.required],
@@ -40,6 +42,7 @@ export class LoginComponent implements OnInit, OnDestroy{
     .subscribe(res => {
       const token = res.body!.response;
       console.log('token', token);
+      this.securityService.SetAuthData(token);
       sessionStorage.setItem('token', token);
       this.router.navigate(['/create-room']);
     }, err => {

@@ -1,11 +1,10 @@
 const express = require('express');
 const ActivitiesController = require('../controllers/activitiesController');
-
 const router = express.Router();
 const activitiesController = new ActivitiesController();
 
 // POST - Create activity
-router.post('/', async (req, res) => {
+router.post('/', validateToken, async (req, res) => {
     try {
         const { name, category, description, image } = req.body;
         if (!name || !category || !description || !image) {
@@ -72,3 +71,17 @@ router.delete('/:id', async (req, res) => {
 });
 
 module.exports = router;
+
+function validateToken(req, res, next){
+    console.log('Validando token...');
+    let bearer = req.headers['authorization'];
+    if(typeof bearer !== 'undefined'){
+        bearer = bearer.split(' ')[1]
+        req.token = bearer;
+        console.log('token success')
+        next()
+    } else{
+        res.status(401);
+        res.send({'unauthorized': 'this header has no token defined'})
+    }
+}
