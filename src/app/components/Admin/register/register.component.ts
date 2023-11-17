@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { AdminService } from '../admin.service';
-import { IAdmin } from '../IAdmin';
+import { AdminService } from '../../../services/admin.service';
+import { IAdmin } from '../../../interfaces/admin';
 import { Location } from '@angular/common';
 import { FormControl, FormGroup } from '@angular/forms';
 import { catchError } from 'rxjs/operators';

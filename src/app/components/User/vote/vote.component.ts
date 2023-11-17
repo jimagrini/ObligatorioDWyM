@@ -1,5 +1,5 @@
 import { Component, Output, EventEmitter } from '@angular/core';
-import { IActivity } from 'src/app/components/Admin/activities/IActivity';
+import { IActivity } from 'src/app/interfaces/activity';
 
 @Component({
   selector: 'app-vote',

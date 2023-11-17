@@ -1,9 +1,9 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { IActivity } from '../activities/IActivity';
-import { IProposal } from './IProposal';
-import { ProposalService } from './proposal.service';
-import { AdminService } from '../admin.service';
-import { IAdmin } from '../IAdmin';
+import { IActivity } from '../../../interfaces/activity';
+import { IProposal } from '../../../interfaces/proposal';
+import { ProposalService } from '../../../services/proposal.service';
+import { AdminService } from '../../../services/admin.service';
+import { IAdmin } from '../../../interfaces/admin';
 
 @Component({
   selector: 'app-proposal',

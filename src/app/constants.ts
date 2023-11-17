@@ -1,7 +1,7 @@
-import { IAdmin } from "./components/Admin/IAdmin";
-import { IActivity } from "./components/Admin/activities/IActivity";
-import { IGame } from "./game";
-import { IProposal } from "./components/Admin/proposal/IProposal";
+import { IAdmin } from "./interfaces/admin";
+import { IActivity } from "./interfaces/activity";
+import { IGame } from "./interfaces/game";
+import { IProposal } from "./interfaces/proposal";
 
 export const ADMINISTRATORS: IAdmin[] = [
     { id: "1", username: 'mcgreene', password: '1234', proposals: [] },

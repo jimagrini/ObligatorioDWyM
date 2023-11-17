@@ -1,7 +1,7 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { IActivity } from './IActivity';
-import { ActivitiesService } from './activities.service';
-import { IAdmin } from '../IAdmin';
+import { IActivity } from '../../../interfaces/activity';
+import { ActivitiesService } from '../../../services/activities.service';
+import { IAdmin } from '../../../interfaces/admin';
 
 @Component({
   selector: 'app-activities',

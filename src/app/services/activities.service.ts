@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { IActivity } from './IActivity';
-import { IProposal } from '../proposal/IProposal';
+import { IActivity } from '../interfaces/activity';
+import { IProposal } from '../interfaces/proposal';
 import { CATEGORIES } from 'src/app/constants';
 import { EMPTY, Observable, of } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, map, tap, switchMap } from 'rxjs/operators';
-import { IAdmin } from '../IAdmin';
+import { IAdmin } from '../interfaces/admin';
 
 
 @Injectable({
@@ -15,7 +15,7 @@ export class ActivitiesService {
 
   private cachedActivity: IActivity | null = null;
 
-  private activitiesUrl = 'http://localhost:4200/api/activities';  // URL to web api
+  private activitiesUrl = 'http://localhost:3000/api/activities';  // URL to web api
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })

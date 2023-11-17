@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { Observable, of, catchError, tap } from 'rxjs';
 
-import { IProposal } from './components/Admin/proposal/IProposal';
-import { IGame } from './game';
+import { IProposal } from '../interfaces/proposal';
+import { IGame } from '../interfaces/game';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +12,7 @@ export class GameService {
 
   private cachedGame: IGame | null = null;
 
-  private gamesUrl = 'http://localhost:4200/api/games';  // URL to web api
+  private gamesUrl = 'http://localhost:3000/api/games';  // URL to web api
 
   httpOptions = {
     headers: new HttpHeaders(

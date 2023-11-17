@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { ILogin } from './ILogin';
+import { ILogin } from '../../../interfaces/login';
 import { IResponse } from './IResponse';
 import { Subscription } from 'rxjs/internal/Subscription';
 

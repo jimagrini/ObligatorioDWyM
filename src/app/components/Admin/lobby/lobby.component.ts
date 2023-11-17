@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IUser } from '../../User/IUser';
+import { IUser } from '../../../interfaces/user';
 
 @Component({
   selector: 'app-lobby',

@@ -1,4 +1,4 @@
-import { IProposal } from "./proposal/IProposal";
+import { IProposal } from "./proposal";
 
 export interface IAdmin {
     id: string;

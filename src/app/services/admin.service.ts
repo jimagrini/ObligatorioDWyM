@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
-import { IAdmin } from './IAdmin';
-import { ActivitiesService } from './activities/activities.service';
-import { ProposalService } from './proposal/proposal.service';
+import { IAdmin } from '../interfaces/admin';
+import { ActivitiesService } from './activities.service';
+import { ProposalService } from './proposal.service';
 
 import { Observable, of, catchError, tap, throwError} from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
