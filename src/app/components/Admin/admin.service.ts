@@ -3,7 +3,7 @@ import { IAdmin } from './IAdmin';
 import { ActivitiesService } from './activities/activities.service';
 import { ProposalService } from './proposal/proposal.service';
 
-import { Observable, of, catchError, tap} from 'rxjs';
+import { Observable, of, catchError, tap, throwError} from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Injectable({
@@ -66,8 +66,8 @@ export class AdminService {
   register(username: string, password: string): Observable<IAdmin> {
     const url = `${this.adminsUrl}/register`;
     return this.http.post<IAdmin>(url, { username, password }, this.httpOptions).pipe(
-      tap((newAdmin: IAdmin) => console.log(`added admin w/ id=${newAdmin.id}`))/*,
-      catchError(this.handleError<IAdmin>('addAdmin'))*/
+      tap((newAdmin: IAdmin) => console.log(`added admin w/ id=${newAdmin.id}`)),
+      catchError(this.handleError<IAdmin>('addAdmin'))
     );
   }
 
@@ -144,15 +144,32 @@ export class AdminService {
  */
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
-
-      // TODO: send the error to remote logging infrastructure
-      console.error(error); // log to console instead
-
-      // TODO: better job of transforming error for user consumption
-      console.log(`${operation} failed: ${error.message}`);
-
-      // Let the app keep running by returning an empty result.
-      return of(result as T);
+      // Log the error to a remote logging infrastructure
+      // Example: Send error details to a remote server for tracking
+      // RemoteLoggingService.logError(error);
+  
+      // Log error to the console
+      console.error(error);
+  
+      // Better error handling - transform error for user consumption
+      let errorMessage = 'An error occurred';
+      if (error.error instanceof ErrorEvent) {
+        // Client-side network error
+        errorMessage = `Error: ${error.error.message}`;
+      } else if (error.status) {
+        // Server-side error
+        errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
+      } else {
+        // Other error (backend or unexpected)
+        errorMessage = `Error: ${error.message}`;
+      }
+  
+      // TODO: You can also notify users or display error messages here.
+  
+      console.log(`${operation} failed: ${errorMessage}`);
+  
+      // Rethrow the error as a user-facing error and let the app continue
+      return throwError(errorMessage) as Observable<T>;
     };
   }
 }

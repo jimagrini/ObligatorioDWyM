@@ -3,6 +3,7 @@ import { AdminService } from '../admin.service';
 import { IAdmin } from '../IAdmin';
 import { Location } from '@angular/common';
 import { FormControl, FormGroup } from '@angular/forms';
+import { catchError } from 'rxjs/operators';
 
 @Component({
   selector: 'app-register',
@@ -20,21 +21,28 @@ export class RegisterComponent {
     })
   }
 
-  // Default shown on Register Form
-
-  async onSubmit() {
-    const response = await this.adminService.register(this.form.value.username, this.form.value.password);
-    console.log(response);
-    alert('Usuario registrado con exito!');
-    this.goBack();
+  async registerAdmin() {
+    this.adminService.register(this.form.value.username, this.form.value.password)
+      .pipe(
+        catchError((error) => {
+          console.error(error);
+          alert('Ocurrió un error al registrar el usuario. Por favor, intenta nuevamente.');
+          throw error;
+        })
+      )
+      .subscribe({
+        next: (response: IAdmin) => {
+          console.log(response);
+          alert('Usuario registrado con éxito!');
+          this.goBack();
+          // llevar a proposals
+        },
+        error: (error) => {
+          console.error(error);
+          alert('Ocurrió un error al registrar el usuario. Por favor, intenta nuevamente.');
+        }
+      });
   }
-
-  /** Creates admin user.
-   * Calls addAdmin() method from adminService. Returns model attributes
-   * to its initial values. Redirects user to the previous page 'home'.
-   *
-   *  PENDIENTE: Validar que el username no exista (sea unico).
-  */
 
   /** Returns user to previous page 'home'
    * 
