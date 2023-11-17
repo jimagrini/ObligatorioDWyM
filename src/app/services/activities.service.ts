@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { IActivity } from './IActivity';
-import { IProposal } from '../proposal/IProposal';
+import { IActivity } from '../interfaces/activity';
+import { IProposal } from '../interfaces/proposal';
 import { CATEGORIES } from 'src/app/constants';
 import { EMPTY, Observable, of } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, map, tap, switchMap } from 'rxjs/operators';
-import { IAdmin } from '../IAdmin';
+import { IAdmin } from '../interfaces/admin';
 
 
 @Injectable({
@@ -15,7 +15,7 @@ export class ActivitiesService {
 
   private cachedActivity: IActivity | null = null;
 
-  private activitiesUrl = 'http://localhost:4200/api/activities';  // URL to web api
+  private activitiesUrl = 'http://localhost:3000/api/activities';  // URL to web api
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -44,7 +44,7 @@ export class ActivitiesService {
    * @param id 
    * @returns 
    */
-  getActivity(id: number): Observable<IActivity> {
+  getActivity(id: string): Observable<IActivity> {
     if (this.cachedActivity && this.cachedActivity.id === id) {
       return of(this.cachedActivity); // Return the cached activity if it matches the requested ID
     } else {
@@ -114,7 +114,7 @@ export class ActivitiesService {
    * @param id 
    * @returns 
    */
-  getActivityFromProposal(admin: IAdmin, proposal: IProposal, id: number): Observable<IActivity> {
+  getActivityFromProposal(admin: IAdmin, proposal: IProposal, id: string): Observable<IActivity> {
     const url = `api/${admin.id}/proposals/${proposal.id}/activities/${id}`;
     return this.http.get<IActivity>(url)
       .pipe(
@@ -130,7 +130,7 @@ export class ActivitiesService {
    * @param id 
    * @returns 
    */
-  selectActivity(admin: IAdmin, proposal: IProposal, id: number): Observable<IActivity> {
+  selectActivity(admin: IAdmin, proposal: IProposal, id: string): Observable<IActivity> {
     return this.getActivityFromProposal(admin, proposal, id).pipe(
       tap(_ => console.log(`fetched activity w/ id=${id}`)),
       switchMap((activity: IActivity) => {

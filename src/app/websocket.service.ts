@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { io } from "socket.io-client";
-import { IActivity } from './components/Admin/activities/IActivity';
+import { IActivity } from './interfaces/activity';
 
 @Injectable({
   providedIn: 'root',

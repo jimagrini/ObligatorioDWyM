@@ -1,5 +1,5 @@
 const express = require('express');
-const  AdminsController = require('../controllers/adminsController');
+const AdminsController = require('../controllers/adminsController');
 
 const router = express.Router();
 const adminsController = new AdminsController();
@@ -7,7 +7,6 @@ const bcrypt = require('bcryptjs');
 
 // Create Admin
 router.post('/register', async (req, res) => {
-    console.log('llego a la api');
     try {
         const { username, password } = req.body;
         if (!username || !password) {

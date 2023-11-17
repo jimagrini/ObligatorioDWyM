@@ -1,7 +1,7 @@
-import { IProposal } from "./proposal/IProposal";
+import { IProposal } from "./proposal";
 
 export interface IAdmin {
-    id: number;
+    id: string;
     username: string;
     password: string;
     proposals: IProposal[];

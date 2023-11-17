@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { IActivity } from '../activities/IActivity';
-import { AdminService } from '../admin.service';
+import { IActivity } from '../../../interfaces/activity';
+import { AdminService } from '../../../services/admin.service';
 import { WebSocketService } from 'src/app/websocket.service';
 
 @Component({

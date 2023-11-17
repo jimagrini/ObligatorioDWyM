@@ -1,7 +1,7 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { IActivity } from './IActivity';
-import { ActivitiesService } from './activities.service';
-import { IAdmin } from '../IAdmin';
+import { IActivity } from '../../../interfaces/activity';
+import { ActivitiesService } from '../../../services/activities.service';
+import { IAdmin } from '../../../interfaces/admin';
 
 @Component({
   selector: 'app-activities',
@@ -17,13 +17,12 @@ export class ActivitiesComponent {
 
   constructor(private activitiesService: ActivitiesService) { }
 
-  /**
-   * 
-   * @returns 
-   */
+  
   async getActivities(): Promise<void> {
     try {
-      this.activities = await this.activitiesService.getActivities().toPromise() || [];
+      this.activitiesService.getActivities().subscribe((activities: IActivity[]) => {
+        this.activities = activities || [];
+      });
     } catch (error) {
       console.error('Error fetching activities:', error);
     }
@@ -47,7 +46,12 @@ export class ActivitiesComponent {
    * @param image 
    */
   createActivity(activity: IActivity): void {
-    this.activitiesService.add(activity.name, activity.category, activity.description, activity.image);
+    this.activitiesService.add(activity.name, activity.category, activity.description, activity.image)
+      .subscribe(() => {
+        // Handle success if needed
+      }, (error) => {
+        console.error('Error creating activity:', error);
+      });
   }
 
   showNewActivityForm = false;

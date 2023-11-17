@@ -16,7 +16,7 @@ const corsOptions = {
 
 const app = express();
 app.use(express.json());
-app.use(cors(cors));
+app.use(cors(corsOptions));
 
 const port = process.env.PORT || 3000;
 
@@ -42,8 +42,7 @@ app.get('/', (req, res) => {
     res.send('¡Bienvenido a la API!');
 });
 
-mongoose
-    .connect(process.env.MONGODB_URI)
+mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => {
         console.log('Connected to MongoDB');
         app.listen(port, () => {

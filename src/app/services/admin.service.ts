@@ -1,9 +1,9 @@
 import { Injectable, inject } from '@angular/core';
-import { IAdmin } from './IAdmin';
-import { ActivitiesService } from './activities/activities.service';
-import { ProposalService } from './proposal/proposal.service';
+import { IAdmin } from '../interfaces/admin';
+import { ActivitiesService } from './activities.service';
+import { ProposalService } from './proposal.service';
 
-import { Observable, of, catchError, tap} from 'rxjs';
+import { Observable, of, catchError, tap, throwError} from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Injectable({
@@ -21,17 +21,8 @@ export class AdminService {
     )
   };
 
-  constructor(private http: HttpClient,
-    private activitiesService: ActivitiesService,
-    private proposalService: ProposalService) {
+  constructor(private http: HttpClient) {
   }
-
-  /* Juan:
-  async register(formValue: any) {
-    const response = await firstValueFrom(this.httpClient.post<any>(`${this.adminsUrl}/register`, formValue));
-    return response;
-  }*/
-
 
   /** GET admins from the server
    * 
@@ -49,9 +40,9 @@ export class AdminService {
    * 
    * Checks if the id equals to the cachedAdmin (avoiding api request).
    * 
-   * @param id -  unique numeric id
+   * @param id -  unique string id
   */
-  getAdmin(id: number): Observable<IAdmin> {
+  getAdmin(id: string): Observable<IAdmin> {
     if (this.cachedAdmin && this.cachedAdmin.id === id) {
       return of(this.cachedAdmin); // Return the cached admin if it matches the requested ID
     } else {
@@ -74,7 +65,7 @@ export class AdminService {
    */
   register(username: string, password: string): Observable<IAdmin> {
     const url = `${this.adminsUrl}/register`;
-    return this.http.put<IAdmin>(url, { username, password }, this.httpOptions).pipe(
+    return this.http.post<IAdmin>(url, { username, password }, this.httpOptions).pipe(
       tap((newAdmin: IAdmin) => console.log(`added admin w/ id=${newAdmin.id}`)),
       catchError(this.handleError<IAdmin>('addAdmin'))
     );
@@ -101,7 +92,7 @@ export class AdminService {
    * @param proposalId 
    * @returns 
    */
-  /*getProposal(adminId: number, proposalId: number): Observable<IProposal> {
+  /*getProposal(adminId: string, proposalId: number): Observable<IProposal> {
     return this.getAdmin(adminId).pipe(
       tap((admin: IAdmin) => console.log(`fetched admin w/ id=${admin.id}`)),
       switchMap((admin: IAdmin) => {
@@ -153,15 +144,32 @@ export class AdminService {
  */
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
-
-      // TODO: send the error to remote logging infrastructure
-      console.error(error); // log to console instead
-
-      // TODO: better job of transforming error for user consumption
-      console.log(`${operation} failed: ${error.message}`);
-
-      // Let the app keep running by returning an empty result.
-      return of(result as T);
+      // Log the error to a remote logging infrastructure
+      // Example: Send error details to a remote server for tracking
+      // RemoteLoggingService.logError(error);
+  
+      // Log error to the console
+      console.error(error);
+  
+      // Better error handling - transform error for user consumption
+      let errorMessage = 'An error occurred';
+      if (error.error instanceof ErrorEvent) {
+        // Client-side network error
+        errorMessage = `Error: ${error.error.message}`;
+      } else if (error.status) {
+        // Server-side error
+        errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
+      } else {
+        // Other error (backend or unexpected)
+        errorMessage = `Error: ${error.message}`;
+      }
+  
+      // TODO: You can also notify users or display error messages here.
+  
+      console.log(`${operation} failed: ${errorMessage}`);
+  
+      // Rethrow the error as a user-facing error and let the app continue
+      return throwError(errorMessage) as Observable<T>;
     };
   }
 }

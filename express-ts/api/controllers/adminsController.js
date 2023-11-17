@@ -16,7 +16,9 @@ class AdminsController {
 
     async addAdmin(username, password) {
         const newAdmin = await Admin.create({ username, password });
-        return newAdmin;
+        const adminWithFrontendId = { id: newAdmin._id, ...newAdmin.toObject() };
+
+        return adminWithFrontendId;
     }
 
     async deleteAdmin(id) {

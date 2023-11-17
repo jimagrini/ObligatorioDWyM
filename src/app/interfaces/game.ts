@@ -1,4 +1,4 @@
-import { IProposal } from "./components/Admin/proposal/IProposal";
+import { IProposal } from "./proposal";
 
 /**
  * Game interface

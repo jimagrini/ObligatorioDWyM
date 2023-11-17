@@ -16,7 +16,9 @@ class GamesController {
 
     async addGame(proposal) {
         const newGame = await Game.create({ proposal: proposal });
-        return newGame;
+        
+        const gameWithFrontendId = { id: newGame._id, ...newGame.toObject() };
+        return gameWithFrontendId;
     }
 
     async deleteGame(id) {

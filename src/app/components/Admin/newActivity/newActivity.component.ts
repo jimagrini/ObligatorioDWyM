@@ -1,7 +1,7 @@
 import { Component, Output, EventEmitter } from '@angular/core';
-import { IActivity } from '../activities/IActivity';
+import { IActivity } from '../../../interfaces/activity';
 import { CATEGORIES } from 'src/app/constants';
-import { ActivitiesService } from '../activities/activities.service';
+import { ActivitiesService } from '../../../services/activities.service';
 
 @Component({
   selector: 'app-newActivity',

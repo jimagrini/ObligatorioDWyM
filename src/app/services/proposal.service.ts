@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
-import { IAdmin } from '../IAdmin';
-import { IProposal } from './IProposal';
+import { IAdmin } from '../interfaces/admin';
+import { IProposal } from '../interfaces/proposal';
 
 import { Observable, of } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, map, tap, switchMap } from 'rxjs/operators';
-import { IActivity } from '../activities/IActivity';
-import { ActivitiesService } from '../activities/activities.service';
+import { IActivity } from '../interfaces/activity';
+import { ActivitiesService } from './activities.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +14,7 @@ import { ActivitiesService } from '../activities/activities.service';
 export class ProposalService {
 
   private cachedProposal: IProposal | null = null;
-  private proposalsUrl = 'http://localhost:4200/api/proposals';  // URL to web api
+  private proposalsUrl = 'http://localhost:3000/api/proposals';  // URL to web api
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -35,9 +35,9 @@ export class ProposalService {
   }
 
   /** GET proposal by id. Will 404 if id not found 
-   * @param id - unique numeric id
+   * @param id - unique string id
   */
-  getProposal(id: number): Observable<IProposal> {
+  getProposal(id: string): Observable<IProposal> {
     if (this.cachedProposal && this.cachedProposal.id === id) {
       return of(this.cachedProposal); // Return the cached admin if it matches the requested ID
     } else {
@@ -62,7 +62,7 @@ export class ProposalService {
    * @param id 
    * @returns 
    */
-  delete(id: number): Observable<boolean> {
+  delete(id: string): Observable<boolean> {
     const url = `${this.proposalsUrl}/${id}`;
     return this.http.delete(url).pipe(
       tap(_ => console.log(`deleted proposal id=${id}`)),
