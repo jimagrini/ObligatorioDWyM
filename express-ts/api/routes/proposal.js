@@ -5,7 +5,7 @@ const router = express.Router();
 const proposalsController = new ProposalsController();
 
 // POST - Create new Proposal
-router.post('/', async (req, res) => {
+router.post('/', validateToken,async (req, res) => {
     try {
         const { name, activities } = req.body;
         if (!name) {
@@ -53,7 +53,7 @@ router.get('/:id', async (req, res) => {
 });
 
 // DELETE Proposal by Id
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', validateToken, async (req, res) => {
     const { id } = req.params;
 
     try {
@@ -72,3 +72,17 @@ router.delete('/:id', async (req, res) => {
 });
 
 module.exports = router;
+
+function validateToken(req, res, next){
+    console.log('Validando token...');
+    let bearer = req.headers['authorization'];
+    if(typeof bearer !== 'undefined'){
+        bearer = bearer.split(' ')[1]
+        req.token = bearer;
+        console.log('token success')
+        next()
+    } else{
+        res.status(401);
+        res.send({'unauthorized': 'this header has no token defined'})
+    }
+}

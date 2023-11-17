@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { AppRoutingModule } from './app-routing.module';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './components/Admin/login/login.component';
@@ -18,6 +18,7 @@ import { ResultsComponent } from './components/Admin/results/results.component';
 import { LobbyComponent } from './components/Admin/lobby/lobby.component';
 import { VoteComponent } from './components/User/vote/vote.component';
 import { WaitingRoomComponent } from './components/User/waiting-room/waiting-room.component';
+import { JwtInterceptor } from './components/Admin/interceptor/jwtInterceptor';
 
 
 @NgModule({
@@ -43,7 +44,13 @@ import { WaitingRoomComponent } from './components/User/waiting-room/waiting-roo
     ReactiveFormsModule,
     HttpClientModule,
   ],
-  providers: [],
+  providers:[
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: JwtInterceptor,
+      multi: true
+    }],
+  
   bootstrap: [AppComponent]
 })
 export class AppModule { }

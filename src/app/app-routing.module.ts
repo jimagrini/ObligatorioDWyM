@@ -7,6 +7,7 @@ import { RegisterComponent } from './components/Admin/register/register.componen
 import { GameComponent } from './components/Admin/game/game.component';
 import { LobbyComponent } from './components/Admin/lobby/lobby.component';
 import { ResultsComponent } from './components/Admin/results/results.component';
+import { ActivitiesComponent } from './components/Admin/activities/activities.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -16,7 +17,8 @@ const routes: Routes = [
   { path: 'register', component: RegisterComponent },
   { path: 'lobby', component: LobbyComponent },
   { path: 'results', component: ResultsComponent },
-  { path: 'login', component: LoginComponent }
+  { path: 'login', component: LoginComponent },
+  {path: 'activities', component: ActivitiesComponent}
 
 ];
 
