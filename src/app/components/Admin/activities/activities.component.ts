@@ -1,7 +1,7 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Output, EventEmitter } from '@angular/core';
 import { IActivity } from '../../../interfaces/activity';
 import { ActivitiesService } from '../../../services/activities.service';
-import { IAdmin } from '../../../interfaces/admin';
+import { catchError } from 'rxjs/operators';
 
 @Component({
   selector: 'app-activities',
@@ -10,14 +10,16 @@ import { IAdmin } from '../../../interfaces/admin';
 })
 export class ActivitiesComponent {
 
-  @Input() admin: IAdmin | null = null;
-  @Output() activityAdded = new EventEmitter<IActivity>();
+  @Output() selectedActivity= new EventEmitter<IActivity>();
   selectedActivities: IActivity[] = [];
   activities: IActivity[] = [];
 
   constructor(private activitiesService: ActivitiesService) { }
 
-  
+  ngOnInit(){
+    this.getActivities();
+  }
+
   async getActivities(): Promise<void> {
     try {
       this.activitiesService.getActivities().subscribe((activities: IActivity[]) => {
@@ -33,24 +35,37 @@ export class ActivitiesComponent {
   }
 
   selectActivity(activity: IActivity): void {
-    if(this.selectedActivities && this.admin){
-      this.selectedActivities.push(activity)
+    if (activity) {
+      this.selectedActivities.push(activity);
+      activity.selected = !activity.selected;
+      this.selectedActivity.emit(activity);
     }
   }
 
-  /** Create a new activity
+
+  /** Create new activity
    * 
-   * @param name 
-   * @param category 
-   * @param description 
-   * @param image 
+   * @param activity 
    */
-  createActivity(activity: IActivity): void {
+  async createActivity(activity: IActivity) {
     this.activitiesService.add(activity.name, activity.category, activity.description, activity.image)
-      .subscribe(() => {
-        // Handle success if needed
-      }, (error) => {
-        console.error('Error creating activity:', error);
+      .pipe(
+        catchError((error) => {
+          console.error(error);
+          alert('Ocurrió un error al crear la actividad. Por favor, intenta nuevamente.');
+          throw error;
+        })
+      )
+      .subscribe({
+        next: (response: IActivity) => {
+          console.log(response);
+          alert('Actividad creada con éxito!');
+          this.getActivities();
+        },
+        error: (error) => {
+          console.error(error);
+          alert('Ocurrió un error al crear la actividad. Por favor, intenta nuevamente.');
+        }
       });
   }
 

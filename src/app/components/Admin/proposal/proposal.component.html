@@ -7,8 +7,8 @@
   </button>
 </div>
 
-<app-activities></app-activities>
+<app-activities (selectedActivity)="selectActivity($event)"></app-activities>
 
-<button class="btn btn-success" (click)="startGame(proposalName.value)">
+<button class="btn btn-success" (click)="startGame()">
   Comenzar Juego
 </button>

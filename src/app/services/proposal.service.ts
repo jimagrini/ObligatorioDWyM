@@ -71,7 +71,45 @@ export class ProposalService {
     );
   }
 
-  // Activities:
+  /** GET
+   * 
+   * @param admin 
+   * @param proposalId 
+   * @param activityId 
+   * @returns 
+   */
+  getActivity(proposalId: string, activityId: number): Observable<IActivity> {
+    return this.getProposal(proposalId).pipe(
+      tap(_ => console.log(`fetched proposal w/ id=${proposalId}`)),
+      switchMap((proposal: IProposal) => {
+        const url = `${this.proposalsUrl}/${proposalId}/activities/${activityId}`;
+        return this.http.get<IActivity>(url).pipe(
+          tap(_ => console.log(`fetched activity '${activityId}' from proposal '${proposalId}'`),
+          catchError(this.handleError<IActivity>('getActivity'))
+        ));
+      }),
+    );
+  }
+
+  /** GET activity by Id
+   * 
+   * @param admin 
+   * @param proposalId 
+   * @param activityId 
+   * @returns 
+   */
+  getActivities(proposalId: string, activityId: number): Observable<IActivity> {
+    return this.getProposal(proposalId).pipe(
+      tap(_ => console.log(`fetched proposal w/ id=${proposalId}`)),
+      switchMap((proposal: IProposal) => {
+        const url = `${this.proposalsUrl}/${proposalId}/activities/${activityId}`;
+        return this.http.get<IActivity>(url).pipe(
+          tap(_ => console.log(`fetched activity '${activityId}' from proposal '${proposalId}'`),
+          catchError(this.handleError<IActivity>('getActivity'))
+        ));
+      }),
+    );
+  }
 
   /** POST
    * 
@@ -80,18 +118,18 @@ export class ProposalService {
    * @param activityId 
    * @returns 
    */
-  /*addActivity(admin: IAdmin, proposalId: number, activityId: number): Observable<IActivity> {
-    return this.getProposal(admin, proposalId).pipe(
+  addActivity(proposalId: string, activityId: number): Observable<IActivity> {
+    return this.getProposal(proposalId).pipe(
       tap(_ => console.log(`fetched proposal w/ id=${proposalId}`)),
       switchMap((proposal: IProposal) => {
-        const url = `api/${admin.id}/proposals/${proposalId}/activities/${activityId}`;
+        const url = `${this.proposalsUrl}/${proposalId}/activities`;
         return this.http.post<IActivity>(url, activityId, this.httpOptions).pipe(
           tap(_ => console.log(`added activity to proposal: ${activityId}`),
           catchError(this.handleError<IActivity>('addActivity'))
         ));
       }),
     );
-  }*/
+  }
 
 
   private handleError<T>(operation = 'operation', result?: T) {
