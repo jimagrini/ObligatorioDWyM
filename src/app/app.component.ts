@@ -9,7 +9,7 @@ import { WebSocketService } from './websocket.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'Juegos';
+  title = 'Juegos para Todos';
   message = ''
 
   constructor(private socketService: WebSocketService){

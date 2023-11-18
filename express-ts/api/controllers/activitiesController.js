@@ -18,11 +18,6 @@ class ActivitiesController {
         const actitivyWithFrontendId = { id: newActivity._id, ...newActivity.toObject() };
         return actitivyWithFrontendId;
     }
-
-    async deleteActivity(id) {
-        const result = await Activity.findByIdAndDelete(id).exec();
-        return !!result;
-    }
 }
 
 module.exports = ActivitiesController;

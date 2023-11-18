@@ -33,7 +33,7 @@ class AdminsController {
             if (!admin) {
                 return null; // Admin not found
             }
-            if (password!=admin.password) {
+            if (password != admin.password) {
                 return null; // Incorrect password
             }
             const token = this.createToken(admin);
@@ -48,7 +48,9 @@ class AdminsController {
         const payload = {
             admin_token: admin.token
         };
-        return jwt.sign(payload, 'token');
+        return jwt.sign(payload, 'token', {
+            expiresIn: 60 * 60 * 24
+        });
     }
 }
 
