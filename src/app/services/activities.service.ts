@@ -99,7 +99,7 @@ export class ActivitiesService {
    * @returns 
    */
   getActivitiesFromProposal(admin: IAdmin, proposal: IProposal): Observable<IActivity[]> {
-    const url = `api/${admin.id}/proposals/${proposal.id}/activities`;
+    const url = `http://localhost:3000/api/proposals/${proposal.id}/activities`;
     return this.http.get<IActivity[]>(url)
       .pipe(
         tap(_ => console.log('fetched activities')),
@@ -115,7 +115,7 @@ export class ActivitiesService {
    * @returns 
    */
   getActivityFromProposal(admin: IAdmin, proposal: IProposal, id: string): Observable<IActivity> {
-    const url = `api/${admin.id}/proposals/${proposal.id}/activities/${id}`;
+    const url = `http://localhost:3000/api/proposals/${proposal.id}/activities/${id}`;
     return this.http.get<IActivity>(url)
       .pipe(
         tap(_ => console.log('fetched activity')),
@@ -135,7 +135,7 @@ export class ActivitiesService {
       tap(_ => console.log(`fetched activity w/ id=${id}`)),
       switchMap((activity: IActivity) => {
         if (!activity.selected) {
-          const url = `api/${admin.id}/proposals/${proposal.id}/activities/${activity.id}`;
+          const url = `api/proposals/${proposal.id}/${activity.id}`;
           return this.http.delete(url).pipe(
             map(() => activity), // Return the original activity after successful deletion
             catchError(this.handleError<IActivity>('selectActivity'))

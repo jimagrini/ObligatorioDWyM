@@ -8,9 +8,9 @@
     </div>
     <div class="col-xs-12 col-sm-12 col-md-4 col-lg-3">
       <button type="button" id="form-button" title="Agregar una nueva actividad" (click)="toggleActivityForm()">
-        Agregar Actividad
+        Crear actividad
       </button>
-      <app-newActivity (activityAdded)= "createActivity($event); toggleActivityForm()"
+      <app-newActivity (activityAdded)="createActivity($event); toggleActivityForm()"
         *ngIf="showNewActivityForm"></app-newActivity>
     </div>
   </div>
