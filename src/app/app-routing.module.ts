@@ -8,6 +8,7 @@ import { GameComponent } from './components/Admin/game/game.component';
 import { LobbyComponent } from './components/Admin/lobby/lobby.component';
 import { ResultsComponent } from './components/Admin/results/results.component';
 import { ActivitiesComponent } from './components/Admin/activities/activities.component';
+import { VoteComponent } from './components/User/vote/vote.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -18,7 +19,8 @@ const routes: Routes = [
   { path: 'lobby', component: LobbyComponent },
   { path: 'results', component: ResultsComponent },
   { path: 'login', component: LoginComponent },
-  {path: 'activities', component: ActivitiesComponent}
+  {path: 'activities', component: ActivitiesComponent},
+  {path: 'vote', component: VoteComponent}
 
 ];
 
