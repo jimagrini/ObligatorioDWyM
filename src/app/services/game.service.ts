@@ -68,6 +68,12 @@ export class GameService {
     }
   }
 
+  /**
+   * 
+   * @param id - game code
+   * @param nickname 
+   * @returns 
+   */
   addUser(id: number, nickname: string): Observable<any> {
     if (id && nickname) {
       const url = `${this.gamesUrl}/${id}/users`;
@@ -84,6 +90,8 @@ export class GameService {
 
   endGame(id: number): boolean {
     if (!id) {
+
+      
 
     }
     alert('id not valid.')
