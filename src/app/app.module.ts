@@ -19,6 +19,7 @@ import { LobbyComponent } from './components/Admin/lobby/lobby.component';
 import { VoteComponent } from './components/User/vote/vote.component';
 import { WaitingRoomComponent } from './components/User/waiting-room/waiting-room.component';
 import { JwtInterceptor } from './components/Admin/interceptor/jwtInterceptor';
+import { MenuComponent } from './components/Admin/menu/menu.component';
 
 
 @NgModule({
@@ -35,6 +36,7 @@ import { JwtInterceptor } from './components/Admin/interceptor/jwtInterceptor';
     LobbyComponent,
     VoteComponent,
     WaitingRoomComponent,
+    MenuComponent,
   ],
   imports: [
     BrowserModule,
