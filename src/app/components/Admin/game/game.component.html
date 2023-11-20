@@ -5,11 +5,5 @@
   <img [src]="currentActivity?.image" alt="Imagen de la actividad" width="300">
 </div>
 <div class="container">
-  <div>
-    {{currentActivity?.id}}
-  </div>
-  <button>Siguiente</button>
-</div>
-<div *ngIf="showResults">
-  <a href="results">Mostrar Resultados</a>
+  <button (click)="showNextActivity()">Siguiente</button>
 </div>

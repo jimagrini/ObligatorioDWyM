@@ -15,10 +15,8 @@ class GamesController {
     }
 
     async addGame(proposal) {
-        const newGame = await Game.create({ proposal: proposal });
-
-        const gameWithFrontendId = { id: newGame._id, ...newGame.toObject() };
-        return gameWithFrontendId;
+        const newGame = await Game.create({ proposal });
+        return newGame;
     }
 
     async deleteGame(id) {
@@ -30,13 +28,15 @@ class GamesController {
         try {
             const game = await Game.findById(id);
             if (!game) {
-                return false;
+                return { error: `Game '${id}' not found` };
             }
             game.users.push(nickname);
             await game.save();
-            return true;
+            const token = this.createToken(nickname);
+            return { token };
         } catch (error) {
             console.log(error);
+            return { error: 'Failed to add user' };
         }
     }
 
@@ -46,7 +46,7 @@ class GamesController {
             if (!game) {
                 return false;
             }
-            
+
             const currentVote = game.votes.get(activityId) || 0;
             game.votes.set(activityId, currentVote + vote);
             await game.save();
@@ -54,6 +54,15 @@ class GamesController {
         } catch (error) {
             console.log(error);
         }
+    }
+
+    createToken(user) {
+        const payload = {
+            user_token: user.token
+        };
+        return jwt.sign(payload, 'token', {
+            expiresIn: 60 * 60 * 24
+        });
     }
 
 }

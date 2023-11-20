@@ -4,7 +4,7 @@ import { IProposal } from "./proposal";
  * Game interface
  */
 export interface IGame {
-    id: number;
+    _id: string;
     proposal: IProposal;
     users: string[];
     votes: Map<string, number>;
