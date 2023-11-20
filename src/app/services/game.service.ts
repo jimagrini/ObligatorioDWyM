@@ -4,6 +4,7 @@ import { Observable, of, catchError, tap } from 'rxjs';
 
 import { IProposal } from '../interfaces/proposal';
 import { IGame } from '../interfaces/game';
+import { SecurityService } from '../components/Admin/interceptor/securityService';
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +21,7 @@ export class GameService {
     )
   };
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private securityService: SecurityService) { }
 
   getGames(): Observable<IGame[]> {
     return this.http.get<IGame[]>(this.gamesUrl)
@@ -36,8 +37,8 @@ export class GameService {
    * 
    * @param id -  unique numeric id
   */
-  getGame(id: number): Observable<IGame> {
-    if (this.cachedGame && this.cachedGame.id === id) {
+  getGame(id: string): Observable<IGame> {
+    if (this.cachedGame && this.cachedGame._id === id) {
       return of(this.cachedGame); // Return the cached game if it matches the requested ID
     } else {
       const url = `${this.gamesUrl}/${id}`;
@@ -59,7 +60,7 @@ export class GameService {
   createGame(proposal: IProposal): Observable<IGame> {
     if (proposal) {
       return this.http.post<IGame>(this.gamesUrl, { proposal }, this.httpOptions).pipe(
-        tap((newGame: IGame) => console.log(`added game w/ id=${newGame.id}`)),
+        tap((newGame: IGame) => console.log(`added game w/ id=${newGame._id}`)),
         catchError(this.handleError<IGame>('addGame'))
       );
     } else {
@@ -74,24 +75,41 @@ export class GameService {
    * @param nickname 
    * @returns 
    */
-  addUser(id: number, nickname: string): Observable<any> {
+  addUser(id: string, nickname: string): Observable<any> {
     if (id && nickname) {
       const url = `${this.gamesUrl}/${id}/users`;
       return this.http.post<any>(url, { id, nickname }, this.httpOptions).pipe(
-        tap((user: any) => console.log(`added user: ${user}`)),
+        tap((response: any) => {
+          const token = response?.response?.token;
+          if (token) {
+            console.log(`Added user: ${nickname}`);
+            this.securityService.SetAuthData(token);
+            sessionStorage.setItem('token', token);
+          } else {
+            console.error('Token not found in the response');
+            // Handle other unexpected responses here
+          }
+        }),
         catchError(this.handleError<any>('addUser'))
       );
     } else {
       console.error('Invalid parameters for adding user.');
-      return of(null);
+      return of();
     }
   }
-
+  
+  /**
+   * 
+   * @param gameId 
+   * @param activityId 
+   * @param vote 
+   * @returns 
+   */
   vote(gameId: string, activityId: string, vote: number) {
     if (gameId && activityId && vote) {
       const url = `${this.gamesUrl}/${gameId}/votes`;
       return this.http.post<any>(url, { gameId, activityId, vote }, this.httpOptions).pipe(
-        tap((user: any) => console.log(`added vote: ${vote}`)),
+        tap((vote: any) => console.log(`added vote: ${vote}`)),
         catchError(this.handleError<any>('addVote'))
       );
     } else {
@@ -99,12 +117,9 @@ export class GameService {
       return of(null);
     }
   }
-  
 
-  endGame(id: number): boolean {
+  endGame(id: string): boolean {
     if (!id) {
-
-      
 
     }
     alert('id not valid.')

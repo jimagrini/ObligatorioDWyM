@@ -17,9 +17,7 @@ class AdminsController {
 
     async addAdmin(username, password) {
         const newAdmin = await Admin.create({ username, password });
-        const adminWithFrontendId = { id: newAdmin._id, ...newAdmin.toObject() };
-
-        return adminWithFrontendId;
+        return newAdmin;
     }
 
     async deleteAdmin(id) {
@@ -33,7 +31,8 @@ class AdminsController {
             if (!admin) {
                 return null; // Admin not found
             }
-            if (password != admin.password) {
+            const isPasswordValid = await bcrypt.compare(password, admin.password);
+            if (!isPasswordValid) {
                 return null; // Incorrect password
             }
             const token = this.createToken(admin);

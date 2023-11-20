@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { IProposal } from 'src/app/interfaces/proposal';
 import { ProposalService } from 'src/app/services/proposal.service';
 
@@ -11,7 +12,7 @@ export class ProposalsComponent {
 
   proposals: IProposal[] = [];
 
-  constructor(private proposalService: ProposalService) { }
+  constructor(private router: Router, private proposalService: ProposalService) { }
 
   ngOnInit() {
     this.getProposals();
@@ -27,7 +28,9 @@ export class ProposalsComponent {
     }
   }
 
-  getProposal() {
-
+  seeDetails(proposal: IProposal) {
+    console.log(proposal._id);
+    console.log(proposal.name);
+    this.router.navigate(['/proposals', proposal._id]);
   }
 }

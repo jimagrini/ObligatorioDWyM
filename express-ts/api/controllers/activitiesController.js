@@ -14,9 +14,7 @@ class ActivitiesController {
 
     async addActivity(name, category, description, image) {
         const newActivity = await Activity.create({ name, category, description, image, selected: false });
-        
-        const activityWithFrontendId = { id: newActivity._id, ...newActivity.toObject() };
-        return activityWithFrontendId;
+        return newActivity;
     }
 }
 

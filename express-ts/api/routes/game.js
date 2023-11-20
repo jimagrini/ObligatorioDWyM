@@ -35,7 +35,7 @@ router.get('/', async (req, res) => {
 });
 
 // GET Game by Id
-router.get('/:id',  async (req, res) => {
+router.get('/:id', async (req, res) => {
     const { id } = req.params;
     try {
         const Game = await gamesController.getGameById(id);
@@ -72,16 +72,21 @@ router.delete('/:id', validateToken, async (req, res) => {
 });
 
 // POST - Add new user to Game
-router.post('/:id/users', validateToken, async (req, res) => {
+router.post('/:id/users', async (req, res) => {
+    const { id, nickname } = req.body;
     try {
-        const { id, nickname } = req.body;
         if (!id || !nickname) {
             res.status(400)
                 .json({ message: 'Missing parameters. Cannot add user to game.' });
         } else {
-            const success = await gamesController.addUser(id, nickname);
-            res.status(201)
-                .json(success);
+            const token = await gamesController.addUser(id, nickname);
+            if (!token) {
+                res.status(401)
+                    .json({ error: 'Codigo de juego incorrecto' });
+            } else {
+                res.status(200)
+                    .json({ auth: true, response: token });
+            }
         }
     } catch (error) {
         res.status(500)
@@ -89,18 +94,36 @@ router.post('/:id/users', validateToken, async (req, res) => {
     }
 });
 
+// POST - Add new vote to Game
+router.post('/:id/votes', validateToken, async (req, res) => {
+    try {
+        const { gameId, activityId, vote } = req.body;
+        if (!gameId || !activityId || !vote) {
+            res.status(400)
+                .json({ message: 'Missing parameters. Cannot add vote to game.' });
+        } else {
+            const success = await gamesController.addVote(gameId, activityId, vote);
+            res.status(201)
+                .json(success);
+        }
+    } catch (error) {
+        res.status(500)
+            .json({ message: 'Internal Server Error', details: `Failed to add vote to game. Error: ${error}` });
+    }
+});
+
 module.exports = router;
 
-function validateToken(req, res, next){
+function validateToken(req, res, next) {
     console.log('Validando token...');
     let bearer = req.headers['authorization'];
-    if(typeof bearer !== 'undefined'){
+    if (typeof bearer !== 'undefined') {
         bearer = bearer.split(' ')[1]
         req.token = bearer;
         console.log('token success')
         next()
-    } else{
+    } else {
         res.status(401);
-        res.send({'unauthorized': 'this header has no token defined'})
+        res.send({ 'unauthorized': 'this header has no token defined' })
     }
 }

@@ -10,19 +10,23 @@ import { ResultsComponent } from './components/Admin/results/results.component';
 import { ActivitiesComponent } from './components/Admin/activities/activities.component';
 import { VoteComponent } from './components/User/vote/vote.component';
 import { WaitingRoomComponent } from './components/User/waiting-room/waiting-room.component';
+import { MenuComponent } from './components/Admin/menu/menu.component';
+import { ProposalDetailComponent } from './components/Admin/proposal-detail/proposal-detail.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: 'home', component: HomeComponent },
-  { path: 'create-proposal', component: CreateProposalComponent },
-  { path: 'game', component: GameComponent },
   { path: 'register', component: RegisterComponent },
-  { path: 'lobby', component: LobbyComponent },
-  { path: 'results', component: ResultsComponent },
   { path: 'login', component: LoginComponent },
-  {path: 'activities', component: ActivitiesComponent},
-  {path: 'vote', component: VoteComponent},
-  {path: 'wait', component: WaitingRoomComponent}
+  { path: 'menu', component: MenuComponent },
+  { path: 'activities', component: ActivitiesComponent },
+  { path: 'proposals/:id', component: ProposalDetailComponent },
+  { path: 'create-proposal', component: CreateProposalComponent },
+  { path: 'games/:gameId/lobby', component: LobbyComponent },
+  { path: 'games/:gameId/waiting-room', component: WaitingRoomComponent },
+  { path: 'games/:gameId/results', component: ResultsComponent },
+  { path: 'games/:gameId/:activityId', component: GameComponent },
+  { path: 'games/:gameId/:activityId/vote', component: VoteComponent },
 
 ];
 
@@ -30,4 +34,4 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }

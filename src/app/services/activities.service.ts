@@ -45,7 +45,7 @@ export class ActivitiesService {
    * @returns 
    */
   getActivity(id: string): Observable<IActivity> {
-    if (this.cachedActivity && this.cachedActivity.id === id) {
+    if (this.cachedActivity && this.cachedActivity._id === id) {
       return of(this.cachedActivity); // Return the cached activity if it matches the requested ID
     } else {
       const url = `${this.activitiesUrl}/${id}`;
@@ -70,7 +70,7 @@ export class ActivitiesService {
   add(name: string, category: string, description: string, image: string): Observable<IActivity> {
     if (CATEGORIES.find(c => c === category)) {
       return this.http.post<IActivity>(this.activitiesUrl, { name, category, description, image }, this.httpOptions).pipe(
-        tap((newActivity: IActivity) => console.log(`added activity w/ id=${newActivity.id}`)),
+        tap((newActivity: IActivity) => console.log(`added activity w/ id=${newActivity._id}`)),
         catchError(this.handleError<IActivity>('add'))
       );
     } else {
@@ -99,7 +99,7 @@ export class ActivitiesService {
    * @returns 
    */
   getActivitiesFromProposal(admin: IAdmin, proposal: IProposal): Observable<IActivity[]> {
-    const url = `http://localhost:3000/api/proposals/${proposal.id}/activities`;
+    const url = `http://localhost:3000/api/proposals/${proposal._id}/activities`;
     return this.http.get<IActivity[]>(url)
       .pipe(
         tap(_ => console.log('fetched activities')),
@@ -115,7 +115,7 @@ export class ActivitiesService {
    * @returns 
    */
   getActivityFromProposal(admin: IAdmin, proposal: IProposal, id: string): Observable<IActivity> {
-    const url = `http://localhost:3000/api/proposals/${proposal.id}/activities/${id}`;
+    const url = `http://localhost:3000/api/proposals/${proposal._id}/activities/${id}`;
     return this.http.get<IActivity>(url)
       .pipe(
         tap(_ => console.log('fetched activity')),
@@ -135,14 +135,14 @@ export class ActivitiesService {
       tap(_ => console.log(`fetched activity w/ id=${id}`)),
       switchMap((activity: IActivity) => {
         if (!activity.selected) {
-          const url = `api/proposals/${proposal.id}/${activity.id}`;
+          const url = `api/proposals/${proposal._id}/${activity._id}`;
           return this.http.delete(url).pipe(
             map(() => activity), // Return the original activity after successful deletion
             catchError(this.handleError<IActivity>('selectActivity'))
           );
         } else {
           // Logic to mark the activity as selected in the backend
-          const url = `api/${admin.id}/proposals/${proposal.id}/activities/${activity.id}`;
+          const url = `api/${admin._id}/proposals/${proposal._id}/activities/${activity._id}`;
           return this.http.put<IActivity>(url, activity as IActivity);
         }
       }),
