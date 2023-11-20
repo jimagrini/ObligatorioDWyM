@@ -1,3 +1,5 @@
-<!--
-    MOSTRAR LISTA DE PROPUESTAS EN EL SERVER + BOTON PARA CREAR PROPOSAL (redireccionamiento a la pag 'create-proposal')
--->
+<div class="proposals">
+    <div class="proposal-item" *ngFor="let proposal of proposals">
+        {{ proposal.name }}
+    </div>
+</div>

@@ -1,0 +1,19 @@
+.proposals {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.proposal-item {
+    margin-bottom: 8px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #f9f9f9;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.proposal-item:hover {
+    background-color: #e0e0e0;
+}
