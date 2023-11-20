@@ -21,6 +21,7 @@ import { WaitingRoomComponent } from './components/User/waiting-room/waiting-roo
 import { MenuComponent } from './components/Admin/menu/menu.component';
 import { ProposalsComponent } from './components/Admin/proposals/proposals.component';
 import { JwtInterceptor } from './components/Admin/interceptor/jwtInterceptor';
+import { ProposalDetailComponent } from './components/Admin/proposal-detail/proposal-detail.component';
 
 
 @NgModule({
@@ -38,7 +39,8 @@ import { JwtInterceptor } from './components/Admin/interceptor/jwtInterceptor';
     VoteComponent,
     WaitingRoomComponent,
     ProposalsComponent,
-    MenuComponent
+    MenuComponent,
+    ProposalDetailComponent
   ],
   imports: [
     BrowserModule,

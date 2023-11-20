@@ -1,5 +1,7 @@
 import { Component, Output, EventEmitter } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { IActivity } from 'src/app/interfaces/activity';
+import { GameService } from 'src/app/services/game.service';
 
 @Component({
   selector: 'app-vote',
@@ -8,13 +10,13 @@ import { IActivity } from 'src/app/interfaces/activity';
 })
 export class VoteComponent {
 
-  @Output() voteSubmitted= new EventEmitter<number>();
-
-  currentActivity: IActivity | null = null;
+  constructor(private route: ActivatedRoute, private gameService: GameService) {  }
 
   submitVote(value: number) {
-    this.voteSubmitted.emit(value);
+    const gameId = this.route.snapshot.paramMap.get('gameId');
+    const activityId = this.route.snapshot.paramMap.get('activityId');
+    if (gameId && activityId) {
+      this.gameService.vote(gameId, activityId, value);
+    }
   }
-
-  
 }
