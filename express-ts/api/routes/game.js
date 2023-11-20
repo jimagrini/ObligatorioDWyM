@@ -89,6 +89,24 @@ router.post('/:id/users', validateToken, async (req, res) => {
     }
 });
 
+// POST - Add new vote to Game
+router.post('/:id/votes', validateToken, async (req, res) => {
+    try {
+        const { gameId, activityId, vote } = req.body;
+        if (!gameId || !activityId || !vote) {
+            res.status(400)
+                .json({ message: 'Missing parameters. Cannot add vote to game.' });
+        } else {
+            const success = await gamesController.addVote(gameId, activityId, vote);
+            res.status(201)
+                .json(success);
+        }
+    } catch (error) {
+        res.status(500)
+            .json({ message: 'Internal Server Error', details: `Failed to add vote to game. Error: ${error}` });
+    }
+});
+
 module.exports = router;
 
 function validateToken(req, res, next){

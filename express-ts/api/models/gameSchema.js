@@ -14,6 +14,12 @@ const gameSchema = new Schema(
             type: Types.ObjectId,
             ref: 'Proposal',
             required: true
+        },
+        votes:
+        {
+            type: Map,
+            of: Number,
+            default: new Map()
         }
     }
 );

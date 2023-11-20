@@ -16,7 +16,7 @@ class GamesController {
 
     async addGame(proposal) {
         const newGame = await Game.create({ proposal: proposal });
-        
+
         const gameWithFrontendId = { id: newGame._id, ...newGame.toObject() };
         return gameWithFrontendId;
     }
@@ -39,7 +39,23 @@ class GamesController {
             console.log(error);
         }
     }
-    
+
+    async addVote(gameId, activityId, vote) {
+        try {
+            const game = await Game.findById(gameId);
+            if (!game) {
+                return false;
+            }
+            
+            const currentVote = game.votes.get(activityId) || 0;
+            game.votes.set(activityId, currentVote + vote);
+            await game.save();
+            return true;
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
 }
 
 module.exports = GamesController;

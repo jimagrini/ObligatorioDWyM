@@ -91,7 +91,7 @@ export class GameService {
     if (gameId && activityId && vote) {
       const url = `${this.gamesUrl}/${gameId}/votes`;
       return this.http.post<any>(url, { gameId, activityId, vote }, this.httpOptions).pipe(
-        tap((user: any) => console.log(`added vote: ${vote}`)),
+        tap((vote: any) => console.log(`added vote: ${vote}`)),
         catchError(this.handleError<any>('addVote'))
       );
     } else {
