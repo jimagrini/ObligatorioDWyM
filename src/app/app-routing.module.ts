@@ -10,19 +10,21 @@ import { ResultsComponent } from './components/Admin/results/results.component';
 import { ActivitiesComponent } from './components/Admin/activities/activities.component';
 import { VoteComponent } from './components/User/vote/vote.component';
 import { WaitingRoomComponent } from './components/User/waiting-room/waiting-room.component';
+import { MenuComponent } from './components/Admin/menu/menu.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: 'home', component: HomeComponent },
+  { path: 'register', component: RegisterComponent },
+  { path: 'login', component: LoginComponent },
+  { path: 'menu', component: MenuComponent },
   { path: 'create-proposal', component: CreateProposalComponent },
   { path: 'game', component: GameComponent },
-  { path: 'register', component: RegisterComponent },
   { path: 'lobby', component: LobbyComponent },
-  { path: 'results', component: ResultsComponent },
-  { path: 'login', component: LoginComponent },
   {path: 'activities', component: ActivitiesComponent},
   {path: 'vote', component: VoteComponent},
-  {path: 'wait', component: WaitingRoomComponent}
+  {path: 'wait', component: WaitingRoomComponent},
+  { path: 'results', component: ResultsComponent },
 
 ];
 

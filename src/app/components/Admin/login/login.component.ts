@@ -44,7 +44,7 @@ export class LoginComponent implements OnInit, OnDestroy{
       console.log('token', token);
       this.securityService.SetAuthData(token);
       sessionStorage.setItem('token', token);
-      this.router.navigate(['/create-room']);
+      this.router.navigate(['/menu']);
     }, err => {
       console.log('Error al Iniciar Sesión', err);
     });
