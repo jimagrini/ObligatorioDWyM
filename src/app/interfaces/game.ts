@@ -7,5 +7,6 @@ export interface IGame {
     id: number;
     proposal: IProposal;
     users: string[];
+    votes: Map<string, number>;
     active: boolean;
 }

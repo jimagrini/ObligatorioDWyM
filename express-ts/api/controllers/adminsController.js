@@ -33,7 +33,8 @@ class AdminsController {
             if (!admin) {
                 return null; // Admin not found
             }
-            if (password != admin.password) {
+            const isPasswordValid = await bcrypt.compare(password, admin.password);
+            if (!isPasswordValid) {
                 return null; // Incorrect password
             }
             const token = this.createToken(admin);
