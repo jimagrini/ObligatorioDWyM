@@ -1,0 +1,18 @@
+<button class="goBack" (click)="goBack()">
+    <i class="bi bi-arrow-left"></i>
+</button>
+<div *ngIf="proposal" class="col-xs-12 col-sm-12 col-md-4 col-lg-3 card">
+    <div class="proposal-profile">
+        <div class="proposal-name">{{proposal.name}}</div>
+        <div class="proposal-activities">
+            <div class="proposal-activity" *ngFor="let activity of proposal.activities">
+                <img class="pic" alt="art" src="{{ activity.image }}" style="border-radius: 10px" *ngIf="activity.image" />
+                <p>{{ activity.name }}</p>
+                <p>{{ activity.description }}</p>
+            </div>
+        </div>
+    </div>
+    <button class="startGame" (click)="createGame()">
+        Comenzar Juego
+    </button>
+</div>

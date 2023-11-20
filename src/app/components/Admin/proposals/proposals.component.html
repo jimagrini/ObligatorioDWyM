@@ -1,5 +1,5 @@
 <div class="proposals">
-    <div class="proposal-item" *ngFor="let proposal of proposals">
+    <div class="proposal-item" *ngFor="let proposal of proposals" (click)="seeDetails(proposal)">
         {{ proposal.name }}
     </div>
 </div>

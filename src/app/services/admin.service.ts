@@ -43,7 +43,7 @@ export class AdminService {
    * @param id -  unique string id
   */
   getAdmin(id: string): Observable<IAdmin> {
-    if (this.cachedAdmin && this.cachedAdmin.id === id) {
+    if (this.cachedAdmin && this.cachedAdmin._id === id) {
       return of(this.cachedAdmin); // Return the cached admin if it matches the requested ID
     } else {
       const url = `${this.adminsUrl}/${id}`;
@@ -66,74 +66,10 @@ export class AdminService {
   register(username: string, password: string): Observable<IAdmin> {
     const url = `${this.adminsUrl}/register`;
     return this.http.post<IAdmin>(url, { username, password }, this.httpOptions).pipe(
-      tap((newAdmin: IAdmin) => console.log(`added admin w/ id=${newAdmin.id}`)),
+      tap((newAdmin: IAdmin) => console.log(`added admin w/ id=${newAdmin._id}`)),
       catchError(this.handleError<IAdmin>('addAdmin'))
     );
   }
-
-  /** GET proposals by adminId. Calls getAdmin method
-   * 
-   * @param id - admin id
-   * @returns - proposals list of admin found
-   */
-  /*getProposals(id: number): Observable<IProposal[]> {
-    return this.getAdmin(id).pipe(
-      tap((admin: IAdmin) => console.log(`fetched admin w/ id=${admin.id}`)),
-      switchMap((admin: IAdmin) => {
-        return this.proposalService.getProposals(admin);
-      }),
-      catchError(this.handleError<IProposal[]>('getProposals'))
-    );
-  }*/
-
-  /** GET proposal by adminId, proposalId. Calls getAdmin method
-   * 
-   * @param adminId 
-   * @param proposalId 
-   * @returns 
-   */
-  /*getProposal(adminId: string, proposalId: number): Observable<IProposal> {
-    return this.getAdmin(adminId).pipe(
-      tap((admin: IAdmin) => console.log(`fetched admin w/ id=${admin.id}`)),
-      switchMap((admin: IAdmin) => {
-        return this.proposalService.getProposal(admin, proposalId);
-      }),
-      catchError(this.handleError<IProposal>('getProposal'))
-    );
-  }*/
-
-  /** POST: add new proposal (to the specified admin) to the server
-   * 
-   * @param adminId 
-   * @param name 
-   * @param activities 
-   * @returns 
-   */
-  /*addProposal(adminId: number, name: string, activities: IActivity[]): Observable<IProposal> {
-    return this.getAdmin(adminId).pipe(
-      tap((admin: IAdmin) => console.log(`fetched admin w/ id=${admin.id}`)),
-      switchMap((admin: IAdmin) => {
-        return this.proposalService.add(admin, name, activities);
-      }),
-      catchError(this.handleError<IProposal>('addProposal'))
-    );
-  }*/
-
-  /** DELETE: remove proposal (of the specified admin) from the server
-   * 
-   * @param adminId 
-   * @param proposalId 
-   * @returns 
-   */
-  /*deleteProposal(adminId: number, proposalId: number): Observable<boolean> {
-    return this.getAdmin(adminId).pipe(
-      tap((admin: IAdmin) => console.log(`fetched admin w/ id=${admin.id}`)),
-      switchMap((admin: IAdmin) => {
-        return this.proposalService.delete(admin, proposalId);
-      }),
-      catchError(this.handleError<boolean>('deleteProposal'))
-    );
-  }*/
 
   /**
  * Handle Http operation that failed.

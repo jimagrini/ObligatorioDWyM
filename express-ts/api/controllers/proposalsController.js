@@ -14,9 +14,7 @@ class ProposalsController {
 
     async addProposal(name, activities) {
         const newProposal = await Proposal.create({ name, activities });
-        
-        const proposalWithFrontendId = { id: newProposal._id, ...newProposal.toObject() };
-        return proposalWithFrontendId;
+        return newProposal;
     }
 
     async deleteProposal(id) {

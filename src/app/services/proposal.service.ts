@@ -38,7 +38,7 @@ export class ProposalService {
    * @param id - unique string id
   */
   getProposal(id: string): Observable<IProposal> {
-    if (this.cachedProposal && this.cachedProposal.id === id) {
+    if (this.cachedProposal && this.cachedProposal._id === id) {
       return of(this.cachedProposal); // Return the cached admin if it matches the requested ID
     } else {
       const url = `${this.proposalsUrl}/${id}`;
@@ -51,7 +51,7 @@ export class ProposalService {
 
   add(name: string, activities: IActivity[]): Observable<IProposal> {
     return this.http.post<IProposal>(this.proposalsUrl, { name, activities }, this.httpOptions).pipe(
-      tap((newProposal: IProposal) => console.log(`added proposal w/ id=${newProposal.id}`)),
+      tap((newProposal: IProposal) => console.log(`added proposal w/ id=${newProposal._id}`)),
       catchError(this.handleError<IProposal>('addProposal'))
     );
   }
