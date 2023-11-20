@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { IActivity } from '../interfaces/activity';
 import { IProposal } from '../interfaces/proposal';
 import { CATEGORIES } from 'src/app/constants';
-import { EMPTY, Observable, of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, map, tap, switchMap } from 'rxjs/operators';
 import { IAdmin } from '../interfaces/admin';

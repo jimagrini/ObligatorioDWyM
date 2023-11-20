@@ -21,7 +21,6 @@ app.use(cors(corsOptions));
 const port = process.env.PORT || 3000;
 
 // Middlewares
-app.use(express.json());
 app.use('/api/admins', adminRouter);
 app.use('/api/activities', activityRouter);
 app.use('/api/proposals', proposalRouter);

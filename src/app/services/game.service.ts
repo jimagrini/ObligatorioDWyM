@@ -86,6 +86,19 @@ export class GameService {
       return of(null);
     }
   }
+
+  vote(gameId: string, activityId: string, vote: number) {
+    if (gameId && activityId && vote) {
+      const url = `${this.gamesUrl}/${gameId}/votes`;
+      return this.http.post<any>(url, { gameId, activityId, vote }, this.httpOptions).pipe(
+        tap((user: any) => console.log(`added vote: ${vote}`)),
+        catchError(this.handleError<any>('addVote'))
+      );
+    } else {
+      console.error('Invalid parameters for adding user.');
+      return of(null);
+    }
+  }
   
 
   endGame(id: number): boolean {

@@ -34,7 +34,7 @@ router.post('/login', async (req, res) => {
                 .json({ error: 'Contraseña o usuario incorrecto' });
         } else {
             res.status(200)
-                .json({ response: token });
+                .json({ auth: true, response: token });
         }
     } catch (error) {
         res.status(500)

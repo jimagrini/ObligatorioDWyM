@@ -18,7 +18,7 @@ import { ResultsComponent } from './components/Admin/results/results.component';
 import { LobbyComponent } from './components/Admin/lobby/lobby.component';
 import { VoteComponent } from './components/User/vote/vote.component';
 import { WaitingRoomComponent } from './components/User/waiting-room/waiting-room.component';
-import { JwtInterceptor } from './components/Admin/interceptor/jwtInterceptor';
+import { MenuComponent } from './components/Admin/menu/menu.component';
 import { ProposalsComponent } from './components/Admin/proposals/proposals.component';
 
 
@@ -37,6 +37,7 @@ import { ProposalsComponent } from './components/Admin/proposals/proposals.compo
     VoteComponent,
     WaitingRoomComponent,
     ProposalsComponent,
+    MenuComponent
   ],
   imports: [
     BrowserModule,
