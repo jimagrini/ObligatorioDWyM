@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { IActivity } from '../../../interfaces/activity';
 import { AdminService } from '../../../services/admin.service';
-import { WebSocketService } from 'src/app/websocket.service';
+import { WebSocketService } from 'src/app/services/websocket.service';
 
 @Component({
   selector: 'app-game',
@@ -22,9 +22,8 @@ export class GameComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.socketService.getNewMessage().subscribe((activityPart: IActivity) => {
-      console.log(activityPart);
-      this.currentActivity = activityPart;
+    this.socketService.activities$.subscribe((activities) => {
+      this.activities = activities;
     });
   }
 

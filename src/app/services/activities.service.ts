@@ -6,10 +6,10 @@ import { Observable, of } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, map, tap, switchMap } from 'rxjs/operators';
 import { IAdmin } from '../interfaces/admin';
-
+import { WebSocketService } from './websocket.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ActivitiesService {
 
@@ -21,7 +21,11 @@ export class ActivitiesService {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   };
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private webSocketService: WebSocketService) { 
+    this.webSocketService.activities$.subscribe((activities) => {
+      this.selectedActivities = activities;
+    });
+  }
 
   selectedActivities: IActivity[] = [];
 
@@ -32,7 +36,7 @@ export class ActivitiesService {
   getActivities(): Observable<IActivity[]> {
     return this.http.get<IActivity[]>(this.activitiesUrl)
       .pipe(
-        tap(_ => console.log('fetched activities')),
+        tap(activities => this.webSocketService.sendMessage(activities)),
         catchError(this.handleError<IActivity[]>('getActivities', []))
       );
   }
@@ -87,7 +91,7 @@ export class ActivitiesService {
     const url = `${this.activitiesUrl}/${id}`;
     return this.http.delete(url).pipe(
       tap(_ => console.log(`deleted activity id=${id}`)),
-      map(() => true), // If the operation is successful, response is mapped into a 'true' boolean
+      map(() => true), 
       catchError(this.handleError<boolean>(`delete id=${id}`))
     );
   }
@@ -137,15 +141,15 @@ export class ActivitiesService {
         if (!activity.selected) {
           const url = `api/proposals/${proposal.id}/${activity.id}`;
           return this.http.delete(url).pipe(
-            map(() => activity), // Return the original activity after successful deletion
+            map(() => activity),
             catchError(this.handleError<IActivity>('selectActivity'))
           );
         } else {
-          // Logic to mark the activity as selected in the backend
           const url = `api/${admin.id}/proposals/${proposal.id}/activities/${activity.id}`;
           return this.http.put<IActivity>(url, activity as IActivity);
         }
       }),
+      tap(activities => this.webSocketService.sendMessage(activities)),
       catchError(this.handleError<IActivity>('selectActivity'))
     );
   }
@@ -159,14 +163,8 @@ export class ActivitiesService {
    */
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
-
-      // TODO: send the error to remote logging infrastructure
-      console.error(error); // log to console instead
-
-      // TODO: better job of transforming error for user consumption
+      console.error(error); 
       console.log(`${operation} failed: ${error.message}`);
-
-      // Let the app keep running by returning an empty result.
       return of(result as T);
     };
   }
