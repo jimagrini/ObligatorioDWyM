@@ -20,6 +20,7 @@ import { VoteComponent } from './components/User/vote/vote.component';
 import { WaitingRoomComponent } from './components/User/waiting-room/waiting-room.component';
 import { MenuComponent } from './components/Admin/menu/menu.component';
 import { ProposalsComponent } from './components/Admin/proposals/proposals.component';
+import { JwtInterceptor } from './components/Admin/interceptor/jwtInterceptor';
 
 
 @NgModule({
