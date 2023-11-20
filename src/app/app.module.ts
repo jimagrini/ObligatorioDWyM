@@ -10,7 +10,7 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './components/Admin/login/login.component';
 import { HomeComponent } from './components/Home/home.component';
 import { NewActivityComponent } from './components/Admin/newActivity/newActivity.component';
-import { ProposalComponent } from './components/Admin/proposal/proposal.component';
+import { CreateProposalComponent } from './components/Admin/create-proposal/create-proposal.component';
 import { GameComponent } from './components/Admin/game/game.component';
 import { RegisterComponent } from './components/Admin/register/register.component';
 import { ActivitiesComponent } from './components/Admin/activities/activities.component';
@@ -18,8 +18,8 @@ import { ResultsComponent } from './components/Admin/results/results.component';
 import { LobbyComponent } from './components/Admin/lobby/lobby.component';
 import { VoteComponent } from './components/User/vote/vote.component';
 import { WaitingRoomComponent } from './components/User/waiting-room/waiting-room.component';
-import { JwtInterceptor } from './components/Admin/interceptor/jwtInterceptor';
 import { MenuComponent } from './components/Admin/menu/menu.component';
+import { ProposalsComponent } from './components/Admin/proposals/proposals.component';
 
 
 @NgModule({
@@ -28,7 +28,7 @@ import { MenuComponent } from './components/Admin/menu/menu.component';
     LoginComponent,
     HomeComponent,
     ActivitiesComponent,
-    ProposalComponent,
+    CreateProposalComponent,
     GameComponent,
     RegisterComponent,
     NewActivityComponent,
@@ -36,7 +36,8 @@ import { MenuComponent } from './components/Admin/menu/menu.component';
     LobbyComponent,
     VoteComponent,
     WaitingRoomComponent,
-    MenuComponent,
+    ProposalsComponent,
+    MenuComponent
   ],
   imports: [
     BrowserModule,
