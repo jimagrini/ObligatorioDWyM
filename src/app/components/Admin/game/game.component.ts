@@ -9,6 +9,7 @@ import { ProposalService } from 'src/app/services/proposal.service';
 import { IProposal } from 'src/app/interfaces/proposal';
 import { Params } from '@angular/router';
 
+
 @Component({
   selector: 'app-game',
   templateUrl: './game.component.html',
@@ -28,9 +29,18 @@ export class GameComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.socketService.activities$.subscribe((activities) => {
-      this.activities = activities;
-
+    this.route.params.subscribe((params: Params) => {
+      const id = params['id'];
+      if (id) {
+        this.getGame(id);
+        this.getActivitiesFromGame(id).then(() => {
+          this.currentActivity = this.activities![0];
+        });
+      }
+    });
+    this.socketService.getNewMessage().subscribe((activityPart: IActivity) => {
+      console.log(activityPart);
+      this.currentActivity = activityPart;
     });
   }
 
