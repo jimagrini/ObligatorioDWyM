@@ -7,11 +7,11 @@ import { IGame } from 'src/app/interfaces/game';
 import { catchError } from 'rxjs/operators';
 
 @Component({
-  selector: 'app-proposal',
-  templateUrl: './proposal.component.html',
-  styleUrls: ['./proposal.component.css'],
+  selector: 'app-create-proposal',
+  templateUrl: './create-proposal.component.html',
+  styleUrls: ['./create-proposal.component.css'],
 })
-export class ProposalComponent {
+export class CreateProposalComponent {
 
   @Output() proposalAdded = new EventEmitter<IProposal>();
   @Input() selectedActivities: IActivity[] = []

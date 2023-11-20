@@ -51,25 +51,6 @@ router.get('/:id', async (req, res) => {
     }
 });
 
-// Delete activity by ID
-router.delete('/:id', async (req, res) => {
-    const { id } = req.params;
-
-    try {
-        const success = await activitiesController.deleteActivity(id);
-        if (!success) {
-            res.status(404)
-                .json({ success: false, message: `Activity '${id}' not found.` });
-        } else {
-            res.status(204)
-                .end();
-        }
-    } catch (error) {
-        res.status(500)
-            .json({ message: 'Internal Server Error', details: `Failed to delete activity '${id}'. Error: ${error}` });
-    }
-});
-
 module.exports = router;
 
 function validateToken(req, res, next){
