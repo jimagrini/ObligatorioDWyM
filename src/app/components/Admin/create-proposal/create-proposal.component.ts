@@ -42,6 +42,7 @@ export class CreateProposalComponent {
             console.log(response)
             alert('Propuesta creada con éxito!');
             this.selectedActivities.forEach(act => act.selected = false);
+            this.proposal = response;
             this.selectedActivities = [];
           },
           error: (error) => {

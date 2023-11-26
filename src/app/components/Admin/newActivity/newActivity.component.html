@@ -1,6 +1,6 @@
 <div class="container">
     <div [hidden]="submitted">
-        <h1>Creacion de Actividad</h1>
+        <h1>Creación de Actividad</h1>
         <form (ngSubmit)="onSubmit()" #activityForm="ngForm">
             <div class="form-group">
                 <label for="name">Nombre</label>
@@ -11,13 +11,13 @@
                 </div>
             </div>
             <div class="form-group">
-                <label for="category">Categoria</label>
+                <label for="category">Categoría</label>
                 <select class="form-control" id="type" required [(ngModel)]="model.category" name="category"
                     #category="ngModel">
                     <option *ngFor="let category of categories" [value]="category">{{category}}</option>
                 </select>
                 <div [hidden]="category.valid || category.pristine" class="alert alert-danger">
-                    El campo 'Categoria' es obligatorio
+                    El campo 'Categoría' es obligatorio
                 </div>
             </div>
             <div class="form-group">
