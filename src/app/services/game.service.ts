@@ -87,7 +87,6 @@ export class GameService {
             sessionStorage.setItem('token', token);
           } else {
             console.error('Token not found in the response');
-            // Handle other unexpected responses here
           }
         }),
         catchError(this.handleError<any>('addUser'))
