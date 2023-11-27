@@ -20,8 +20,7 @@ export class VoteComponent {
         console.error(error);
         throw error;
       })
-    )
-      .subscribe({
+    ).subscribe({
         next: (response: IGame) => {
           if (response) {
             const activityId = response.currentActivity._id;

@@ -1,7 +1,6 @@
-import express from 'express';
-import { createServer } from 'http';
-import { Socket } from 'socket.io';
-import cardRouter from './routes-socket/cards';
+/*import express from 'express'
+import cardRouter from './routes-socket/cards'
+import { createServer } from "http";
 
 const app = express();
 const httpServer = createServer(app);
@@ -63,4 +62,4 @@ function ejecutarjuego(activitieslist: any, pos = 0) {
   } else {
     io.emit('message', 'fin juego');
 }
-}
+}*/
