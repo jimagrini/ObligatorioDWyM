@@ -42,9 +42,6 @@ router.post('/login', async (req, res) => {
     }
 });
 
-
-
-
 // Get all Admins
 router.get('/', async (req, res) => {
     try {

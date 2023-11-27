@@ -25,9 +25,8 @@ const routes: Routes = [
   { path: 'games/:gameId/lobby', component: LobbyComponent },
   { path: 'games/:gameId/waiting-room', component: WaitingRoomComponent },
   { path: 'games/:gameId/results', component: ResultsComponent },
-  { path: 'games/:gameId/:activityId', component: GameComponent },
-  { path: 'games/:gameId/:activityId/vote', component: VoteComponent },
-
+  { path: 'games/:gameId/activities', component: GameComponent },
+  { path: 'games/:gameId/vote', component: VoteComponent },
 ];
 
 @NgModule({

@@ -1,14 +1,12 @@
 <div class="lobby">
     <div class="row">
-        <div class="wrapper">
-
-        </div>
+        Codigo de juego: {{game?._id}}
     </div>
     <div class="row">
         <button (click)="startGame()">Start</button>
     </div>
     <div class="col-xs-12 col-sm-12 col-md-4 col-lg-3 card" *ngFor="let user of game?.users">
-        <div *ngFor="let user of game?.users" class="user-display">
+        <div class="user-display">
             {{user}}
         </div>
     </div>

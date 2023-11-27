@@ -56,6 +56,16 @@ class GamesController {
         }
     }
 
+    async setGameState(id, state) {
+        const game = await this.getGameById(id);
+        if (game) {
+            game.active = state;
+            await game.save();
+            return true;
+        }
+        return false;
+    }
+
     createToken(user) {
         const payload = {
             user_token: user.token
