@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Params } from '@angular/router';
 import { IActivity } from '../../../interfaces/activity';
 import { WebSocketService } from 'src/app/websocket.service';
 import { IGame } from 'src/app/interfaces/game';
 import { GameService } from 'src/app/services/game.service';
 import { ProposalService } from 'src/app/services/proposal.service';
 import { IProposal } from 'src/app/interfaces/proposal';
-import { Params } from '@angular/router';
+
 
 @Component({
   selector: 'app-game',
@@ -40,6 +40,13 @@ export class GameComponent implements OnInit {
       console.log(activityPart);
       this.currentActivity = activityPart;
     });
+  }
+
+  private async startGame(id: string): Promise<void> {
+    await this.getGame(id);
+    await this.getActivitiesFromGame(id);
+    this.currentActivity = this.activities![0];
+    this.showNextActivity();
   }
 
   async getGame(id: string): Promise<void> {

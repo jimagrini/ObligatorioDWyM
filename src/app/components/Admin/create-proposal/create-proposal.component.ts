@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { IActivity } from '../../../interfaces/activity';
 import { IProposal } from '../../../interfaces/proposal';
 import { ProposalService } from '../../../services/proposal.service';
@@ -13,7 +13,6 @@ import { catchError } from 'rxjs/operators';
 })
 export class CreateProposalComponent {
 
-  @Output() proposalAdded = new EventEmitter<IProposal>();
   @Input() selectedActivities: IActivity[] = []
   proposal?: IProposal;
 

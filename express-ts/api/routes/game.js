@@ -94,6 +94,20 @@ router.post('/:id/users', async (req, res) => {
     }
 });
 
+// PUT - start or end game
+router.put('/:id', validateToken, async (req, res) => {
+    const { id } = req.params;
+    const { state } = req.body;
+    try {
+        const success = await gamesController.setGameState(id, state);
+        res.status(201)
+            .json(success);
+    } catch (error) {
+        res.status(500)
+            .json({ message: 'Internal Server Error', details: `Failed to retrieve games data. Error: ${error}` });
+    }
+});
+
 // POST - Add new vote to Game
 router.post('/:id/votes', validateToken, async (req, res) => {
     try {
