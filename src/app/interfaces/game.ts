@@ -1,3 +1,4 @@
+import { IActivity } from "./activity";
 import { IProposal } from "./proposal";
 
 /**
@@ -9,4 +10,5 @@ export interface IGame {
     users: string[];
     votes: Map<string, number>;
     active: boolean;
+    currentActivity: IActivity;
 }

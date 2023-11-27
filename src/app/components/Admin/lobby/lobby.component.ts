@@ -17,7 +17,7 @@ export class LobbyComponent {
   constructor(private route: ActivatedRoute, private router: Router, private gameService: GameService) { }
 
   ngOnInit(): void {
-    const id = this.route.snapshot.paramMap.get('id');
+    const id = this.route.snapshot.paramMap.get('gameId');
     if (id) {
       this.getGame(id);
     }
@@ -36,7 +36,15 @@ export class LobbyComponent {
 
   startGame() {
     if (this.game) {
-      this.router.navigate(['/games/', this.game._id, '/activities']);
+      this.gameService.startGame(this.game._id).subscribe(
+        (success: boolean) => {
+          console.log(`Game started: ${success}`);
+          this.router.navigate(['/games', this.game!._id, 'activities']);
+        },
+        (error) => {
+          console.error(`Error starting Game: ${this.game!._id}`, error);
+        }
+      );
     }
   }
 

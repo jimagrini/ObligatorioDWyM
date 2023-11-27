@@ -1,16 +1,19 @@
 import { Injectable } from '@angular/core';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
-import { Observable, of, catchError, tap } from 'rxjs';
+import { Observable, of, catchError, tap, Subject, map } from 'rxjs';
 
 import { IProposal } from '../interfaces/proposal';
 import { IGame } from '../interfaces/game';
 import { SecurityService } from '../components/Admin/interceptor/securityService';
+import { ProposalService } from './proposal.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class GameService {
 
+  private gameStartSource = new Subject<boolean>();
+  gameStarted$ = this.gameStartSource.asObservable();
   private cachedGame: IGame | null = null;
 
   private gamesUrl = 'http://localhost:3000/api/games';  // URL to web api
@@ -21,7 +24,7 @@ export class GameService {
     )
   };
 
-  constructor(private http: HttpClient, private securityService: SecurityService) { }
+  constructor(private http: HttpClient, private securityService: SecurityService, private proposalService: ProposalService) { }
 
   getGames(): Observable<IGame[]> {
     return this.http.get<IGame[]>(this.gamesUrl)
@@ -60,7 +63,10 @@ export class GameService {
   createGame(proposal: IProposal): Observable<IGame> {
     if (proposal) {
       return this.http.post<IGame>(this.gamesUrl, { proposal }, this.httpOptions).pipe(
-        tap((newGame: IGame) => console.log(`added game w/ id=${newGame._id}`)),
+        tap((newGame: IGame) => {
+          console.log(`added game w/ id=${newGame._id}`);
+          newGame.currentActivity = proposal.activities[0];
+        }),
         catchError(this.handleError<IGame>('addGame'))
       );
     } else {
@@ -87,7 +93,6 @@ export class GameService {
             sessionStorage.setItem('token', token);
           } else {
             console.error('Token not found in the response');
-            // Handle other unexpected responses here
           }
         }),
         catchError(this.handleError<any>('addUser'))
@@ -97,7 +102,7 @@ export class GameService {
       return of();
     }
   }
-  
+
   /**
    * 
    * @param gameId 
@@ -105,25 +110,40 @@ export class GameService {
    * @param vote 
    * @returns 
    */
-  vote(gameId: string, activityId: string, vote: number) {
+  vote(gameId: string, activityId: string, vote: number): Observable<boolean> {
     if (gameId && activityId && vote) {
       const url = `${this.gamesUrl}/${gameId}/votes`;
-      return this.http.post<any>(url, { gameId, activityId, vote }, this.httpOptions).pipe(
-        tap((vote: any) => console.log(`added vote: ${vote}`)),
-        catchError(this.handleError<any>('addVote'))
+      return this.http.post<boolean>(url, { gameId, activityId, vote }, this.httpOptions).pipe(
+        tap((vote: boolean) => console.log(`added vote: ${vote}`)),
+        catchError(this.handleError<boolean>('addVote'))
       );
     } else {
       console.error('Invalid parameters for adding user.');
-      return of(null);
+      return of(false);
     }
   }
 
-  endGame(id: string): boolean {
-    if (!id) {
+  isGameActive(id: string): Observable<boolean> {
+    return this.getGame(id).pipe(
+      map(game => game.active),
+      catchError(this.handleError<boolean>(`isGameActive id=${id}`))
+    );
+  }
 
-    }
-    alert('id not valid.')
-    return false;
+  startGame(gameId: string): Observable<boolean> {
+    const url = `${this.gamesUrl}/${gameId}`;
+    return this.http.put<boolean>(url, { state: true }, this.httpOptions).pipe(
+      tap((success: boolean) => console.log(`game started: ${success}`)),
+      catchError(this.handleError<boolean>('startGame'))
+    );
+  }
+
+  endGame(id: string): Observable<boolean> {
+    const url = `${this.gamesUrl}/${id}`;
+    return this.http.put<boolean>(url, { state: false }, this.httpOptions).pipe(
+      tap((success: boolean) => console.log(`game started: ${success}`)),
+      catchError(this.handleError<boolean>('startGame'))
+    );
   }
 
   /**

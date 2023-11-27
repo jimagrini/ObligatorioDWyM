@@ -4,7 +4,7 @@ const gameSchema = new Schema(
     {
         users: [
             {
-                type: [String],
+                type: String,
                 required: true,
                 default: []
             }
@@ -20,6 +20,17 @@ const gameSchema = new Schema(
             type: Map,
             of: Number,
             default: new Map()
+        },
+        currentActivity:
+        {
+            type: Types.ObjectId,
+            ref: 'Activity',
+            default: null
+        },
+        active:
+        {
+            type: Boolean,
+            default: false
         }
     }
 );

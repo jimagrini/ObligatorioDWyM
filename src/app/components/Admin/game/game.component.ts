@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Params } from '@angular/router';
 import { IActivity } from '../../../interfaces/activity';
 import { AdminService } from '../../../services/admin.service';
 import { WebSocketService } from 'src/app/services/websocket.service';
@@ -7,7 +7,7 @@ import { IGame } from 'src/app/interfaces/game';
 import { GameService } from 'src/app/services/game.service';
 import { ProposalService } from 'src/app/services/proposal.service';
 import { IProposal } from 'src/app/interfaces/proposal';
-import { Params } from '@angular/router';
+
 
 
 @Component({
