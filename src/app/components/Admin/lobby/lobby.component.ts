@@ -27,6 +27,7 @@ export class LobbyComponent {
     if (id) {
       this.getGame(id);
     }
+    
   }
 
   getGame(id: string): void {

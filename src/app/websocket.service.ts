@@ -8,13 +8,20 @@ import { IActivity } from './interfaces/activity';
 })
 export class WebSocketService {
   public message$: BehaviorSubject<string> = new BehaviorSubject('');
-
+  private activitiesSubject: BehaviorSubject<IActivity[]> = new BehaviorSubject([] as IActivity[]);
   socket = io('http://localhost:3000');
 
   constructor() {
     this.socket.on('message', (message: string) => {
       this.message$.next(message);
       console.log(message);
+      this.socket.on('activityPart', (activityPart: IActivity) => {
+        console.log('Received activityPart event:', activityPart);
+        const currentActivities = this.activitiesSubject.value;
+        const updatedActivities = [...currentActivities, activityPart];
+        this.activitiesSubject.next(updatedActivities);
+      });
+      
     });
 
     this.socket.on('gameStarted', (gameStarted: any) => {
@@ -26,6 +33,10 @@ export class WebSocketService {
       console.log('Received activityPart event:', activityPart);
       this.message$.next(activityPart);
     });
+  }
+
+  public getActivities(): Observable<IActivity[]> {
+    return this.activitiesSubject.asObservable();
   }
 
   public sendMessage(message: any): void {
