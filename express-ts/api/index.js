@@ -8,7 +8,6 @@ const gameRouter = require('./routes/game');
 
 const GamesController = require('./controllers/gamesController');
 const gamesController = new GamesController();
-
 require('dotenv').config();
 
 const cors = require('cors');
@@ -81,31 +80,42 @@ const io = require('socket.io')(httpServer, {
     cors: { origin: '*' }
 });
 
-io.on('connection', () => {
+io.on('connection', (socket) => {
     console.log('A user connected');
-
-    io.on('disconnect', () => {
-        console.log('A user disconnected!');
+  
+    socket.on('disconnect', () => {
+      console.log('A user disconnected!');
     });
+  
+    socket.on('startGame', ({ gameId }) => {
+      console.log(`Received startGame event for game ${gameId}`);
+      const activitiesList = gamesController.getActivities(gameId);
+      runGame(activitiesList, gameId);
+    });
+  
+    socket.on('sendActivities', ({currentActivity , pos}) => {
+      console.log('Received sendActivities event with activities:', currentActivity._id);
+      changeActivities(activitiesList, pos);
+      
+    });
+  });
 
-    /*io.on('sendActivities', (activities) => {
-        console.log('Received sendActivities event with activities:', activities);
-        runGame(activities, 0);
-    });*/
-
-
-});
-
-function runGame(activitiesList, gameId) {
-    const pos = 0;
+  function runGame(activitiesList, gameId) {
+    if (activitiesList && activitiesList.length ) {
+        io.emit('gameStarted', gameId);
+        changeActivities(activitiesList , 0)
+    } else {
+        io.emit('message', 'fin juego');
+    }
+}
+function changeActivities(activitiesList, pos) {
     if (activitiesList && activitiesList.length && pos < activitiesList.length) {
         const currentActivity = activitiesList[pos];
-        io.emit('gameStarted', gameId);
         io.emit('activityPart', currentActivity);
 
         setTimeout(() => {
-            runGame(activitiesList, pos + 1);
-            console.log(activitiesList[0].name);
+            changeActivities(activitiesList,pos + 1);
+            console.log(activitiesList[pos].name); // Increment the index
         }, 10000);
     } else {
         io.emit('message', 'fin juego');

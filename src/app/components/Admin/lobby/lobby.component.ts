@@ -3,6 +3,7 @@ import { IUser } from '../../../interfaces/user';
 import { ActivatedRoute, Router } from '@angular/router';
 import { GameService } from 'src/app/services/game.service';
 import { IGame } from 'src/app/interfaces/game';
+import { WebSocketService } from 'src/app/websocket.service';
 
 @Component({
   selector: 'app-lobby',
@@ -14,7 +15,12 @@ export class LobbyComponent {
   game?: IGame;
   users: IUser[] = [];
 
-  constructor(private route: ActivatedRoute, private router: Router, private gameService: GameService) { }
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private gameService: GameService,
+    private socketService: WebSocketService
+  ) {}
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('gameId');
@@ -36,16 +42,27 @@ export class LobbyComponent {
 
   startGame() {
     if (this.game) {
-      this.gameService.startGame(this.game._id).subscribe(
-        (success: boolean) => {
-          console.log(`Game started: ${success}`);
-          this.router.navigate(['/games', this.game!._id, 'activities']);
-        },
-        (error) => {
-          console.error(`Error starting Game: ${this.game!._id}`, error);
-        }
-      );
+      const gameId = this.game._id;
+      if (gameId) {
+        this.gameService.startGame(gameId).subscribe(
+          (success: boolean) => {
+            console.log(`Game started: ${success}`);
+            try {
+              this.socketService.startGame(gameId);
+            } catch (error) {
+              console.error('Error sending startGame event:', error);
+            }
+            this.router.navigate(['/games', gameId, 'activities']);
+          },
+          (error) => {
+            console.error(`Error starting Game: ${gameId}`, error);    
+          }
+        );
+      } else {
+        console.error("Game ID is undefined");
+      }
+    } else {
+      console.error("Game is undefined");
     }
   }
-
 }

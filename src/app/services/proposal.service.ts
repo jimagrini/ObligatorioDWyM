@@ -78,14 +78,14 @@ export class ProposalService {
    * @param activityId 
    * @returns 
    */
-  getActivities(proposalId: string): Observable<IActivity> {
+  getActivities(proposalId: string): Observable<IActivity[]> {
     return this.getProposal(proposalId).pipe(
-      tap(_ => console.log(`fetched proposal w/ id=${proposalId}`)),
-      switchMap((proposal: IProposal) => {
-        return proposal.activities;
-      }),
+        tap(_ => console.log(`fetched proposal w/ id=${proposalId}`)),
+        switchMap((proposal: IProposal) => {
+            return of(proposal.activities);
+        }),
     );
-  }
+}
 
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {

@@ -1,9 +1,13 @@
 const mongoose = require('mongoose');
 const Game = require('../models/gameSchema');
+const ProposalsController = require('../controllers/proposalsController');
 const jwt = require('jsonwebtoken');
 
 class GamesController {
-    constructor() { }
+
+    constructor() {
+        this.proposalsController = new ProposalsController();
+    }
 
     async getGames() {
         return Game.find().exec();
@@ -11,9 +15,9 @@ class GamesController {
 
     async getGameById(id) {
         return Game.findById(id)
-        .populate('proposal')
-        .populate('currentActivity')
-        .exec();
+            .populate('proposal')
+            .populate('currentActivity')
+            .exec();
     }
 
     async addGame(proposal, currentActivity) {
@@ -75,10 +79,11 @@ class GamesController {
         return false;
     }
 
-    async getActivities(gameId){
+    async getActivities(gameId) {
         const game = await this.getGameById(gameId);
-        const proposal= game.proposal;
-        return proposal.activities;
+        const proposal = game.proposal;
+        const fetchedProposal= await this.proposalsController.getProposalById(proposal._id);
+        return fetchedProposal.activities;
     }
 
     createToken(user) {

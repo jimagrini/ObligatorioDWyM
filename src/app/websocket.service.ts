@@ -9,14 +9,19 @@ import { IActivity } from './interfaces/activity';
 export class WebSocketService {
 
   public message$: BehaviorSubject<string> = new BehaviorSubject('');
-  constructor() {} 
+
+  constructor() {}
 
   socket = io('http://localhost:3000');
-
 
   public sendMessage(message: any): void {
     this.socket.emit('sendActivities', message);
   }
+
+  public startGame(gameId: string): void {
+    this.socket.emit('startGame', { gameId });
+  }
+
 
   public getNewMessage = (): Observable<any> => {
     return new Observable((subscriber) => {
@@ -24,11 +29,14 @@ export class WebSocketService {
         subscriber.next(message);
       });
       this.socket.on('gameStarted', (gameStarted) => {
+        console.log('Received gameStarted event:', gameStarted);
         subscriber.next(gameStarted);
-      });
-      this.socket.on('activityPart', (activityPart) => {
+    });
+    
+    this.socket.on('activityPart', (activityPart) => {
+        console.log('Received activityPart event:', activityPart);
         subscriber.next(activityPart);
-      });
+    });
     });
   };
 }
