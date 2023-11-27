@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
-import { IAdmin } from '../interfaces/admin';
-import { IProposal } from '../interfaces/proposal';
-
 import { Observable, of } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, map, tap, switchMap } from 'rxjs/operators';
+
+import { IProposal } from '../interfaces/proposal';
 import { IActivity } from '../interfaces/activity';
 import { ActivitiesService } from './activities.service';
+
 
 @Injectable({
   providedIn: 'root'
@@ -71,66 +71,21 @@ export class ProposalService {
     );
   }
 
-  /** GET
+  /** GET activities from proposal by Id
    * 
    * @param admin 
    * @param proposalId 
    * @param activityId 
    * @returns 
    */
-  getActivity(proposalId: string, activityId: number): Observable<IActivity> {
+  getActivities(proposalId: string): Observable<IActivity> {
     return this.getProposal(proposalId).pipe(
       tap(_ => console.log(`fetched proposal w/ id=${proposalId}`)),
       switchMap((proposal: IProposal) => {
-        const url = `${this.proposalsUrl}/${proposalId}/activities/${activityId}`;
-        return this.http.get<IActivity>(url).pipe(
-          tap(_ => console.log(`fetched activity '${activityId}' from proposal '${proposalId}'`),
-          catchError(this.handleError<IActivity>('getActivity'))
-        ));
+        return proposal.activities;
       }),
     );
   }
-
-  /** GET activity by Id
-   * 
-   * @param admin 
-   * @param proposalId 
-   * @param activityId 
-   * @returns 
-   */
-  getActivities(proposalId: string, activityId: number): Observable<IActivity> {
-    return this.getProposal(proposalId).pipe(
-      tap(_ => console.log(`fetched proposal w/ id=${proposalId}`)),
-      switchMap((proposal: IProposal) => {
-        const url = `${this.proposalsUrl}/${proposalId}/activities/${activityId}`;
-        return this.http.get<IActivity>(url).pipe(
-          tap(_ => console.log(`fetched activity '${activityId}' from proposal '${proposalId}'`),
-          catchError(this.handleError<IActivity>('getActivity'))
-        ));
-      }),
-    );
-  }
-
-  /** POST
-   * 
-   * @param admin 
-   * @param proposalId 
-   * @param activityId 
-   * @returns 
-   */
-  addActivity(proposalId: string, activityId: number): Observable<IActivity> {
-    return this.getProposal(proposalId).pipe(
-      tap(_ => console.log(`fetched proposal w/ id=${proposalId}`)),
-      switchMap((proposal: IProposal) => {
-        const url = `${this.proposalsUrl}/${proposalId}/activities`;
-        return this.http.post<IActivity>(url, activityId, this.httpOptions).pipe(
-          tap(_ => console.log(`added activity to proposal: ${activityId}`),
-          catchError(this.handleError<IActivity>('addActivity'))
-        ));
-      }),
-    );
-  }
-
 
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {

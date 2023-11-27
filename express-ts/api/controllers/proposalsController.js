@@ -9,12 +9,13 @@ class ProposalsController {
     }
 
     async getProposalById(id) {
-        return Proposal.findById(id).exec();
+        return Proposal.findById(id).populate('activities').exec();
     }
 
     async addProposal(name, activities) {
         const newProposal = await Proposal.create({ name, activities });
-        return newProposal;
+        const proposal= await this.getProposalById(newProposal._id);
+        return proposal;
     }
 
     async deleteProposal(id) {

@@ -1,13 +1,17 @@
 <div class="lobby">
-    <div class="row">
-        Codigo de juego: {{game?._id}}
+    <div class="game-info">
+        <h2>Código de Juego: {{ game?._id }}</h2>
+        <button class="start-button" (click)="startGame()">Comenzar</button>
     </div>
-    <div class="row">
-        <button (click)="startGame()">Start</button>
-    </div>
-    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-3 card" *ngFor="let user of game?.users">
-        <div class="user-display">
-            {{user}}
+
+    <div class="user-list">
+        <h3>Jugadores en la partida:</h3>
+        <div class="user-cards">
+            <div class="user-card" *ngFor="let user of game?.users">
+                <div class="user-display">
+                    {{ user }}
+                </div>
+            </div>
         </div>
     </div>
 </div>
