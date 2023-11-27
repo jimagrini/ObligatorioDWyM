@@ -3,6 +3,7 @@ import { IUser } from '../../../interfaces/user';
 import { ActivatedRoute, Router } from '@angular/router';
 import { GameService } from 'src/app/services/game.service';
 import { IGame } from 'src/app/interfaces/game';
+import { WebSocketService } from 'src/app/services/websocket.service';
 
 @Component({
   selector: 'app-lobby',
@@ -14,13 +15,19 @@ export class LobbyComponent {
   game?: IGame;
   users: IUser[] = [];
 
-  constructor(private route: ActivatedRoute, private router: Router, private gameService: GameService) { }
+  constructor(private route: ActivatedRoute, private router: Router, private gameService: GameService, private socketService: WebSocketService) { }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('gameId');
     if (id) {
       this.getGame(id);
+      this.socketService.users$.subscribe(users => {
+      this.users = users;
+      this.socketService.sendMessage({ type: 'userConnected', user: this.users });
+    });
     }
+   
+  
   }
 
   getGame(id: string): void {
@@ -42,7 +49,7 @@ export class LobbyComponent {
           this.router.navigate(['/games', this.game!._id, 'activities']);
         },
         (error) => {
-          console.error(`Error starting Game: ${this.game!._id}`, error);
+          console.error(`Error starting Game: ${this.game!._id}`, error);    
         }
       );
     }
