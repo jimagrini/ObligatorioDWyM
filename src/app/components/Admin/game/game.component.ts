@@ -30,23 +30,35 @@ export class GameComponent implements OnInit {
     this.route.params.subscribe((params: Params) => {
       const id = params['id'];
       if (id) {
-        this.getGame(id);
-        this.getActivitiesFromGame(id).then(() => {
-          this.currentActivity = this.activities![0];
-        });
+        this.startGame(id);
       }
     });
-    this.socketService.getNewMessage().subscribe((activityPart: IActivity) => {
-      console.log(activityPart);
-      this.currentActivity = activityPart;
+
+    this.socketService.getNewMessage().subscribe((event: any) => {
+      if (event.type === 'gameStarted') {
+        console.log(`Game started: ${event.gameId}`);
+      } else if (event.type === 'activityPart') {
+        console.log('Received activity part:', event.activityPart);
+        this.currentActivity = event.activityPart;
+      }
     });
   }
 
-  private async startGame(id: string): Promise<void> {
-    await this.getGame(id);
-    await this.getActivitiesFromGame(id);
-    this.currentActivity = this.activities![0];
-    this.showNextActivity();
+  private startGame(id: string): void {
+    this.gameService.getGame(id).subscribe(
+      (game: IGame) => {
+        this.game = game;
+      },
+      (error) => {
+        console.error(`Error fetching game: ${id}`, error);
+      }
+    );
+
+    this.getActivitiesFromGame(id).then(() => {
+      this.currentActivity = this.activities![0];
+      this.showNextActivity();
+      this.socketService.startGame(id);
+    });
   }
 
   async getGame(id: string): Promise<void> {
