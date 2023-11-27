@@ -132,8 +132,8 @@ export class GameService {
   }
 
   startGame(gameId: string): Observable<boolean> {
-    const url = `${this.gamesUrl}/${gameId}`;
-    return this.http.put<boolean>(url, { state: true }, this.httpOptions).pipe(
+    const url = `http://localhost:3000/api/startGame/${gameId}`;
+    return this.http.post<boolean>(url, { state: true }, this.httpOptions).pipe(
       tap((success: boolean) => console.log(`game started: ${success}`)),
       catchError(this.handleError<boolean>('startGame'))
     );

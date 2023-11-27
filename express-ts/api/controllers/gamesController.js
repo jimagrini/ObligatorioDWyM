@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 const Game = require('../models/gameSchema');
-const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
 class GamesController {
@@ -11,12 +10,16 @@ class GamesController {
     }
 
     async getGameById(id) {
-        return Game.findById(id).populate('proposal').exec();
+        return Game.findById(id)
+        .populate('proposal')
+        .populate('currentActivity')
+        .exec();
     }
 
-    async addGame(proposal) {
-        const newGame = await Game.create({ proposal });
-        const gameId= newGame._id;
+    async addGame(proposal, currentActivity) {
+        const newGame = await Game.create({ proposal: proposal, currentActivity: currentActivity });
+
+        const gameId = newGame._id;
         const game = await this.getGameById(gameId);
         return game;
     }
@@ -34,6 +37,7 @@ class GamesController {
             }
             game.users.push(nickname);
             await game.save();
+            // emit evento?
             const token = this.createToken(nickname);
             return { token };
         } catch (error) {
@@ -62,10 +66,19 @@ class GamesController {
         const game = await this.getGameById(id);
         if (game) {
             game.active = state;
+            if (state) {
+                game.currentActivity = game.proposal.activities[0];
+            }
             await game.save();
             return true;
         }
         return false;
+    }
+
+    async getActivities(gameId){
+        const game = await this.getGameById(gameId);
+        const proposal= game.proposal;
+        return proposal.activities;
     }
 
     createToken(user) {
@@ -76,7 +89,6 @@ class GamesController {
             expiresIn: 60 * 60 * 24
         });
     }
-
 }
 
 module.exports = GamesController;

@@ -11,7 +11,7 @@ export class WebSocketService {
   public message$: BehaviorSubject<string> = new BehaviorSubject('');
   constructor() {} 
 
-  socket = io('http://localhost:3001');
+  socket = io('http://localhost:3000');
 
 
   public sendMessage(message: any): void {
@@ -22,6 +22,9 @@ export class WebSocketService {
     return new Observable((subscriber) => {
       this.socket.on('message', (message) => {
         subscriber.next(message);
+      });
+      this.socket.on('gameStarted', (gameStarted) => {
+        subscriber.next(gameStarted);
       });
       this.socket.on('activityPart', (activityPart) => {
         subscriber.next(activityPart);

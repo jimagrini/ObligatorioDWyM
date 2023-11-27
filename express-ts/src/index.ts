@@ -1,4 +1,4 @@
-import express from 'express'
+/*import express from 'express'
 import cardRouter from './routes-socket/cards'
 import { createServer } from "http";
 
@@ -57,4 +57,4 @@ function ejecutarjuego(activitieslist: any, pos = 0) {
   } else {
     io.emit('message', 'fin juego');
 }
-}
+}*/
