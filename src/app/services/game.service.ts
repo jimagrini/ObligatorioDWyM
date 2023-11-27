@@ -62,6 +62,7 @@ export class GameService {
    */
   createGame(proposal: IProposal): Observable<IGame> {
     if (proposal) {
+      console.log(`FRONT PROPOSAL=${proposal.name}`);
       return this.http.post<IGame>(this.gamesUrl, { proposal }, this.httpOptions).pipe(
         tap((newGame: IGame) => {
           console.log(`added game w/ id=${newGame._id}`);

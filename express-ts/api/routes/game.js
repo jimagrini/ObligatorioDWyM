@@ -6,17 +6,21 @@ const gamesController = new GamesController();
 
 // POST - Create new Game
 router.post('/', validateToken, async (req, res) => {
+    const { proposal } = req.body;
     try {
-        const { proposal } = req.body;
+        console.log(proposal);
         if (!proposal) {
             res.status(400)
                 .json({ message: 'Missing parameters. Cannot create game.' });
         } else {
+            console.log("reach");
             const newGame = await gamesController.addGame(proposal);
             res.status(201)
                 .json(newGame);
         }
     } catch (error) {
+        console.log(`api: ${proposal}`);
+        console.log(error);
         res.status(500)
             .json({ message: 'Internal Server Error', details: `Failed to create new game. Error: ${error}` });
     }

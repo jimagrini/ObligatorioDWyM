@@ -14,7 +14,6 @@ class AdminsController {
         return Admin.findById(id).exec();
     }
 
-
     async addAdmin(username, password) {
         const newAdmin = await Admin.create({ username, password });
         return newAdmin;

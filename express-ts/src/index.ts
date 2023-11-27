@@ -32,16 +32,16 @@ app.post('/test', (req, res) => {
   res.send('funca');
 });
 
-io.on('connection', (socket: Socket) => {
+io.on('connection', (socket: any) => {
   console.log('A user connected');
 
-  socket.on('disconnect', () => {
+  io.on('disconnect', () => {
     console.log('A user disconnected!');
   });
 
-  socket.on('sendActivities', (activities: any) => {
+  io.on('sendActivities', (activities: any) => {
     console.log('Received sendActivities event with activities:', activities);
-    ejecutarjuego(socket, activities, 0);
+    ejecutarjuego(activities, 0);
   });
 });
 
@@ -51,18 +51,16 @@ httpServer.listen(PORT, () => {
 
 app.use('/api/cards', cardRouter);
 
-function ejecutarjuego(socket: Socket, activitieslist: any, pos = 0) {
+function ejecutarjuego(activitieslist: any, pos = 0) {
   if (activitieslist && activitieslist.length && pos < activitieslist.length) {
     const currentActivity = activitieslist[pos];
     io.emit('activityPart', currentActivity);
-    socket.emit('activityPart', currentActivity);
 
     setTimeout(() => {
-      ejecutarjuego(socket, activitieslist, pos + 1);
+      ejecutarjuego(activitieslist, pos + 1);
       console.log(activitieslist[1].name);
     }, 10000);
   } else {
     io.emit('message', 'fin juego');
-    socket.emit('message', 'fin juego');
-  }
+}
 }

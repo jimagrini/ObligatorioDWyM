@@ -11,12 +11,14 @@ class GamesController {
     }
 
     async getGameById(id) {
-        return Game.findById(id).exec();
+        return Game.findById(id).populate('proposal').exec();
     }
 
     async addGame(proposal) {
         const newGame = await Game.create({ proposal });
-        return newGame;
+        const gameId= newGame._id;
+        const game = await this.getGameById(gameId);
+        return game;
     }
 
     async deleteGame(id) {
