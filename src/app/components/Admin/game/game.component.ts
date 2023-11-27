@@ -6,15 +6,14 @@ import { IGame } from 'src/app/interfaces/game';
 import { GameService } from 'src/app/services/game.service';
 import { ProposalService } from 'src/app/services/proposal.service';
 import { IProposal } from 'src/app/interfaces/proposal';
-
-
+import { ChangeDetectorRef } from '@angular/core';
+import {  NgZone } from '@angular/core';
 @Component({
   selector: 'app-game',
   templateUrl: './game.component.html',
   styleUrls: ['./game.component.css'],
 })
 export class GameComponent implements OnInit {
-
   game?: IGame;
   activities?: IActivity[];
   currentActivity?: IActivity;
@@ -23,71 +22,53 @@ export class GameComponent implements OnInit {
     private route: ActivatedRoute,
     private socketService: WebSocketService,
     private gameService: GameService,
-    private proposalService: ProposalService
-  ) { }
+    private proposalService: ProposalService,
+    private cdr: ChangeDetectorRef,
+    private zone: NgZone
+  ) {}
 
-  ngOnInit() {
-    this.route.params.subscribe((params: Params) => {
+  async ngOnInit() {
+    this.route.params.subscribe(async (params: Params) => {
       const id = params['id'];
       if (id) {
-        this.startGame(id);
+        await this.startGame(id);
       }
     });
 
-    this.socketService.getNewMessage().subscribe((event: any) => {
-      if (event.type === 'gameStarted') {
-        console.log(`Game started: ${event.gameId}`);
-      } else if (event.type === 'activityPart') {
-        console.log('Received activity part:', event.activityPart);
-        this.currentActivity = event.activityPart;
-      }
+    this.socketService.getNewMessage().subscribe((activityPart: IActivity) => {
+      console.log(activityPart);
+      this.zone.run(() => {
+        this.currentActivity = activityPart;
+      });
+      this.cdr.detectChanges(); 
     });
   }
 
-  private startGame(id: string): void {
-    this.gameService.getGame(id).subscribe(
-      (game: IGame) => {
-        this.game = game;
-      },
-      (error) => {
-        console.error(`Error fetching game: ${id}`, error);
-      }
-    );
-
-    this.getActivitiesFromGame(id).then(() => {
-      this.currentActivity = this.activities![0];
-      this.showNextActivity();
-      this.socketService.startGame(id);
-    });
+  private async startGame(id: string): Promise<void> {
+    await this.getGame(id);
+    await this.getActivitiesFromGame(id);
+    this.currentActivity = this.activities![0];
+    this.showNextActivity();
   }
 
   async getGame(id: string): Promise<void> {
-    this.gameService.getGame(id).subscribe(
-      (game: IGame) => {
-        this.game = game;
-      },
-      (error) => {
-        console.error(`Error fetching game: ${id}`, error);
-      }
-    );
+    try {
+      this.game = await this.gameService.getGame(id).toPromise();
+    } catch (error) {
+      console.error(`Error fetching game: ${id}`, error);
+    }
   }
 
-  getActivitiesFromGame(gameId: string): Promise<void> {
-    return new Promise((resolve, reject) => {
-      if (this.game && this.game.proposal) {
+  async getActivitiesFromGame(gameId: string): Promise<void> {
+    try {
+      if (this.game?.proposal) {
         const proposalId = this.game.proposal._id;
-        this.proposalService.getProposal(proposalId).subscribe(
-          (proposal: IProposal) => {
-            this.activities = proposal.activities;
-            resolve(); // Resuelve la promesa una vez que se obtienen las actividades
-          },
-          (error) => {
-            console.error('Error fetching proposal:', error);
-            reject(error); // Rechaza la promesa si hay un error
-          }
-        );
+        const proposal = await this.proposalService.getProposal(proposalId).toPromise();
+        this.activities = proposal?.activities || [];
       }
-    });
+    } catch (error) {
+      console.error('Error fetching proposal:', error);
+    }
   }
 
   showNextActivity(): void {

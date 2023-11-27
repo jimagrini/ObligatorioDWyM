@@ -37,7 +37,7 @@ export class ProposalService {
   /** GET proposal by id. Will 404 if id not found 
    * @param id - unique string id
   */
-  getProposal(id: string): Observable<IProposal> {
+  getProposal(id: string): Observable<IProposal>{
     if (this.cachedProposal && this.cachedProposal._id === id) {
       return of(this.cachedProposal); // Return the cached admin if it matches the requested ID
     } else {
