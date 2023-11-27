@@ -1,7 +1,9 @@
 .proposals {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center; 
+    max-height: 300px; 
+    overflow-y: auto; 
 }
 
 .proposal-item {
@@ -12,6 +14,8 @@
     background-color: #f9f9f9;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    width: 80%; 
+    max-width: 400px;
 }
 
 .proposal-item:hover {
