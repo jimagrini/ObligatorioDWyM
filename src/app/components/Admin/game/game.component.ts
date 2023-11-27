@@ -44,6 +44,13 @@ export class GameComponent implements OnInit {
     });
   }
 
+  private async startGame(id: string): Promise<void> {
+      await this.getGame(id);
+      await this.getActivitiesFromGame(id);
+      this.currentActivity = this.activities![0];
+      this.showNextActivity();
+  }
+
   async getGame(id: string): Promise<void> {
     this.gameService.getGame(id).subscribe(
       (game: IGame) => {
@@ -91,6 +98,7 @@ export class GameComponent implements OnInit {
   }
 
   showResults() {
+    
 
   }
 }
