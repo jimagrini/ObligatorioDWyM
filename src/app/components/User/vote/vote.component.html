@@ -1,4 +1,5 @@
 <div>
+  <div class="name" *ngIf="currentActivity">Actividad: {{currentActivity.name}}</div>
   <button class="like" (click)="submitVote(1)">
     <i class="gg-smile-mouth-open"></i>
   </button>

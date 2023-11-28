@@ -1,42 +1,92 @@
-import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, OnInit, ChangeDetectorRef, NgZone } from '@angular/core';
+import { ActivatedRoute, Params } from '@angular/router';
 import { IGame } from 'src/app/interfaces/game';
 import { GameService } from 'src/app/services/game.service';
-import { catchError } from 'rxjs';
+import { WebSocketService } from 'src/app/websocket.service';
+import { IActivity } from 'src/app/interfaces/activity';
 
 @Component({
   selector: 'app-vote',
   templateUrl: './vote.component.html',
   styleUrls: ['./vote.component.css']
 })
-export class VoteComponent {
+export class VoteComponent implements OnInit {
 
-  constructor(private route: ActivatedRoute, private gameService: GameService) { }
+  game?: IGame;
+  activities?: IActivity[];
+  currentActivity?: IActivity;
+  canVote: boolean = true;
 
-  submitVote(value: number) {
-    const gameId = this.route.snapshot.paramMap.get('gameId');
-    this.gameService.getGame(gameId!).pipe(
-      catchError((error) => {
-        console.error(error);
-        throw error;
-      })
-    ).subscribe({
+  constructor(
+    private route: ActivatedRoute,
+    private socketService: WebSocketService,
+    private gameService: GameService,
+    private cdr: ChangeDetectorRef,
+    private zone: NgZone
+  ) { }
+
+  async ngOnInit() {
+    this.route.params.subscribe(async (params: Params) => {
+      const id = params['gameId'];
+      if (id) {
+        await this.updateEnvironment(id);
+      }
+    });
+
+    this.socketService.getNewMessage().subscribe((activityPart: IActivity) => {
+      console.log(activityPart);
+      this.zone.run(() => {
+        this.currentActivity = activityPart;
+        this.canVote = true;
+      });
+      this.cdr.detectChanges();
+    });
+  }
+
+
+  private async updateEnvironment(id: string) {
+    await this.getGame(id);
+    await this.getCurrentActivity();
+    this.currentActivity = this.game?.currentActivity;
+  }
+
+  async getGame(id: string) {
+    this.gameService.getGame(id)
+      .subscribe({
         next: (response: IGame) => {
-          if (response) {
-            const activityId = response.currentActivity._id;
-            this.gameService.vote(gameId!, activityId, value).subscribe(
-              (voteResponse: boolean) => {
-                console.log('Voto registrado:', voteResponse);
-              },
-              (voteError: any) => {
-                console.error('Error al votar:', voteError);
-              }
-            );
-          }
+          console.log(`Updated voteComponent game: '${response._id}'`);
+          this.game = response;
         },
-        error: (getError: any) => {
-          console.error('Error al obtener el juego:', getError);
+        error: (error) => {
+          console.error(`Error fetching game: ${id}`, error);
         }
       });
+  }
+
+  async getCurrentActivity() {
+    try {
+      if (this.game?.proposal) {
+        this.currentActivity = this.game.currentActivity;
+      }
+    } catch (error) {
+      console.error('Error fetching current Activity:', error);
+    }
+  }
+
+  submitVote(value: number) {
+    console.log(this.game);
+    console.log(this.currentActivity);
+    if (this.game && this.currentActivity && this.canVote) {
+      const activityId = this.currentActivity._id;
+      this.gameService.vote(this.game._id, activityId, value).subscribe(
+        (voteResponse: boolean) => {
+          this.canVote = false;
+          console.log('Voto registrado:', voteResponse);
+        },
+        (voteError: any) => {
+          console.error('Error al votar:', voteError);
+        }
+      );
+    }
   }
 }

@@ -1,13 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
+import { Component, OnInit, ChangeDetectorRef, NgZone } from '@angular/core';
+import { ActivatedRoute, Params  } from '@angular/router';
 import { IActivity } from '../../../interfaces/activity';
 import { WebSocketService } from 'src/app/websocket.service';
 import { IGame } from 'src/app/interfaces/game';
 import { GameService } from 'src/app/services/game.service';
 import { ProposalService } from 'src/app/services/proposal.service';
-import { IProposal } from 'src/app/interfaces/proposal';
-import { ChangeDetectorRef } from '@angular/core';
-import {  NgZone } from '@angular/core';
+
 @Component({
   selector: 'app-game',
   templateUrl: './game.component.html',
@@ -31,7 +29,7 @@ export class GameComponent implements OnInit {
     this.route.params.subscribe(async (params: Params) => {
       const id = params['id'];
       if (id) {
-        await this.startGame(id);
+        await this.updateEnvironment(id);
       }
     });
 
@@ -44,9 +42,9 @@ export class GameComponent implements OnInit {
     });
   }
 
-  private async startGame(id: string): Promise<void> {
+  private async updateEnvironment(id: string): Promise<void> {
     await this.getGame(id);
-    await this.getActivitiesFromGame(id);
+    await this.getActivitiesFromGame();
     this.currentActivity = this.activities![0];
     this.showNextActivity();
   }
@@ -59,7 +57,7 @@ export class GameComponent implements OnInit {
     }
   }
 
-  async getActivitiesFromGame(gameId: string): Promise<void> {
+  async getActivitiesFromGame(): Promise<void> {
     try {
       if (this.game?.proposal) {
         const proposalId = this.game.proposal._id;
