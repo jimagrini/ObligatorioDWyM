@@ -120,6 +120,7 @@ router.post('/:id/votes', validateToken, async (req, res) => {
             res.status(400)
                 .json({ message: 'Missing parameters. Cannot add vote to game.' });
         } else {
+            console.log(`Voting activity ${activityId}, value: ${vote}`);
             const success = await gamesController.addVote(gameId, activityId, vote);
             res.status(201)
                 .json(success);

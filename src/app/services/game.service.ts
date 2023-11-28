@@ -112,14 +112,19 @@ export class GameService {
    * @returns 
    */
   vote(gameId: string, activityId: string, vote: number): Observable<boolean> {
-    if (gameId && activityId && vote) {
-      const url = `${this.gamesUrl}/${gameId}/votes`;
-      return this.http.post<boolean>(url, { gameId, activityId, vote }, this.httpOptions).pipe(
-        tap((vote: boolean) => console.log(`added vote: ${vote}`)),
-        catchError(this.handleError<boolean>('addVote'))
-      );
+    if (gameId && activityId) {
+      if (vote) {
+        const url = `${this.gamesUrl}/${gameId}/votes`;
+        return this.http.post<boolean>(url, { gameId, activityId, vote }, this.httpOptions).pipe(
+          tap((vote: boolean) => console.log(`added vote: ${vote}`)),
+          catchError(this.handleError<boolean>('addVote'))
+        );
+      } else {
+        console.log("You already voted this activity");
+        return of(false);
+      }
     } else {
-      console.error('Invalid parameters for adding user.');
+      console.error(`Invalid parameters for voting ${activityId}`);
       return of(false);
     }
   }

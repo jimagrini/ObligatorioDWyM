@@ -28,6 +28,7 @@ app.get('/', (req, res) => {
     res.send('¡Bienvenido a la API!');
 });
 
+// Inicia un juego y hace un emit de socket
 app.post('/api/startGame/:id', validateToken, async (req, res) => {
     const { id } = req.params;
     const { state } = req.body;
@@ -95,26 +96,25 @@ io.on('connection', (socket) => {
 
     socket.on('sendActivities', ({ currentActivity, pos }) => {
         console.log('Received sendActivities event with activities:', currentActivity._id);
+        clearTimeout(timeoutId);
         changeActivities(activitiesList, pos);
     });
 });
 
 function runGame(activitiesList, gameId) {
-    if (activitiesList && activitiesList.length) {
-        io.emit('gameStarted', gameId);
-        changeActivities(activitiesList, 0)
-    } else {
-        io.emit('message', 'fin juego');
-    }
+    io.emit('gameStarted', gameId);
+    changeActivities(activitiesList, 0);
 }
+
+let timeoutId;
 function changeActivities(activitiesList, pos) {
-    if (activitiesList && activitiesList.length && pos < activitiesList.length) {
+    if (activitiesList && pos < activitiesList.length) {
         const currentActivity = activitiesList[pos];
         io.emit('activityPart', currentActivity);
-
-        setTimeout(() => {
+        console.log(activitiesList[pos].name);
+        clearTimeout(timeoutId);
+        timeoutId = setTimeout(() => {
             changeActivities(activitiesList, pos + 1);
-            console.log(activitiesList[pos].name); // Increment the index
         }, 10000);
     } else {
         io.emit('message', 'fin juego');

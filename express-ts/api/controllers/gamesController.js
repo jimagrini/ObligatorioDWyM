@@ -17,6 +17,7 @@ class GamesController {
         return Game.findById(id)
             .populate('proposal')
             .populate('currentActivity')
+            .populate('votes')
             .exec();
     }
 
@@ -41,7 +42,6 @@ class GamesController {
             }
             game.users.push(nickname);
             await game.save();
-            // emit evento?
             const token = this.createToken(nickname);
             return { token };
         } catch (error) {
@@ -56,9 +56,12 @@ class GamesController {
             if (!game) {
                 return false;
             }
-
             const currentVote = game.votes.get(activityId) || 0;
+            const newVote= currentVote + vote;
+            console.log(`currentVote: ${currentVote}`);
+            console.log(`expected new Vote: ${newVote}`);
             game.votes.set(activityId, currentVote + vote);
+            console.log(`actualVote after change: ${game.votes.get(activityId)}`);
             await game.save();
             return true;
         } catch (error) {

@@ -28,16 +28,18 @@ export class GameComponent implements OnInit {
 
   async ngOnInit() {
     this.route.params.subscribe(async (params: Params) => {
-      const id = params['id'];
+      const id = params['gameId'];
       if (id) {
         await this.updateEnvironment(id);
       }
     });
 
-    this.socketService.getNewMessage().subscribe((activityPart: IActivity) => {
-      console.log(activityPart);
+    this.socketService.getNewMessage().subscribe((activityPart: any) => {
+      if(activityPart === "fin juego"){
+        this.showResults();
+      }
       this.zone.run(() => {
-        this.currentActivity = activityPart;
+        this.currentActivity = activityPart as IActivity;
       });
       this.cdr.detectChanges(); 
     });

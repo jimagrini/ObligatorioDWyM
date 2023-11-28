@@ -27,7 +27,6 @@ export class LobbyComponent {
     if (id) {
       this.getGame(id);
     }
-    
   }
 
   getGame(id: string): void {
@@ -47,12 +46,12 @@ export class LobbyComponent {
       if (gameId) {
         this.gameService.startGame(gameId).subscribe(
           (success: boolean) => {
-            console.log(`Game started: ${success}`);
+            /*console.log(`Game started: ${success}`);
             try {
               this.socketService.startGame(gameId);
             } catch (error) {
               console.error('Error sending startGame event:', error);
-            }
+            }*/
             this.router.navigate(['/games', gameId, 'activities']);
           },
           (error) => {
