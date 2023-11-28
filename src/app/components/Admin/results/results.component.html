@@ -2,11 +2,15 @@
     <h2>Actividad Más Votada</h2>
     <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-4 col-lg-3 top" *ngIf="topactivity">
-            {{topactivity.name}}
-            {{topactivity.description}}
-            {{topactivity.image}}
-            <div *ngif="mvppoints">
-                {{mvppoints}}
+            <div class="data">
+                {{topactivity.name}}
+            </div>
+            <div class="data">
+                {{topactivity.description}}
+            </div>
+            <img src="{{topactivity.image}}" alt="Imagen de act">
+            <div *ngIf="mvppoints">
+                Puntos acumulados: {{mvppoints}}
             </div>
         </div>
     </div>
