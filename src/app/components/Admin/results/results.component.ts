@@ -43,16 +43,20 @@ export class ResultsComponent implements OnInit {
         next: (response: IGame) => {
           console.log(`Updated voteComponent game: '${response._id}'`);
           this.game = response;
+          if (this.game && typeof this.game.votes === 'object') {
+            this.game.votes = new Map(Object.entries(this.game.votes));
+          }
+          this.getWinner();
         },
         error: (error) => {
           console.error(`Error fetching game: ${id}`, error);
         }
       });
   }
+  
 
   async getWinner() {
     if (this.game) {
-      this.game.votes= this.game.votes as Map<string, number>;
       const activityid = this.getKeyOfMaxValue(this.game.votes);
       if (activityid) {
         this.activitiesService.getActivity(activityid!).subscribe({
@@ -66,7 +70,6 @@ export class ResultsComponent implements OnInit {
         })
       }
     }
-
   }
 
   private getKeyOfMaxValue(map: Map<string, number>): string | undefined {

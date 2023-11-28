@@ -89,6 +89,12 @@ class GamesController {
         return fetchedProposal.activities;
     }
 
+    async getVotes(gameId){
+        const game = await this.getGameById(gameId);
+        const votes= game.populate('votes').exec();
+        return votes;
+    }
+
     createToken(user) {
         const payload = {
             user_token: user.token
