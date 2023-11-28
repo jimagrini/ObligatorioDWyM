@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectorRef, NgZone } from '@angular/core';
-import { ActivatedRoute, Params  } from '@angular/router';
+import { ActivatedRoute, Params , Router  } from '@angular/router';
 import { IActivity } from '../../../interfaces/activity';
 import { WebSocketService } from 'src/app/websocket.service';
 import { IGame } from 'src/app/interfaces/game';
@@ -22,7 +22,8 @@ export class GameComponent implements OnInit {
     private gameService: GameService,
     private proposalService: ProposalService,
     private cdr: ChangeDetectorRef,
-    private zone: NgZone
+    private zone: NgZone,
+    private router: Router
   ) {}
 
   async ngOnInit() {
@@ -78,15 +79,15 @@ export class GameComponent implements OnInit {
         const index = this.activities!.findIndex((activity) => activity._id === this.currentActivity!._id) + 1;
         if (index < this.activities!.length) {
           this.currentActivity = this.activities![index];
-          this.showNextActivity();
-        } else {
-          this.showResults();
-        }
+          this.showNextActivity();          
+        } 
       }, 10000);
+    }else {
+      this.showResults();
     }
   }
 
   showResults() {
-
+    this.router.navigate(["/games", this.game?._id, "results"]);
   }
 }
