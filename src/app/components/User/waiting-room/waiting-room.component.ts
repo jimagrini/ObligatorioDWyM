@@ -20,8 +20,8 @@ export class WaitingRoomComponent implements OnInit, OnDestroy {
   ngOnInit() {
     const gameId = this.route.snapshot.paramMap.get('gameId');
 
-    this.subscription = this.webSocketService.getNewMessage().subscribe((data) => {
-      if (data === 'gameStarted') {
+    this.subscription = this.webSocketService.getNewMessage().subscribe((startedGameId: string) => {
+      if (startedGameId === gameId) {
         console.log('Game started! Redirecting to vote...');
         this.router.navigate(['/games', gameId, 'vote']);
       }

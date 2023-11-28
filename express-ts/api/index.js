@@ -82,28 +82,27 @@ const io = require('socket.io')(httpServer, {
 
 io.on('connection', (socket) => {
     console.log('A user connected');
-  
-    socket.on('disconnect', () => {
-      console.log('A user disconnected!');
-    });
-  
-    socket.on('startGame', ({ gameId }) => {
-      console.log(`Received startGame event for game ${gameId}`);
-      const activitiesList = gamesController.getActivities(gameId);
-      runGame(activitiesList, gameId);
-    });
-  
-    socket.on('sendActivities', ({currentActivity , pos}) => {
-      console.log('Received sendActivities event with activities:', currentActivity._id);
-      changeActivities(activitiesList, pos);
-      
-    });
-  });
 
-  function runGame(activitiesList, gameId) {
-    if (activitiesList && activitiesList.length ) {
+    socket.on('disconnect', () => {
+        console.log('A user disconnected!');
+    });
+
+    socket.on('startGame', ({ gameId }) => {
+        console.log(`Received startGame event for game ${gameId}`);
+        const activitiesList = gamesController.getActivities(gameId);
+        runGame(activitiesList, gameId);
+    });
+
+    socket.on('sendActivities', ({ currentActivity, pos }) => {
+        console.log('Received sendActivities event with activities:', currentActivity._id);
+        changeActivities(activitiesList, pos);
+    });
+});
+
+function runGame(activitiesList, gameId) {
+    if (activitiesList && activitiesList.length) {
         io.emit('gameStarted', gameId);
-        changeActivities(activitiesList , 0)
+        changeActivities(activitiesList, 0)
     } else {
         io.emit('message', 'fin juego');
     }
@@ -114,7 +113,7 @@ function changeActivities(activitiesList, pos) {
         io.emit('activityPart', currentActivity);
 
         setTimeout(() => {
-            changeActivities(activitiesList,pos + 1);
+            changeActivities(activitiesList, pos + 1);
             console.log(activitiesList[pos].name); // Increment the index
         }, 10000);
     } else {
