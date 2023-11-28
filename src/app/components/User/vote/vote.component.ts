@@ -74,8 +74,6 @@ export class VoteComponent implements OnInit {
   }
 
   submitVote(value: number) {
-    console.log(this.game);
-    console.log(this.currentActivity);
     if (this.game && this.currentActivity && this.canVote) {
       const activityId = this.currentActivity._id;
       this.gameService.vote(this.game._id, activityId, value).subscribe(

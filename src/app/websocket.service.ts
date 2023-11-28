@@ -9,6 +9,7 @@ import { IActivity } from './interfaces/activity';
 export class WebSocketService {
   public message$: BehaviorSubject<string> = new BehaviorSubject('');
   private activitiesSubject: BehaviorSubject<IActivity[]> = new BehaviorSubject([] as IActivity[]);
+  
   socket = io('http://localhost:3000');
 
   constructor() {
