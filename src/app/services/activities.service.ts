@@ -7,27 +7,30 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, map, tap, switchMap } from 'rxjs/operators';
 import { IAdmin } from '../interfaces/admin';
 
-
 @Injectable({
   providedIn: 'root'
 })
 export class ActivitiesService {
 
+  // Almacena la actividad en caché para evitar solicitudes innecesarias al servidor.
   private cachedActivity: IActivity | null = null;
 
-  private activitiesUrl = 'http://localhost:3000/api/activities';  // URL to web api
+  // URL base de la API para las actividades.
+  private activitiesUrl = 'http://localhost:3000/api/activities';
 
+  // Opciones HTTP para encabezados JSON.
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   };
 
   constructor(private http: HttpClient) { }
-
+  
+  // Array de actividades seleccionadas.
   selectedActivities: IActivity[] = [];
 
-  /** GET activities from the server
-   * 
-   * @returns 
+  /** 
+   * Obtiene todas las actividades desde el servidor.
+   * @returns Observable de un array de actividades (IActivity[]).
    */
   getActivities(): Observable<IActivity[]> {
     return this.http.get<IActivity[]>(this.activitiesUrl)
@@ -37,12 +40,10 @@ export class ActivitiesService {
       );
   }
 
-  /** GET activity by id. Will 404 if id not found 
-   * 
-   * Checks if the id equals to the cachedActivity (avoiding api request).
-   * 
-   * @param id 
-   * @returns 
+  /** 
+   * Obtiene una actividad por su ID desde el servidor.
+   * @param id Identificador de la actividad que se va a recuperar.
+   * @returns Observable de una actividad (IActivity).
    */
   getActivity(id: string): Observable<IActivity> {
     if (this.cachedActivity && this.cachedActivity._id === id) {
@@ -59,13 +60,13 @@ export class ActivitiesService {
     }
   }
 
-  /** POST: add new activity to the server
-   * 
-   * @param name 
-   * @param category 
-   * @param description 
-   * @param image 
-   * @returns 
+  /** 
+   * Agrega una nueva actividad al servidor.
+   * @param name Nombre de la actividad.
+   * @param category Categoría de la actividad.
+   * @param description Descripción de la actividad.
+   * @param image URL de la imagen asociada a la actividad.
+   * @returns Observable de la actividad recién creada (IActivity).
    */
   add(name: string, category: string, description: string, image: string): Observable<IActivity> {
     if (CATEGORIES.find(c => c === category)) {
@@ -79,9 +80,10 @@ export class ActivitiesService {
     }
   }
 
-  /** DELETE: remove specified activity from the server
-   * 
-   * @param id 
+  /** 
+   * Elimina una actividad especificada del servidor.
+   * @param id Identificador de la actividad que se va a eliminar.
+   * @returns Observable booleano indicando si la operación fue exitosa.
    */
   delete(id: number): Observable<boolean> {
     const url = `${this.activitiesUrl}/${id}`;
@@ -92,11 +94,11 @@ export class ActivitiesService {
     );
   }
 
-  /** GET
-   * 
-   * @param admin 
-   * @param proposal 
-   * @returns 
+  /** 
+   * Obtiene todas las actividades asociadas a una propuesta desde el servidor.
+   * @param admin Objeto IAdmin que representa al administrador.
+   * @param proposal Objeto IProposal que representa la propuesta.
+   * @returns Observable de un array de actividades (IActivity[]).
    */
   getActivitiesFromProposal(admin: IAdmin, proposal: IProposal): Observable<IActivity[]> {
     const url = `http://localhost:3000/api/proposals/${proposal._id}/activities`;
@@ -107,12 +109,12 @@ export class ActivitiesService {
       );
   }
 
-  /**
-   * 
-   * @param admin 
-   * @param proposal 
-   * @param id 
-   * @returns 
+  /** 
+   * Obtiene una actividad específica asociada a una propuesta desde el servidor.
+   * @param admin Objeto IAdmin que representa al administrador.
+   * @param proposal Objeto IProposal que representa la propuesta.
+   * @param id Identificador de la actividad que se va a recuperar.
+   * @returns Observable de una actividad (IActivity).
    */
   getActivityFromProposal(admin: IAdmin, proposal: IProposal, id: string): Observable<IActivity> {
     const url = `http://localhost:3000/api/proposals/${proposal._id}/activities/${id}`;
@@ -123,12 +125,12 @@ export class ActivitiesService {
       );
   }
 
-  /**
-   * 
-   * @param admin 
-   * @param proposal 
-   * @param id 
-   * @returns 
+  /** 
+   * Selecciona o deselecciona una actividad específica asociada a una propuesta en el servidor.
+   * @param admin Objeto IAdmin que representa al administrador.
+   * @param proposal Objeto IProposal que representa la propuesta.
+   * @param id Identificador de la actividad que se va a seleccionar o deseleccionar.
+   * @returns Observable de una actividad (IActivity).
    */
   selectActivity(admin: IAdmin, proposal: IProposal, id: string): Observable<IActivity> {
     return this.getActivityFromProposal(admin, proposal, id).pipe(
@@ -141,7 +143,7 @@ export class ActivitiesService {
             catchError(this.handleError<IActivity>('selectActivity'))
           );
         } else {
-          // Logic to mark the activity as selected in the backend
+          // Lógica para marcar la actividad como seleccionada en el backend
           const url = `api/${admin._id}/proposals/${proposal._id}/activities/${activity._id}`;
           return this.http.put<IActivity>(url, activity as IActivity);
         }
@@ -150,23 +152,22 @@ export class ActivitiesService {
     );
   }
 
-
-  /**
-   * 
-   * @param operation 
-   * @param result 
-   * @returns 
+  /** 
+   * Maneja errores de las solicitudes HTTP.
+   * @param operation Nombre de la operación que produjo el error.
+   * @param result Resultado opcional para retornar como un observable.
+   * @returns Función que maneja el error y retorna un observable con un resultado específico.
    */
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
 
-      // TODO: send the error to remote logging infrastructure
-      console.error(error); // log to console instead
+      // TODO: enviar el error a la infraestructura de registro remoto
+      console.error(error); // registrar en la consola en su lugar
 
-      // TODO: better job of transforming error for user consumption
+      // TODO: mejorar la transformación del error para el consumo del usuario
       console.log(`${operation} failed: ${error.message}`);
 
-      // Let the app keep running by returning an empty result.
+      // Permitir que la aplicación siga ejecutándose devolviendo un resultado vacío.
       return of(result as T);
     };
   }

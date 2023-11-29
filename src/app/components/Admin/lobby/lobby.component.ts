@@ -8,10 +8,9 @@ import { WebSocketService } from 'src/app/websocket.service';
 @Component({
   selector: 'app-lobby',
   templateUrl: './lobby.component.html',
-  styleUrls: ['./lobby.component.css']
+  styleUrls: ['./lobby.component.css'],
 })
 export class LobbyComponent {
-
   game?: IGame;
   users: IUser[] = [];
 
@@ -23,12 +22,15 @@ export class LobbyComponent {
   ) {}
 
   ngOnInit(): void {
+    // Obtiene el ID del juego desde la URL
     const id = this.route.snapshot.paramMap.get('gameId');
     if (id) {
+      // Llama al método para obtener y mostrar detalles del juego
       this.getGame(id);
     }
   }
 
+  // Método para obtener detalles del juego
   getGame(id: string): void {
     this.gameService.getGame(id).subscribe(
       (game: IGame) => {
@@ -40,29 +42,26 @@ export class LobbyComponent {
     );
   }
 
+  // Método para iniciar el juego
   startGame() {
     if (this.game) {
       const gameId = this.game._id;
       if (gameId) {
+        // Llama al servicio para iniciar el juego
         this.gameService.startGame(gameId).subscribe(
           (success: boolean) => {
-            /*console.log(`Game started: ${success}`);
-            try {
-              this.socketService.startGame(gameId);
-            } catch (error) {
-              console.error('Error sending startGame event:', error);
-            }*/
+            // Navega a la vista de actividades del juego
             this.router.navigate(['/games', gameId, 'activities']);
           },
           (error) => {
-            console.error(`Error starting Game: ${gameId}`, error);    
+            console.error(`Error starting Game: ${gameId}`, error);
           }
         );
       } else {
-        console.error("Game ID is undefined");
+        console.error('Game ID is undefined');
       }
     } else {
-      console.error("Game is undefined");
+      console.error('Game is undefined');
     }
   }
 }

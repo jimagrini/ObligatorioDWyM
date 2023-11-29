@@ -9,86 +9,92 @@ import { ActivatedRoute, Params } from '@angular/router';
 @Component({
   selector: 'app-results',
   templateUrl: './results.component.html',
-  styleUrls: ['./results.component.css']
+  styleUrls: ['./results.component.css'],
 })
 export class ResultsComponent implements OnInit {
-  game?: IGame;
-  topactivity?: IActivity;
-  mvppoints = 0;
+  game?: IGame; // Objeto que almacena la información del juego.
+  topactivity?: IActivity; // Actividad ganadora.
+  mvppoints = 0; // Puntuación de la actividad ganadora.
 
   constructor(
     private socketService: WebSocketService,
     private gameService: GameService,
     private activitiesService: ActivitiesService,
     private route: ActivatedRoute
-  ) { }
+  ) {}
 
   ngOnInit() {
+    // Suscribe al cambio de parámetros en la URL.
     this.route.params.subscribe(async (params: Params) => {
       const id = params['gameId'];
       if (id) {
+        // Actualiza el entorno con el nuevo identificador del juego.
         await this.updateEnvironment(id);
       }
     });
   }
 
+  // Actualiza el entorno con la información del juego.
   private async updateEnvironment(id: string) {
+    // Obtiene el juego.
     await this.getGame(id);
+    // Obtiene la actividad ganadora.
     await this.getWinner();
   }
 
+  // Obtiene la información del juego.
   async getGame(id: string) {
-    this.gameService.getGame(id)
-      .subscribe({
-        next: (response: IGame) => {
-          console.log(`Updated voteComponent game: '${response._id}'`);
-          this.game = response;
-          if (this.game && typeof this.game.votes === 'object') {
-            this.game.votes = new Map(Object.entries(this.game.votes));
-          }
-          this.getWinner();
-        },
-        error: (error) => {
-          console.error(`Error fetching game: ${id}`, error);
+    this.gameService.getGame(id).subscribe({
+      next: (response: IGame) => {
+        console.log(`Updated voteComponent game: '${response._id}'`);
+        this.game = response;
+        if (this.game && typeof this.game.votes === 'object') {
+          this.game.votes = new Map(Object.entries(this.game.votes));
         }
-      });
+        this.getWinner();
+      },
+      error: (error) => {
+        console.error(`Error fetching game: ${id}`, error);
+      },
+    });
   }
-  
 
   async getWinner() {
     if (this.game) {
       const activityid = this.getKeyOfMaxValue(this.game.votes);
       if (activityid) {
+        // Obtiene la información de la actividad ganadora.
         this.activitiesService.getActivity(activityid!).subscribe({
           next: (response: IActivity) => {
-            this.topactivity = response
-            console.log(`Updated voteComponent game: '${response._id}'`);
+            this.topactivity = response;
+            console.log(`Updated ResultsComponent game: '${response._id}'`);
           },
           error: (error) => {
             console.error(`Error fetching game: ${activityid}`, error);
-          }
-        })
+          },
+        });
       }
     }
   }
 
+  // Obtiene la clave (ID de actividad) del valor máximo en un objeto Map.
   private getKeyOfMaxValue(map: Map<string, number>): string | undefined {
     if (!(map instanceof Map)) {
       console.error('Invalid map object:', map);
       return undefined;
     }
-  
+
     let maxKey: string | undefined = undefined;
     let maxValue = Number.MIN_VALUE;
-  
+
     for (const [key, value] of map.entries()) {
       if (value > maxValue) {
         maxValue = value;
         maxKey = key;
       }
     }
+    // Almacena la puntuación de la actividad ganadora.
     this.mvppoints = maxValue;
     return maxKey;
   }
-
 }
