@@ -10,6 +10,7 @@ export class MenuComponent {
 
   constructor(private router: Router) {}
 
+  // Método para navegar a la página de creación de propuestas
   createProposal(){
     this.router.navigate(['/create-proposal']);
   }

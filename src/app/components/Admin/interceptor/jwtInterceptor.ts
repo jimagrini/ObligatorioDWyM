@@ -11,7 +11,10 @@ export class JwtInterceptor implements HttpInterceptor {
     ) { }
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+        // Obtener el token JWT del servicio de seguridad
         const token = this.securityService.GetToken();
+        
+        // Si hay un token, agregarlo a las cabeceras de la solicitud
         if (token) {
             req = req.clone({
                 setHeaders: {
@@ -20,7 +23,7 @@ export class JwtInterceptor implements HttpInterceptor {
             });
         }
 
+        // Continuar con la solicitud modificada
         return next.handle(req);
     }
-
 }

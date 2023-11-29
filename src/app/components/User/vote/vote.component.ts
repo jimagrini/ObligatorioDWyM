@@ -26,6 +26,7 @@ export class VoteComponent implements OnInit {
   ) { }
 
   async ngOnInit() {
+    // Suscribe a los cambios en los parámetros de la URL, específicamente el ID del juego
     this.route.params.subscribe(async (params: Params) => {
       const id = params['gameId'];
       if (id) {
@@ -33,6 +34,7 @@ export class VoteComponent implements OnInit {
       }
     });
 
+    // Suscribe al servicio WebSocket para recibir mensajes relacionados con la actividad actual
     this.socketService.getNewMessage().subscribe((activityPart: IActivity) => {
       console.log(activityPart);
       this.zone.run(() => {
@@ -43,13 +45,14 @@ export class VoteComponent implements OnInit {
     });
   }
 
-
+  // Actualiza el entorno del componente con la información del juego y la actividad actual
   private async updateEnvironment(id: string) {
     await this.getGame(id);
     await this.getCurrentActivity();
     this.currentActivity = this.game?.currentActivity;
   }
 
+  // Obtiene la información del juego usando el ID proporcionado
   async getGame(id: string) {
     this.gameService.getGame(id)
       .subscribe({
@@ -63,6 +66,7 @@ export class VoteComponent implements OnInit {
       });
   }
 
+  // Obtiene la actividad actual del juego
   async getCurrentActivity() {
     try {
       if (this.game?.proposal) {
@@ -73,6 +77,7 @@ export class VoteComponent implements OnInit {
     }
   }
 
+  // Registra un voto para la actividad actual en el juego
   submitVote(value: number) {
     if (this.game && this.currentActivity && this.canVote) {
       const activityId = this.currentActivity._id;

@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { IAdmin } from '../interfaces/admin';
-
-import { Observable, of, catchError, tap, throwError} from 'rxjs';
+import { Observable, of, catchError, tap, throwError } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Injectable({
@@ -9,22 +8,22 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 })
 export class AdminService {
 
+  // Almacena el administrador en caché para evitar solicitudes innecesarias al servidor.
   private cachedAdmin: IAdmin | null = null;
 
-  private adminsUrl = 'http://localhost:3000/api/admins';  // URL to web api
+  // URL base de la API para los administradores.
+  private adminsUrl = 'http://localhost:3000/api/admins';
 
+  // Opciones HTTP para encabezados JSON.
   httpOptions = {
-    headers: new HttpHeaders(
-      { 'Content-Type': 'application/json' }
-    )
+    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   };
 
-  constructor(private http: HttpClient) {
-  }
+  constructor(private http: HttpClient) { }
 
-  /** GET admins from the server
-   * 
-   * @returns 
+  /** 
+   * Obtiene todos los administradores desde el servidor.
+   * @returns Observable de un array de administradores (IAdmin[]).
    */
   getAdmins(): Observable<IAdmin[]> {
     return this.http.get<IAdmin[]>(this.adminsUrl)
@@ -34,12 +33,11 @@ export class AdminService {
       );
   }
 
-  /** GET admin by id. Will 404 if id not found 
-   * 
-   * Checks if the id equals to the cachedAdmin (avoiding api request).
-   * 
-   * @param id -  unique string id
-  */
+  /** 
+   * Obtiene un administrador por su ID desde el servidor.
+   * @param id Identificador del administrador que se va a recuperar.
+   * @returns Observable de un administrador (IAdmin).
+   */
   getAdmin(id: string): Observable<IAdmin> {
     if (this.cachedAdmin && this.cachedAdmin._id === id) {
       return of(this.cachedAdmin); // Return the cached admin if it matches the requested ID
@@ -55,11 +53,11 @@ export class AdminService {
     }
   }
 
-  /** POST: register and add new Admin to the server
-   * 
-   * @param username 
-   * @param password 
-   * @returns object admin (type IAdmin) created
+  /** 
+   * Registra y agrega un nuevo administrador al servidor.
+   * @param username Nombre de usuario del administrador.
+   * @param password Contraseña del administrador.
+   * @returns Observable del administrador recién creado (IAdmin).
    */
   register(username: string, password: string): Observable<IAdmin> {
     const url = `${this.adminsUrl}/register`;
@@ -69,13 +67,12 @@ export class AdminService {
     );
   }
 
-  /**
- * Handle Http operation that failed.
- * Let the app continue.
- * 
- * @param operation - name of the operation that failed
- * @param result - optional value to return as the observable result
- */
+  /** 
+   * Maneja errores de las solicitudes HTTP.
+   * @param operation Nombre de la operación que produjo el error.
+   * @param result Resultado opcional para retornar como un observable.
+   * @returns Función que maneja el error y retorna un observable con un resultado específico.
+   */
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
       // Log the error to a remote logging infrastructure

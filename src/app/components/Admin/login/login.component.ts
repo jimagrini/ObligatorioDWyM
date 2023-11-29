@@ -12,7 +12,7 @@ import { SecurityService } from '../interceptor/securityService';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
 })
-export class LoginComponent implements OnInit, OnDestroy{
+export class LoginComponent implements OnInit, OnDestroy {
   formLogin: FormGroup;
   subRef$!: Subscription;
 
@@ -22,34 +22,45 @@ export class LoginComponent implements OnInit, OnDestroy{
     private http: HttpClient,
     private securityService: SecurityService
   ) {
+    // Inicializa el formulario de inicio de sesión con validadores
     this.formLogin = this.formBuilder.group({
       username: ['', Validators.required],
-      password:  ['', Validators.required]
+      password: ['', Validators.required]
     });
   }
 
   ngOnInit() {
+    // Verifica si hay un token en la sesión al iniciar el componente
     const token = sessionStorage.getItem('token');
   }
 
+  // Método para manejar el evento de inicio de sesión
   login(): void {
-    const userLogin : ILogin = {
+    // Obtiene las credenciales del formulario
+    const userLogin: ILogin = {
       username: this.formLogin.value.username,
       password: this.formLogin.value.password
     };
 
-    this.subRef$ = this.http.post<IResponse>('http://localhost:3000/api/admins/login', userLogin, {observe: 'response'})
-    .subscribe(res => {
-      const token = res.body!.response;
-      console.log('token', token);
-      this.securityService.SetAuthData(token);
-      sessionStorage.setItem('token', token);
-      this.router.navigate(['/menu']);
-    }, err => {
-      console.log('Error al Iniciar Sesión', err);
-    });
+    // Realiza la solicitud de inicio de sesión al servidor
+    this.subRef$ = this.http.post<IResponse>('http://localhost:3000/api/admins/login', userLogin, { observe: 'response' })
+      .subscribe(res => {
+        // Obtiene el token de la respuesta y lo almacena en el servicio de seguridad
+        const token = res.body!.response;
+        console.log('token', token);
+        this.securityService.SetAuthData(token);
+        
+        // Almacena el token en la sesión del navegador
+        sessionStorage.setItem('token', token);
+        
+        // Navega al componente del menú después de un inicio de sesión exitoso
+        this.router.navigate(['/menu']);
+      }, err => {
+        console.log('Error al Iniciar Sesión', err);
+      });
   }
 
+  // Método para manejar la destrucción del componente y cancelar las suscripciones
   ngOnDestroy() {
     if (this.subRef$) {
       this.subRef$.unsubscribe();
