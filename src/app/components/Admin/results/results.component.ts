@@ -46,8 +46,12 @@ export class ResultsComponent implements OnInit {
   async getGame(id: string) {
     this.gameService.getGame(id).subscribe({
       next: (response: IGame) => {
-        console.log(`Updated ResultsComponent game: '${response._id}'`);
+        console.log(`Updated voteComponent game: '${response._id}'`);
         this.game = response;
+        if (this.game && typeof this.game.votes === 'object') {
+          this.game.votes = new Map(Object.entries(this.game.votes));
+        }
+        this.getWinner();
       },
       error: (error) => {
         console.error(`Error fetching game: ${id}`, error);
@@ -55,12 +59,8 @@ export class ResultsComponent implements OnInit {
     });
   }
 
-  // Obtiene la actividad ganadora.
   async getWinner() {
     if (this.game) {
-      // Convierte los votos en un objeto Map si aún no lo es.
-      this.game.votes = this.game.votes as Map<string, number>;
-      // Obtiene el ID de la actividad con la mayor cantidad de votos.
       const activityid = this.getKeyOfMaxValue(this.game.votes);
       if (activityid) {
         // Obtiene la información de la actividad ganadora.

@@ -6,6 +6,7 @@ const jwt = require('jsonwebtoken');
 class GamesController {
 
     constructor() {
+        // Inicialización del controlador de propuestas para obtener funcionalidades relacionadas con propuestas
         this.proposalsController = new ProposalsController();
     }
 
@@ -18,9 +19,9 @@ class GamesController {
     // Obtener un juego por su ID, poblado con información detallada (propuesta, actividad actual, votos)
     async getGameById(id) {
         return Game.findById(id)
-            .populate('proposal')
-            .populate('currentActivity')
-            .populate('votes')
+            .populate('proposal') // Poblar la propuesta asociada al juego
+            .populate('currentActivity') // Poblar la actividad actual del juego
+            .populate('votes') // Poblar los votos del juego
             .exec();
     }
 
@@ -112,7 +113,14 @@ class GamesController {
         return fetchedProposal.activities;
     }
 
-    // Método para generar un token JWT para un usuario
+    // Obtener los votos de un juego por su ID
+    async getVotes(gameId){
+        const game = await this.getGameById(gameId);
+        const votes= game.populate('votes').exec();
+        return votes;
+    }
+
+    // Crear un token JWT para un usuario
     createToken(user) {
         const payload = {
             user_token: user.token
